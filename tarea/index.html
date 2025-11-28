@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Fitness 2025 - Salud Mental para Estudiantes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Modern Reset & Variables */
+        :root {
+            --gradient-light: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-dark: linear-gradient(135deg, #1a2a6c 0%, #2c3e50 100%);
+            --card-light: rgba(255, 255, 255, 0.85);
+            --card-dark: rgba(26, 32, 44, 0.85);
+            --text-light: #1e293b;
+            --text-dark: #f1f5f9;
+            --border-light: rgba(255, 255, 255, 0.2);
+            --border-dark: rgba(0, 0, 0, 0.2);
+            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-dark: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --accent: #8b5cf6;
+            --accent-dark: #7c3aed;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            background: var(--gradient-light);
+            color: var(--text-light);
+            transition: all 0.4s ease;
+            overflow-x: hidden;
+        }
+
+        body.dark-mode {
+            background: var(--gradient-dark);
+            color: var(--text-dark);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode header {
+            background: rgba(26, 32, 44, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background: var(--gradient-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        body.dark-mode .logo-icon {
+            background: var(--gradient-dark);
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #8b5cf6, #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .theme-toggle {
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: var(--gradient-light);
+            color: white;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        body.dark-mode .theme-toggle {
+            background: var(--gradient-dark);
+            box-shadow: 0 4px 15px rgba(44, 62, 80, 0.4);
+        }
+
+        body.dark-mode .theme-toggle:hover {
+            box-shadow: 0 6px 20px rgba(44, 62, 80, 0.5);
+        }
+
+        /* Section Base */
+        section {
+            padding: 100px 0;
+            transition: all 0.4s ease;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-light);
+            border-radius: 2px;
+        }
+
+        body.dark-mode .section-title:after {
+            background: var(--gradient-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 25px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        body.dark-mode .hero-badge {
+            background: rgba(124, 58, 237, 0.2);
+            color: #c4b5fd;
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 25px;
+        }
+
+        .hero-title span {
+            background: linear-gradient(90deg, var(--accent), #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 60px;
+            opacity: 0.9;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-light);
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+            transition: all 0.4s ease;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-light);
+        }
+
+        body.dark-mode .card {
+            background: var(--card-dark);
+            box-shadow: var(--shadow-dark);
+            border: 1px solid var(--border-dark);
+        }
+        
+        body.dark-mode .card:hover {
+            background: rgba(30, 41, 59, 0.7);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark-mode .card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--accent), #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .card-text {
+            opacity: 0.85;
+        }
+
+        /* Game Section */
+        .game-container {
+            background: var(--card-light);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-light);
+        }
+
+        body.dark-mode .game-container {
+            background: var(--card-dark);
+            box-shadow: var(--shadow-dark);
+            border: 1px solid var(--border-dark);
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .game-stats {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .game-stats span {
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        .reset-btn {
+            background: var(--gradient-light);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        body.dark-mode .reset-btn {
+            background: var(--gradient-dark);
+            box-shadow: 0 4px 15px rgba(44, 62, 80, 0.4);
+        }
+
+        body.dark-mode .reset-btn:hover {
+            box-shadow: 0 6px 20px rgba(44, 62, 80, 0.5);
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .card-game {
+            aspect-ratio: 1;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--gradient-light);
+            color: white;
+        }
+
+        body.dark-mode .card-game {
+            background: var(--gradient-dark);
+        }
+
+        .card-game.flipped, .card-game.matched {
+            background: var(--card-light);
+            color: var(--text-light);
+        }
+
+        body.dark-mode .card-game.flipped, 
+        body.dark-mode .card-game.matched {
+            background: var(--card-dark);
+            color: var(--text-dark);
+        }
+
+        .card-game.matched {
+            opacity: 0.8;
+        }
+
+        .game-message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .game-message.show {
+            display: block;
+        }
+
+        .game-message.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        /* Special Professor Section */
+        .special-section {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .special-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .professor-card {
+            background: var(--card-light);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto 50px;
+            box-shadow: var(--shadow-light);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+        }
+
+        body.dark-mode .professor-card {
+            background: var(--card-dark);
+            box-shadow: var(--shadow-dark);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .professor-icon {
+            font-size: 4rem;
+            margin-bottom: 25px;
+        }
+
+        .professor-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .professor-text {
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .professor-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--accent);
+            font-weight: 600;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        body.dark-mode .professor-badge {
+            background: rgba(124, 58, 237, 0.2);
+            color: #c4b5fd;
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 0 50px;
+            text-align: center;
+        }
+
+        .student-info {
+            margin-bottom: 30px;
+        }
+
+        .student-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .student-text {
+            opacity: 0.85;
+            margin: 8px 0;
+        }
+
+        .copyright {
+            opacity: 0.7;
+            margin-top: 30px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .animate.delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .animate.delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        .animate.delay-3 {
+            animation-delay: 0.3s;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .game-board {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .game-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .game-container {
+                padding: 30px 20px;
+            }
+            
+            section {
+                padding: 70px 0;
+            }
+            
+            .hero {
+                padding: 80px 0 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="logo-text">Brain Fitness 2025</div>
+                </div>
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i> Modo Oscuro
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">Salud Mental para Estudiantes</div>
+            <h1 class="hero-title">Entrena tu <span>Cerebro</span></h1>
+            <p class="hero-text">Descubre cómo el entrenamiento cognitivo moderno puede transformar tu concentración, memoria y resiliencia mental en el entorno académico actual.</p>
+            
+            <div class="cards-grid">
+                <div class="card animate">
+                    <div class="card-icon">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <h3 class="card-title">Pensamiento Estratégico</h3>
+                    <p class="card-text">Desarrolla habilidades de resolución de problemas con desafíos cognitivos modernos.</p>
+                </div>
+                <div class="card animate delay-1">
+                    <div class="card-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="card-title">Mente y Cuerpo</h3>
+                    <p class="card-text">Técnicas integradas de mindfulness y ejercicio para optimizar tu rendimiento.</p>
+                </div>
+                <div class="card animate delay-2">
+                    <div class="card-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3 class="card-title">Agilidad Mental</h3>
+                    <p class="card-text">Entrena tu cerebro con actividades diseñadas para el mundo digital actual.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits">
+        <div class="container">
+            <h2 class="section-title">Beneficios del Brain Fitness 2025</h2>
+            <p class="section-subtitle">Nuestro enfoque actualizado combina neurociencia moderna con prácticas accesibles para estudiantes.</p>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">🧠</div>
+                    <h3 class="card-title">Mejora la Memoria</h3>
+                    <p class="card-text">Fortalece conexiones neuronales con técnicas basadas en la ciencia actual.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h3 class="card-title">Aumenta la Concentración</h3>
+                    <p class="card-text">Entrena tu cerebro para mantener el enfoque en un mundo de distracciones digitales.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💪</div>
+                    <h3 class="card-title">Desarrolla Resiliencia</h3>
+                    <p class="card-text">Construye herramientas mentales para manejar el estrés académico moderno.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Activities Section -->
+    <section id="activities">
+        <div class="container">
+            <h2 class="section-title">Actividades Cognitivas Modernas</h2>
+            <p class="section-subtitle">Estrategias actualizadas para el entorno educativo y digital de 2025.</p>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">📚</div>
+                    <h3 class="card-title">Aprende Continuamente</h3>
+                    <p class="card-text">Adquiere nuevas habilidades digitales y tradicionales para estimular tu neuroplasticidad.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🏃</div>
+                    <h3 class="card-title">Ejercicio Integrado</h3>
+                    <p class="card-text">Combina actividad física con desafíos cognitivos para maximizar beneficios cerebrales.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👥</div>
+                    <h3 class="card-title">Conexión Social</h3>
+                    <p class="card-text">Participa en comunidades de aprendizaje para fortalecer habilidades cognitivas sociales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Section -->
+    <section id="game">
+        <div class="container">
+            <h2 class="section-title">Desafío de Memoria</h2>
+            <p class="section-subtitle">Pon a prueba tus habilidades cognitivas con este juego moderno de memorización.</p>
+            
+            <div class="game-container">
+                <div class="game-info">
+                    <div class="game-stats">Movimientos: <span id="moves">0</span></div>
+                    <div class="game-stats">Parejas: <span id="pairs">0</span>/8</div>
+                    <button class="reset-btn" id="reset-game">Reiniciar</button>
+                </div>
+                
+                <div class="game-board" id="memory-game">
+                    <!-- Cards will be generated by JavaScript -->
+                </div>
+                
+                <div class="game-message" id="game-message"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Professor Section -->
+    <section class="special-section">
+        <div class="container">
+            <div class="special-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <h2 class="section-title">Reconocimiento Especial</h2>
+            
+            <div class="professor-card">
+                <div class="professor-icon">👩‍🏫</div>
+                <h3 class="professor-name">Profesora Niria Rojas Hernández</h3>
+                <p class="professor-text">Su guía excepcional y dedicación han sido fundamentales para el desarrollo de este proyecto educativo innovador.</p>
+                <div class="professor-badge">Inspiración Académica</div>
+            </div>
+            
+            <div class="student-info">
+                <h3 class="student-title">Estudiante</h3>
+                <p class="student-text">Reinaldo Liendo</p>
+                <p class="student-text">3ro C - Liceo Bicentenario de Excelencia Industrial Federico Schwager</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="copyright">© 2025 Brain Fitness - Proyecto Educativo Actualizado</p>
+        </div>
+    </footer>
+
+    <script>
+        // Game Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const memoryGame = document.getElementById('memory-game');
+            const movesDisplay = document.getElementById('moves');
+            const pairsDisplay = document.getElementById('pairs');
+            const resetButton = document.getElementById('reset-game');
+            const gameMessage = document.getElementById('game-message');
+            const themeToggle = document.getElementById('theme-toggle');
+            
+            let cards = [];
+            let flippedCards = [];
+            let moves = 0;
+            let pairsFound = 0;
+            let canFlip = true;
+            let isDarkMode = false;
+            
+            // Symbols for cards
+            const symbols = ['🧠', '💡', '🎯', '🌟', '⚡', '🔍', '📚', '🎨'];
+            
+            // Initialize game
+            function initializeGame() {
+                cards = [...symbols, ...symbols];
+                shuffleArray(cards);
+                renderGame();
+                moves = 0;
+                pairsFound = 0;
+                flippedCards = [];
+                canFlip = true;
+                updateDisplay();
+                gameMessage.classList.remove('show', 'success');
+            }
+            
+            // Shuffle array (Fisher-Yates)
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+            
+            // Render game board
+            function renderGame() {
+                memoryGame.innerHTML = '';
+                cards.forEach((symbol, index) => {
+                    const cardElement = document.createElement('div');
+                    cardElement.classList.add('card-game');
+                    cardElement.dataset.index = index;
+                    cardElement.dataset.symbol = symbol;
+                    cardElement.textContent = '?';
+                    cardElement.addEventListener('click', flipCard);
+                    memoryGame.appendChild(cardElement);
+                });
+            }
+            
+            // Flip card
+            function flipCard() {
+                if (!canFlip) return;
+                if (flippedCards.length >= 2) return;
+                if (this.classList.contains('flipped') || this.classList.contains('matched')) return;
+                
+                this.classList.add('flipped');
+                this.textContent = this.dataset.symbol;
+                flippedCards.push(this);
+                
+                if (flippedCards.length === 2) {
+                    moves++;
+                    updateDisplay();
+                    checkForMatch();
+                }
+            }
+            
+            // Check for match
+            function checkForMatch() {
+                canFlip = false;
+                const [card1, card2] = flippedCards;
+                
+                if (card1.dataset.symbol === card2.dataset.symbol) {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    pairsFound++;
+                    updateDisplay();
+                    flippedCards = [];
+                    canFlip = true;
+                    
+                    if (pairsFound === symbols.length) {
+                        gameMessage.textContent = `¡Felicidades! Completaste el juego en ${moves} movimientos.`;
+                        gameMessage.classList.add('show', 'success');
+                    }
+                } else {
+                    setTimeout(() => {
+                        card1.classList.remove('flipped');
+                        card2.classList.remove('flipped');
+                        card1.textContent = '?';
+                        card2.textContent = '?';
+                        flippedCards = [];
+                        canFlip = true;
+                    }, 1000);
+                }
+            }
+            
+            // Update display
+            function updateDisplay() {
+                movesDisplay.textContent = moves;
+                pairsDisplay.textContent = pairsFound;
+            }
+            
+            // Theme toggle
+            themeToggle.addEventListener('click', function() {
+                isDarkMode = !isDarkMode;
+                document.body.classList.toggle('dark-mode', isDarkMode);
+                
+                if (isDarkMode) {
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i> Modo Claro';
+                } else {
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i> Modo Oscuro';
+                }
+            });
+            
+            // Reset game
+            resetButton.addEventListener('click', initializeGame);
+            
+            // Initialize game
+            initializeGame();
+            
+            // Animation on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationDelay = '0s';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.animate').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
