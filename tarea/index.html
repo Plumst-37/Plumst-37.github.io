@@ -3,23 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brain Fitness 2025 - Salud Mental para Estudiantes</title>
+    <title>Brain Fitness - Salud Mental Cognitiva 2025</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Modern Reset & Variables */
+        /* Dark Mode Only - Modern 2025 Design */
         :root {
-            --gradient-light: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-dark: linear-gradient(135deg, #1a2a6c 0%, #2c3e50 100%);
-            --card-light: rgba(255, 255, 255, 0.85);
-            --card-dark: rgba(26, 32, 44, 0.85);
-            --text-light: #1e293b;
-            --text-dark: #f1f5f9;
-            --border-light: rgba(255, 255, 255, 0.2);
-            --border-dark: rgba(0, 0, 0, 0.2);
-            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --shadow-dark: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --gradient-dark: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            --card-dark: rgba(25, 25, 45, 0.85);
+            --text-dark: #e2e8f0;
+            --text-light: #cbd5e1;
+            --border-dark: rgba(255, 255, 255, 0.1);
+            --shadow-dark: 0 10px 30px rgba(0, 0, 0, 0.4);
             --accent: #8b5cf6;
-            --accent-dark: #7c3aed;
+            --accent-light: #a78bfa;
             --success: #10b981;
         }
 
@@ -31,16 +27,10 @@
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            background: var(--gradient-light);
-            color: var(--text-light);
-            transition: all 0.4s ease;
-            overflow-x: hidden;
-        }
-
-        body.dark-mode {
+            line-height: 1.7;
             background: var(--gradient-dark);
             color: var(--text-dark);
+            overflow-x: hidden;
         }
 
         .container {
@@ -57,15 +47,9 @@
             z-index: 100;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            background: rgba(255, 255, 255, 0.8);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(15, 12, 41, 0.95);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
             padding: 15px 0;
-            transition: all 0.3s ease;
-        }
-
-        body.dark-mode header {
-            background: rgba(26, 32, 44, 0.8);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .header-content {
@@ -84,57 +68,27 @@
             width: 50px;
             height: 50px;
             border-radius: 16px;
-            background: var(--gradient-light);
+            background: linear-gradient(135deg, var(--accent), #4f46e5);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-size: 24px;
-        }
-
-        body.dark-mode .logo-icon {
-            background: var(--gradient-dark);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
         }
 
         .logo-text {
             font-size: 1.8rem;
             font-weight: 800;
-            background: linear-gradient(90deg, #8b5cf6, #4f46e5);
+            background: linear-gradient(90deg, var(--accent-light), #c4b5fd);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .theme-toggle {
-            padding: 10px 20px;
-            border-radius: 50px;
-            background: var(--gradient-light);
-            color: white;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-        }
-
-        .theme-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
-        }
-
-        body.dark-mode .theme-toggle {
-            background: var(--gradient-dark);
-            box-shadow: 0 4px 15px rgba(44, 62, 80, 0.4);
-        }
-
-        body.dark-mode .theme-toggle:hover {
-            box-shadow: 0 6px 20px rgba(44, 62, 80, 0.5);
-        }
-
         /* Section Base */
         section {
             padding: 100px 0;
-            transition: all 0.4s ease;
         }
 
         .section-title {
@@ -143,6 +97,7 @@
             font-weight: 800;
             margin-bottom: 20px;
             position: relative;
+            color: white;
         }
 
         .section-title:after {
@@ -153,12 +108,8 @@
             transform: translateX(-50%);
             width: 80px;
             height: 4px;
-            background: var(--gradient-light);
+            background: linear-gradient(90deg, var(--accent), #4f46e5);
             border-radius: 2px;
-        }
-
-        body.dark-mode .section-title:after {
-            background: var(--gradient-dark);
         }
 
         .section-subtitle {
@@ -167,50 +118,25 @@
             margin: 0 auto 60px;
             font-size: 1.2rem;
             opacity: 0.9;
+            color: var(--text-light);
         }
 
-        /* Hero Section */
-        .hero {
-            padding: 120px 0 80px;
-            text-align: center;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 50px;
-            background: rgba(139, 92, 246, 0.15);
-            color: var(--accent);
-            font-weight: 600;
-            margin-bottom: 25px;
-            border: 1px solid rgba(139, 92, 246, 0.3);
-        }
-
-        body.dark-mode .hero-badge {
-            background: rgba(124, 58, 237, 0.2);
-            color: #c4b5fd;
-            border-color: rgba(139, 92, 246, 0.4);
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 25px;
-        }
-
-        .hero-title span {
-            background: linear-gradient(90deg, var(--accent), #4f46e5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-text {
-            font-size: 1.3rem;
+        /* Definition Section */
+        .definition-content {
             max-width: 800px;
             margin: 0 auto 60px;
-            opacity: 0.9;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, rgba(139, 92, 246, 0.2), transparent);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--accent-light);
         }
 
         /* Cards Grid */
@@ -223,38 +149,25 @@
         }
 
         .card {
-            background: var(--card-light);
+            background: var(--card-dark);
             border-radius: 20px;
             padding: 35px;
             text-align: center;
             transition: all 0.4s ease;
-            box-shadow: var(--shadow-light);
-            border: 1px solid var(--border-light);
-        }
-
-        body.dark-mode .card {
-            background: var(--card-dark);
             box-shadow: var(--shadow-dark);
             border: 1px solid var(--border-dark);
         }
         
-        body.dark-mode .card:hover {
-            background: rgba(30, 41, 59, 0.7);
-        }
-
         .card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        body.dark-mode .card:hover {
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            background: rgba(30, 30, 50, 0.9);
         }
 
         .card-icon {
             font-size: 3.5rem;
             margin-bottom: 25px;
-            background: linear-gradient(135deg, var(--accent), #4f46e5);
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -264,25 +177,99 @@
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 15px;
+            color: white;
         }
 
         .card-text {
             opacity: 0.85;
+            color: var(--text-light);
+        }
+
+        /* Pillars Section */
+        .pillars {
+            background: rgba(25, 25, 45, 0.6);
+            border-radius: 24px;
+            padding: 50px;
+            margin: 60px auto;
+            max-width: 900px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .pillars-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .pillar-card {
+            background: rgba(35, 35, 55, 0.7);
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        .pillar-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-light);
+        }
+
+        .pillar-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .pillar-text {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            color: var(--text-light);
+        }
+
+        /* Benefits Section */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .benefit-card {
+            background: var(--card-dark);
+            border-radius: 16px;
+            padding: 25px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .benefit-title {
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .benefit-text {
+            opacity: 0.85;
+            color: var(--text-light);
         }
 
         /* Game Section */
         .game-container {
-            background: var(--card-light);
+            background: var(--card-dark);
             border-radius: 24px;
             padding: 40px;
             max-width: 700px;
             margin: 0 auto;
-            box-shadow: var(--shadow-light);
-            border: 1px solid var(--border-light);
-        }
-
-        body.dark-mode .game-container {
-            background: var(--card-dark);
             box-shadow: var(--shadow-dark);
             border: 1px solid var(--border-dark);
         }
@@ -299,15 +286,16 @@
         .game-stats {
             font-size: 1.1rem;
             font-weight: 600;
+            color: var(--text-light);
         }
 
         .game-stats span {
-            color: var(--accent);
+            color: var(--accent-light);
             font-weight: 800;
         }
 
         .reset-btn {
-            background: var(--gradient-light);
+            background: linear-gradient(135deg, var(--accent), #6d28d9);
             color: white;
             border: none;
             padding: 12px 28px;
@@ -321,15 +309,6 @@
         .reset-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
-        }
-
-        body.dark-mode .reset-btn {
-            background: var(--gradient-dark);
-            box-shadow: 0 4px 15px rgba(44, 62, 80, 0.4);
-        }
-
-        body.dark-mode .reset-btn:hover {
-            box-shadow: 0 6px 20px rgba(44, 62, 80, 0.5);
         }
 
         .game-board {
@@ -348,23 +327,13 @@
             font-size: 2rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: var(--gradient-light);
+            background: linear-gradient(135deg, var(--accent), #4f46e5);
             color: white;
         }
 
-        body.dark-mode .card-game {
-            background: var(--gradient-dark);
-        }
-
         .card-game.flipped, .card-game.matched {
-            background: var(--card-light);
-            color: var(--text-light);
-        }
-
-        body.dark-mode .card-game.flipped, 
-        body.dark-mode .card-game.matched {
             background: var(--card-dark);
-            color: var(--text-dark);
+            color: var(--text-light);
         }
 
         .card-game.matched {
@@ -385,7 +354,7 @@
         }
 
         .game-message.success {
-            background: rgba(16, 185, 129, 0.15);
+            background: rgba(16, 185, 129, 0.2);
             color: var(--success);
             border: 1px solid rgba(16, 185, 129, 0.3);
         }
@@ -400,68 +369,60 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            background: linear-gradient(135deg, var(--accent), #6d28d9);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 30px;
             color: white;
             font-size: 2.5rem;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
         }
 
         .professor-card {
-            background: var(--card-light);
+            background: var(--card-dark);
             border-radius: 24px;
             padding: 40px;
             max-width: 600px;
             margin: 0 auto 50px;
-            box-shadow: var(--shadow-light);
-            border: 2px solid rgba(139, 92, 246, 0.3);
-        }
-
-        body.dark-mode .professor-card {
-            background: var(--card-dark);
             box-shadow: var(--shadow-dark);
-            border-color: rgba(139, 92, 246, 0.4);
+            border: 2px solid rgba(139, 92, 246, 0.3);
         }
 
         .professor-icon {
             font-size: 4rem;
             margin-bottom: 25px;
+            color: var(--accent-light);
         }
 
         .professor-name {
             font-size: 1.8rem;
             font-weight: 800;
-            color: var(--accent);
+            color: var(--accent-light);
             margin-bottom: 15px;
         }
 
         .professor-text {
             margin-bottom: 25px;
             opacity: 0.9;
+            color: var(--text-light);
         }
 
         .professor-badge {
             display: inline-block;
             padding: 8px 20px;
             border-radius: 50px;
-            background: rgba(139, 92, 246, 0.15);
-            color: var(--accent);
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--accent-light);
             font-weight: 600;
             border: 1px solid rgba(139, 92, 246, 0.3);
-        }
-
-        body.dark-mode .professor-badge {
-            background: rgba(124, 58, 237, 0.2);
-            color: #c4b5fd;
-            border-color: rgba(139, 92, 246, 0.4);
         }
 
         /* Footer */
         footer {
             padding: 80px 0 50px;
             text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .student-info {
@@ -472,16 +433,19 @@
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 15px;
+            color: white;
         }
 
         .student-text {
-            opacity: 0.85;
+            opacity: 0.8;
             margin: 8px 0;
+            color: var(--text-light);
         }
 
         .copyright {
-            opacity: 0.7;
+            opacity: 0.6;
             margin-top: 30px;
+            color: var(--text-light);
         }
 
         /* Animations */
@@ -515,12 +479,28 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
             .section-title {
                 font-size: 2rem;
+            }
+            
+            .definition-content {
+                font-size: 1.1rem;
+            }
+            
+            .pillars {
+                padding: 30px 20px;
+            }
+            
+            section {
+                padding: 70px 0;
+            }
+            
+            .special-section {
+                padding: 70px 0;
+            }
+            
+            .professor-card {
+                padding: 30px 20px;
             }
             
             .game-board {
@@ -530,19 +510,6 @@
             .game-info {
                 flex-direction: column;
                 align-items: center;
-                gap: 15px;
-            }
-            
-            .game-container {
-                padding: 30px 20px;
-            }
-            
-            section {
-                padding: 70px 0;
-            }
-            
-            .hero {
-                padding: 80px 0 50px;
             }
         }
     </style>
@@ -558,41 +525,90 @@
                     </div>
                     <div class="logo-text">Brain Fitness 2025</div>
                 </div>
-                <button class="theme-toggle" id="theme-toggle">
-                    <i class="fas fa-moon"></i> Modo Oscuro
-                </button>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
+    <!-- What is Brain Fitness Section -->
+    <section id="definition">
         <div class="container">
-            <div class="hero-badge">Salud Mental para Estudiantes</div>
-            <h1 class="hero-title">Entrena tu <span>Cerebro</span></h1>
-            <p class="hero-text">Descubre cómo el entrenamiento cognitivo moderno puede transformar tu concentración, memoria y resiliencia mental en el entorno académico actual.</p>
+            <h1 class="section-title">¿Qué es el Brain Fitness?</h1>
+            <p class="section-subtitle">El entrenamiento cognitivo moderno para la era digital</p>
+            
+            <div class="definition-content">
+                <p>
+                    El <span class="highlight">Brain Fitness</span> (o Aptitud Cerebral) es un enfoque científico y holístico para mantener y mejorar la salud mental y cognitiva. 
+                    Al igual que ejercitamos nuestro cuerpo para mantenerlo fuerte y saludable, nuestro cerebro también necesita estímulo regular para funcionar 
+                    de manera óptima en el mundo actual.
+                </p>
+                <br>
+                <p>
+                    En 2025, el Brain Fitness se ha convertido en una disciplina esencial que combina <span class="highlight">neurociencia moderna</span>, 
+                    <span class="highlight">psicología cognitiva</span> y <span class="highlight">tecnología</span> para desarrollar programas personalizados que 
+                    mejoran la memoria, concentración, resiliencia mental y agilidad cognitiva en estudiantes y profesionales.
+                </p>
+            </div>
             
             <div class="cards-grid">
                 <div class="card animate">
                     <div class="card-icon">
-                        <i class="fas fa-puzzle-piece"></i>
+                        <i class="fas fa-seedling"></i>
                     </div>
-                    <h3 class="card-title">Pensamiento Estratégico</h3>
-                    <p class="card-text">Desarrolla habilidades de resolución de problemas con desafíos cognitivos modernos.</p>
+                    <h3 class="card-title">Neuroplasticidad</h3>
+                    <p class="card-text">El cerebro tiene la capacidad de reorganizarse y formar nuevas conexiones neuronales a lo largo de la vida mediante el estímulo adecuado.</p>
                 </div>
                 <div class="card animate delay-1">
                     <div class="card-icon">
-                        <i class="fas fa-heart"></i>
+                        <i class="fas fa-balance-scale"></i>
                     </div>
-                    <h3 class="card-title">Mente y Cuerpo</h3>
-                    <p class="card-text">Técnicas integradas de mindfulness y ejercicio para optimizar tu rendimiento.</p>
+                    <h3 class="card-title">Enfoque Integral</h3>
+                    <p class="card-text">Combina actividades cognitivas, manejo del estrés, ejercicio físico, nutrición y conexión social para una salud cerebral óptima.</p>
                 </div>
                 <div class="card animate delay-2">
                     <div class="card-icon">
-                        <i class="fas fa-book-open"></i>
+                        <i class="fas fa-sync-alt"></i>
                     </div>
-                    <h3 class="card-title">Agilidad Mental</h3>
-                    <p class="card-text">Entrena tu cerebro con actividades diseñadas para el mundo digital actual.</p>
+                    <h3 class="card-title">Adaptación Digital</h3>
+                    <p class="card-text">Estrategias modernas diseñadas para el entorno digital actual, ayudando a mantener la concentración en un mundo de distracciones constantes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Four Pillars Section -->
+    <section id="pillars">
+        <div class="container">
+            <div class="pillars">
+                <h2 class="pillars-title">Los 4 Pilares del Brain Fitness Moderno</h2>
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <div class="pillar-icon">
+                            <i class="fas fa-chess-knight"></i>
+                        </div>
+                        <h3 class="pillar-title">Estimulación Cognitiva</h3>
+                        <p class="pillar-text">Actividades desafiantes como puzzles, aprendizaje de idiomas, instrumentos musicales y juegos estratégicos que fortalecen las conexiones neuronales.</p>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-icon">
+                            <i class="fas fa-running"></i>
+                        </div>
+                        <h3 class="pillar-title">Actividad Física</h3>
+                        <p class="pillar-text">El ejercicio aumenta el flujo sanguíneo al cerebro, estimula la producción de factores neurotróficos y mejora todas las funciones cognitivas.</p>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-icon">
+                            <i class="fas fa-meditation"></i>
+                        </div>
+                        <h3 class="pillar-title">Mindfulness y Estrés</h3>
+                        <p class="pillar-text">Técnicas de meditación, respiración consciente y manejo del estrés que protegen al cerebro del deterioro causado por el cortisol crónico.</p>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="pillar-title">Conexión Social</h3>
+                        <p class="pillar-text">Las interacciones sociales significativas estimulan áreas cerebrales complejas y son un factor protector contra el deterioro cognitivo.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -601,50 +617,33 @@
     <!-- Benefits Section -->
     <section id="benefits">
         <div class="container">
-            <h2 class="section-title">Beneficios del Brain Fitness 2025</h2>
-            <p class="section-subtitle">Nuestro enfoque actualizado combina neurociencia moderna con prácticas accesibles para estudiantes.</p>
+            <h2 class="section-title">Beneficios del Brain Fitness</h2>
+            <p class="section-subtitle">Impacto científico en el rendimiento académico y personal</p>
             
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="card-icon">🧠</div>
-                    <h3 class="card-title">Mejora la Memoria</h3>
-                    <p class="card-text">Fortalece conexiones neuronales con técnicas basadas en la ciencia actual.</p>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3 class="benefit-title">Mejora la Memoria de Trabajo</h3>
+                    <p class="benefit-text">Capacidad para retener y manipular información temporalmente, esencial para resolver problemas complejos y seguir instrucciones.</p>
                 </div>
-                <div class="card">
-                    <div class="card-icon">🎯</div>
-                    <h3 class="card-title">Aumenta la Concentración</h3>
-                    <p class="card-text">Entrena tu cerebro para mantener el enfoque en un mundo de distracciones digitales.</p>
+                <div class="benefit-card">
+                    <h3 class="benefit-title">Aumenta la Concentración Sostenida</h3>
+                    <p class="benefit-text">Entrena al cerebro para mantener el enfoque en tareas importantes durante períodos prolongados, incluso en entornos distractores.</p>
                 </div>
-                <div class="card">
-                    <div class="card-icon">💪</div>
-                    <h3 class="card-title">Desarrolla Resiliencia</h3>
-                    <p class="card-text">Construye herramientas mentales para manejar el estrés académico moderno.</p>
+                <div class="benefit-card">
+                    <h3 class="benefit-title">Desarrolla Resiliencia Mental</h3>
+                    <p class="benefit-text">Construye herramientas para manejar el estrés académico, adaptarse al cambio y recuperarse de contratiempos emocionales.</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Activities Section -->
-    <section id="activities">
-        <div class="container">
-            <h2 class="section-title">Actividades Cognitivas Modernas</h2>
-            <p class="section-subtitle">Estrategias actualizadas para el entorno educativo y digital de 2025.</p>
-            
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="card-icon">📚</div>
-                    <h3 class="card-title">Aprende Continuamente</h3>
-                    <p class="card-text">Adquiere nuevas habilidades digitales y tradicionales para estimular tu neuroplasticidad.</p>
+                <div class="benefit-card">
+                    <h3 class="benefit-title">Optimiza la Toma de Decisiones</h3>
+                    <p class="benefit-text">Mejora la capacidad para evaluar opciones, anticipar consecuencias y tomar decisiones estratégicas basadas en evidencia.</p>
                 </div>
-                <div class="card">
-                    <div class="card-icon">🏃</div>
-                    <h3 class="card-title">Ejercicio Integrado</h3>
-                    <p class="card-text">Combina actividad física con desafíos cognitivos para maximizar beneficios cerebrales.</p>
+                <div class="benefit-card">
+                    <h3 class="benefit-title">Fomenta la Creatividad</h3>
+                    <p class="benefit-text">Estimula la formación de conexiones neuronales novedosas, facilitando el pensamiento innovador y la resolución creativa de problemas.</p>
                 </div>
-                <div class="card">
-                    <div class="card-icon">👥</div>
-                    <h3 class="card-title">Conexión Social</h3>
-                    <p class="card-text">Participa en comunidades de aprendizaje para fortalecer habilidades cognitivas sociales.</p>
+                <div class="benefit-card">
+                    <h3 class="benefit-title">Retrasa el Envejecimiento Cerebral</h3>
+                    <p class="benefit-text">Mantiene el cerebro ágil y saludable, creando una "reserva cognitiva" que protege contra el deterioro relacionado con la edad.</p>
                 </div>
             </div>
         </div>
@@ -653,14 +652,14 @@
     <!-- Game Section -->
     <section id="game">
         <div class="container">
-            <h2 class="section-title">Desafío de Memoria</h2>
-            <p class="section-subtitle">Pon a prueba tus habilidades cognitivas con este juego moderno de memorización.</p>
+            <h2 class="section-title">Desafío de Memoria Cognitiva</h2>
+            <p class="section-subtitle">Pon a prueba tus habilidades de memoria y concentración</p>
             
             <div class="game-container">
                 <div class="game-info">
                     <div class="game-stats">Movimientos: <span id="moves">0</span></div>
                     <div class="game-stats">Parejas: <span id="pairs">0</span>/8</div>
-                    <button class="reset-btn" id="reset-game">Reiniciar</button>
+                    <button class="reset-btn" id="reset-game">Reiniciar Juego</button>
                 </div>
                 
                 <div class="game-board" id="memory-game">
@@ -676,15 +675,17 @@
     <section class="special-section">
         <div class="container">
             <div class="special-icon">
-                <i class="fas fa-star"></i>
+                <i class="fas fa-crown"></i>
             </div>
             <h2 class="section-title">Reconocimiento Especial</h2>
             
             <div class="professor-card">
                 <div class="professor-icon">👩‍🏫</div>
                 <h3 class="professor-name">Profesora Niria Rojas Hernández</h3>
-                <p class="professor-text">Su guía excepcional y dedicación han sido fundamentales para el desarrollo de este proyecto educativo innovador.</p>
-                <div class="professor-badge">Inspiración Académica</div>
+                <p class="professor-text">
+                    Su visión educativa innovadora y su compromiso con el desarrollo integral de sus estudiantes muchas gracias a la profesora Niria por educarnos bien y ser justa espero que este trabajo le guste por parte de Reinaldo Liendo
+                </p>
+                <div class="professor-badge">Miss, Profesora/div>
             </div>
             
             <div class="student-info">
@@ -698,7 +699,7 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p class="copyright">© 2025 Brain Fitness - Proyecto Educativo Actualizado</p>
+            <p class="copyright">© 2025 Brain Fitness - Educación Cognitiva Moderna</p>
         </div>
     </footer>
 
@@ -710,14 +711,12 @@
             const pairsDisplay = document.getElementById('pairs');
             const resetButton = document.getElementById('reset-game');
             const gameMessage = document.getElementById('game-message');
-            const themeToggle = document.getElementById('theme-toggle');
             
             let cards = [];
             let flippedCards = [];
             let moves = 0;
             let pairsFound = 0;
             let canFlip = true;
-            let isDarkMode = false;
             
             // Symbols for cards
             const symbols = ['🧠', '💡', '🎯', '🌟', '⚡', '🔍', '📚', '🎨'];
@@ -809,18 +808,6 @@
                 pairsDisplay.textContent = pairsFound;
             }
             
-            // Theme toggle
-            themeToggle.addEventListener('click', function() {
-                isDarkMode = !isDarkMode;
-                document.body.classList.toggle('dark-mode', isDarkMode);
-                
-                if (isDarkMode) {
-                    themeToggle.innerHTML = '<i class="fas fa-sun"></i> Modo Claro';
-                } else {
-                    themeToggle.innerHTML = '<i class="fas fa-moon"></i> Modo Oscuro';
-                }
-            });
-            
             // Reset game
             resetButton.addEventListener('click', initializeGame);
             
@@ -831,12 +818,19 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.style.animationDelay = '0s';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
                     }
                 });
-            }, { threshold: 0.1 });
+            }, { 
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
             
             document.querySelectorAll('.animate').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                 observer.observe(el);
             });
         });
