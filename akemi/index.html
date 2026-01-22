@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Akemi 💜</title>
+  <style>
+    :root{
+      --bg:#050816;
+      --card: rgba(14, 10, 40, .84);
+      --stroke: rgba(170, 120, 255, .26);
+      --text:#f2edff;
+      --muted:#c7b6ff;
+
+      /* Paleta morada 💜 */
+      --p1:#b56bff;
+      --p2:#7b3cff;
+      --p3:#3b1a8a;
+
+      --pink:#ff5aa7;
+      --yellow:#ffd166;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(181,107,255,.22), transparent 60%),
+        radial-gradient(900px 500px at 85% 35%, rgba(255,90,167,.14), transparent 60%),
+        radial-gradient(700px 450px at 50% 95%, rgba(123,60,255,.10), transparent 55%),
+        linear-gradient(180deg, #050816, var(--bg));
+      color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      overflow:hidden;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    /* Usa dvh para que no se corte con la barra del navegador */
+    .wrap{
+      height: 100dvh;
+      display:flex;
+      align-items:stretch;
+      justify-content:center;
+      padding:12px;
+    }
+    .app{
+      width:min(520px, 100%);
+      height:100%;
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius:22px;
+      box-shadow:0 24px 90px rgba(0,0,0,.6);
+      overflow:hidden;
+      position:relative;
+      display:flex;
+      flex-direction:column;
+    }
+
+    header{
+      padding:12px;
+      border-bottom:1px solid rgba(170,120,255,.18);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex: 0 0 auto;
+    }
+    .tag{
+      font-size:12px;
+      font-weight:900;
+      color:#12042a;
+      background:linear-gradient(90deg, #e1c3ff, var(--p1), var(--p2));
+      padding:7px 10px;
+      border-radius:999px;
+      user-select:none;
+      box-shadow:0 12px 30px rgba(181,107,255,.22);
+      white-space:nowrap;
+    }
+    .mini{
+      color:var(--muted);
+      font-size:12px;
+      user-select:none;
+      white-space:nowrap;
+    }
+
+    .screen{
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      flex: 1 1 auto;
+      min-height:0; /* importante para que no se desborde */
+    }
+
+    .title{
+      margin:0;
+      font-size:17px;
+      font-weight:1000;
+      letter-spacing:.2px;
+    }
+    .sub{
+      margin:0;
+      color:var(--muted);
+      line-height:1.35;
+      font-size:13px;
+    }
+
+    /* Arena flexible: ocupa el espacio restante */
+    .arena{
+      position:relative;
+      flex: 1 1 auto;
+      min-height: 320px;
+      border-radius:18px;
+      background:rgba(4,7,18,.55);
+      border:1px solid rgba(170,120,255,.18);
+      overflow:hidden;
+      display:block;
+    }
+
+    .btnRow{
+      position:absolute;
+      left:10px;
+      right:10px;
+      bottom:10px;
+      display:flex;
+      gap:10px;
+      z-index:5;
+    }
+    .btn{
+      flex:1;
+      padding:14px 12px;
+      border-radius:16px;
+      font-weight:1000;
+      font-size:15px;
+      border:1px solid rgba(170,120,255,.22);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      cursor:pointer;
+      user-select:none;
+      box-shadow: 0 12px 26px rgba(0,0,0,.28);
+      transition: transform .08s ease;
+      touch-action: manipulation;
+    }
+    .btn:active{ transform: scale(.98); }
+    .btn.try{
+      border:none;
+      background:linear-gradient(90deg, var(--p1), var(--p2));
+      box-shadow:0 18px 44px rgba(181,107,255,.22);
+    }
+    .btn.bad{
+      border:none;
+      background:linear-gradient(90deg, var(--pink), var(--yellow));
+      color:#1b0710;
+      box-shadow:0 18px 44px rgba(255,90,167,.14);
+    }
+
+    .hud{
+      position:absolute;
+      left:10px;
+      right:10px;
+      top:10px;
+      display:flex;
+      gap:8px;
+      z-index:5;
+    }
+    .pill{
+      flex:1;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(170,120,255,.18);
+      border-radius:999px;
+      padding:8px 10px;
+      font-size:12px;
+      color:#efe8ff;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      min-width:0;
+    }
+    .pill span{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+    .pill b{ font-weight:1000; white-space:nowrap; }
+
+    .hint{
+      position:absolute;
+      left:12px; right:12px;
+      top:54px;
+      text-align:center;
+      color:rgba(245,238,255,.92);
+      font-size:13px;
+      z-index:4;
+      user-select:none;
+      text-shadow:0 6px 20px rgba(0,0,0,.35);
+      padding:0 4px;
+    }
+
+    /* Objetos del juego */
+    .thing{
+      position:absolute;
+      width:52px;
+      height:52px;
+      display:grid;
+      place-items:center;
+      font-size:28px;
+      border-radius:16px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(170,120,255,.18);
+      box-shadow:0 16px 36px rgba(0,0,0,.28);
+      user-select:none;
+      touch-action:none;
+    }
+    .thing.good{
+      border:none;
+      background:linear-gradient(180deg, rgba(181,107,255,.40), rgba(123,60,255,.18));
+    }
+    .thing.bad{
+      border:none;
+      background:linear-gradient(180deg, rgba(255,90,167,.22), rgba(255,209,102,.18));
+    }
+
+    /* Modal final */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:12px;
+      background:rgba(0,0,0,.58);
+      z-index:999;
+    }
+    .box{
+      width:min(520px, 100%);
+      background:rgba(14,10,40,.96);
+      border:1px solid rgba(170,120,255,.30);
+      border-radius:22px;
+      box-shadow:0 24px 100px rgba(0,0,0,.65);
+      padding:16px;
+    }
+    .big{
+      margin:0 0 10px;
+      font-weight:1000;
+      font-size:18px;
+    }
+    .msg{
+      margin:0 0 14px;
+      white-space:pre-wrap;
+      line-height:1.45;
+      color:#f1ecff;
+      font-size:14px;
+    }
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .heartPulse{
+      display:inline-block;
+      color:#caa6ff;
+      animation:pulse .9s ease-in-out infinite;
+      filter: drop-shadow(0 10px 24px rgba(181,107,255,.28));
+    }
+    @keyframes pulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+
+    /* Compacto para pantallas pequeñas */
+    @media (max-height: 680px){
+      .sub{ display:none; }
+      .hint{ top:50px; font-size:12.5px; }
+      .btn{ padding:13px 10px; font-size:14.5px; }
+      .thing{ width:48px; height:48px; font-size:26px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="app" id="app">
+      <header>
+        <div class="tag">AKEMI 💜</div>
+        <div class="mini" id="trollTxt">Troll: 0</div>
+      </header>
+
+      <div class="screen">
+        <h1 class="title">Mini-juego anti-bajón (para Akemi 💜)</h1>
+        <p class="sub">
+          Akemi 💜… sé que estás triste por tu teléfono 🫂.
+          Presiona <b>“Voy a intentar”</b>, juega 15s y desbloquea una notita morada.
+        </p>
+
+        <div class="arena" id="arena">
+          <div class="hud">
+            <div class="pill"><span>Tiempo</span> <b id="time">—</b></div>
+            <div class="pill"><span>Sonrisas</span> <b id="score">0</b></div>
+            <div class="pill"><span>Objetivo</span> <b id="goal">7</b></div>
+          </div>
+
+          <div class="hint" id="hint">Presiona “Voy a intentar” para empezar 💜</div>
+
+          <div class="btnRow" id="btnRow">
+            <button class="btn bad" id="badBtn">Me siento mal</button>
+            <button class="btn try" id="tryBtn">Voy a intentar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="box">
+      <p class="big">Para Akemi <span class="heartPulse">💜</span></p>
+      <p class="msg" id="finalMsg"></p>
+      <div class="row">
+        <button class="btn" id="copyBtn">Copiar nota</button>
+        <button class="btn try" id="closeBtn">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s)=>document.querySelector(s);
+
+    const arena = $("#arena");
+    const btnRow = $("#btnRow");
+    const badBtn = $("#badBtn");
+    const tryBtn = $("#tryBtn");
+    const trollTxt = $("#trollTxt");
+    const hint = $("#hint");
+    const timeEl = $("#time");
+    const scoreEl = $("#score");
+    const goalEl = $("#goal");
+
+    const modal = $("#modal");
+    const finalMsg = $("#finalMsg");
+    const copyBtn = $("#copyBtn");
+    const closeBtn = $("#closeBtn");
+
+    let troll = 0;
+    let playing = false;
+    let score = 0;
+    let timeLeft = 15;
+    let timer = null;
+    let spawner = null;
+
+    const GOAL = 7;
+    goalEl.textContent = GOAL;
+
+    function buzz(ms=35){ if(navigator.vibrate) navigator.vibrate(ms); }
+
+    function swapButtons(){
+      const badFirst = btnRow.firstElementChild === badBtn;
+      btnRow.innerHTML = "";
+      if(badFirst){ btnRow.appendChild(tryBtn); btnRow.appendChild(badBtn); }
+      else{ btnRow.appendChild(badBtn); btnRow.appendChild(tryBtn); }
+    }
+
+    function onBadPressed(){
+      troll++;
+      trollTxt.textContent = "Troll: " + troll;
+      swapButtons();
+      buzz(20);
+
+      const lines = [
+        "Akemi 💜… te entiendo. Respira conmigo: inhala… exhala… 🫂",
+        "Ok… pero el bajón no gana hoy 😈",
+        "Te mando un abrazo morado gigante 💜",
+        "Tu teléfono se rompió, pero tú no 💜",
+        "JA. casi. (igual te cuido desde aquí)."
+      ];
+      hint.textContent = lines[Math.floor(Math.random()*lines.length)];
+
+      if(troll === 3) hint.textContent = "Akemi 💜… aprieta ‘Voy a intentar’ y le ganamos al bajón juntxs.";
+      if(troll >= 6 && !playing) hint.textContent = "Ya po 😭 dale ‘Voy a intentar’ y desbloqueas la notita 💜";
+    }
+
+    function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+    function clearThings(){
+      arena.querySelectorAll(".thing").forEach(n=>n.remove());
+    }
+
+    function spawnThing(){
+      if(!playing) return;
+
+      const isGood = Math.random() > 0.25; // 75% 💜
+      const node = document.createElement("div");
+      node.className = "thing " + (isGood ? "good" : "bad");
+      node.textContent = isGood ? "💜" : "🙃";
+
+      const rect = arena.getBoundingClientRect();
+      const size = node.offsetWidth || 52;
+
+      // Zonas seguras (HUD arriba + botones abajo)
+      const topSafe = 78;
+      const bottomSafe = 86;
+      const pad = 10;
+
+      const maxX = Math.max(0, rect.width - size - pad*2);
+      const maxY = Math.max(0, rect.height - size - pad*2 - topSafe - bottomSafe);
+
+      const x = pad + randInt(0, maxX);
+      const y = topSafe + pad + randInt(0, maxY);
+
+      node.style.left = x + "px";
+      node.style.top = y + "px";
+
+      function hit(e){
+        e.preventDefault();
+        if(!playing) return;
+
+        if(isGood){
+          score++;
+          scoreEl.textContent = score;
+          hint.textContent = "Bien Akemi 💜 +1 sonrisa";
+          buzz(12);
+        }else{
+          score = Math.max(0, score-1);
+          scoreEl.textContent = score;
+          hint.textContent = "Uy 🙃 trampa (−1) pero seguimos 💜";
+          buzz(22);
+        }
+        node.remove();
+
+        if(score >= GOAL) endGame(true);
+      }
+
+      node.addEventListener("click", hit);
+      node.addEventListener("touchstart", hit, {passive:false});
+
+      arena.appendChild(node);
+
+      setTimeout(()=>{ if(node.isConnected) node.remove(); }, 1200);
+    }
+
+    function startGame(){
+      if(playing) return;
+      playing = true;
+      score = 0;
+      timeLeft = 15;
+      scoreEl.textContent = "0";
+      timeEl.textContent = timeLeft + "s";
+      hint.textContent = "Atrapa 💜 y evita 🙃. Objetivo: " + GOAL + " sonrisas.";
+      clearThings();
+      buzz(35);
+
+      timer = setInterval(()=>{
+        timeLeft--;
+        timeEl.textContent = timeLeft + "s";
+        if(timeLeft <= 0) endGame(score >= GOAL);
+      }, 1000);
+
+      spawner = setInterval(spawnThing, 280);
+    }
+
+    function endGame(won){
+      if(!playing) return;
+      playing = false;
+      clearInterval(timer);
+      clearInterval(spawner);
+      clearThings();
+      timeEl.textContent = "—";
+
+      if(won){
+        hint.textContent = "GANASTE 💜 Desbloqueaste la notita.";
+        buzz(80);
+        openNote(true);
+      }else{
+        hint.textContent = "Casi 💜 (presiona ‘Voy a intentar’).";
+        buzz(40);
+        if(troll >= 5) openNote(false);
+      }
+    }
+
+    function noteText(won){
+      const extra = won
+        ? "Y encima ganaste el juego… o sea, oficialmente eres dura 😌"
+        : "Aunque hoy cueste, igual me importas un montón.";
+
+      return `Akemi 💜
+
+Ven acá un ratito 🫂
+Sé que te dio algo por lo del teléfono… y es súper válido sentirse así.
+Pero quiero que recuerdes algo: eso se arregla, odiosita jajajs.
+
+${extra}
+
+Te quiero un montón.
+Si quieres hacer algo soy pana.
+Y si no quieres joder… igual te amarro y te fastidio hasta que te salga una sonrisita 💜`;
+    }
+
+    function openNote(won){
+      finalMsg.textContent = noteText(won);
+      modal.style.display = "flex";
+    }
+
+    // Controles
+    badBtn.addEventListener("click", (e)=>{ e.preventDefault(); onBadPressed(); });
+    badBtn.addEventListener("touchstart", (e)=>{ e.preventDefault(); onBadPressed(); }, {passive:false});
+
+    tryBtn.addEventListener("click", (e)=>{ e.preventDefault(); startGame(); });
+    tryBtn.addEventListener("touchstart", (e)=>{ e.preventDefault(); startGame(); }, {passive:false});
+
+    closeBtn.addEventListener("click", ()=> modal.style.display="none");
+    modal.addEventListener("click", (e)=>{ if(e.target===modal) modal.style.display="none"; });
+
+    copyBtn.addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(finalMsg.textContent);
+        hint.textContent = "Nota copiada ✅ mándasela a Akemi 💜";
+        buzz(20);
+      }catch{
+        hint.textContent = "No se pudo copiar automático 😅 selecciona y copia a mano.";
+      }
+    });
+
+    // Init
+    hint.textContent = "Presiona ‘Voy a intentar’ 💜";
+  </script>
+</body>
+</html>
