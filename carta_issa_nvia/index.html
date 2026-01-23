@@ -280,7 +280,7 @@
     }
     
     /* =========================================================
-       SELLO DE CERA (CORREGIDO CON CORAZÓN)
+       SELLO DE CERA CON FRESA
     ========================================================= */
     .wax-seal {
       position: absolute;
@@ -331,16 +331,28 @@
       filter: blur(0.5px);
     }
     
-    /* Corazón del sello - SVG inline */
+    /* FRESA del sello */
     .wax-seal::after {
       content: '';
       position: absolute;
-      width: 32px;
-      height: 28px;
-      background: rgba(255, 255, 255, 0.9);
-      clip-path: path('M16 4.652c0 4.5-5.6 8.348-7.2 10.348-1.6-2-7.2-5.848-7.2-10.348 0-2.5 2-4.5 4.5-4.5 1.5 0 3 1 3.5 2.5.5-1.5 2-2.5 3.5-2.5 2.5 0 4.5 2 4.5 4.5z');
-      filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(145deg, #ff3b3b, #e62e2e);
+      clip-path: polygon(
+        50% 0%,
+        60% 20%,
+        80% 20%,
+        65% 35%,
+        75% 55%,
+        50% 45%,
+        25% 55%,
+        35% 35%,
+        20% 20%,
+        40% 20%
+      );
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
       z-index: 2;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
     }
     
     /* Borde del sello con relieve */
@@ -606,6 +618,43 @@
       margin-bottom: 25px;
       font-weight: bold;
       text-indent: 0;
+      font-family: 'Georgia', serif;
+      color: #5a3921;
+      position: relative;
+      padding-left: 0; /* Cambiado de 20px a 0 para quitar espacio de la fresa */
+    }
+    
+    /* Se eliminó el .salutation::before que contenía la fresa extra */
+    
+    .highlighted-text {
+      background: linear-gradient(120deg, rgba(255, 220, 220, 0.3) 0%, rgba(255, 240, 240, 0.2) 100%);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-style: italic;
+      position: relative;
+    }
+    
+    .romantic-phrase {
+      font-style: italic;
+      color: #8a4b2e;
+      border-left: 3px solid #d4a574;
+      padding-left: 15px;
+      margin: 20px 0;
+      background: rgba(255, 245, 235, 0.4);
+      padding: 12px 15px;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .heart-emoji {
+      color: #ff3b3b;
+      font-size: 1.2em;
+      margin: 0 3px;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
     }
     
     .letter-photo-container {
@@ -668,6 +717,18 @@
       color: var(--ink-color);
       margin-bottom: 5px;
       letter-spacing: 0.5px;
+      position: relative;
+      display: inline-block;
+      padding-right: 30px;
+    }
+    
+    .signature-name::after {
+      content: "🍓";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
     }
     
     .signature-date {
@@ -676,10 +737,12 @@
       font-style: italic;
     }
     
-    /* Botón para cerrar - SIEMPRE VISIBLE */
+    /* =========================================================
+       BOTÓN PARA CERRAR - AJUSTADO MÁS ABAJO
+    ========================================================= */
     .close-letter-btn {
       position: absolute;
-      bottom: 20px;
+      bottom: -60px; /* AJUSTADO: más abajo para no cubrir la firma */
       left: 50%;
       transform: translateX(-50%);
       background: linear-gradient(to bottom, var(--paper-color-2), var(--paper-color-3));
@@ -944,10 +1007,11 @@
         max-width: 260px;
       }
       
+      /* Botón ajustado para móviles */
       .close-letter-btn {
         padding: 10px 22px;
         font-size: 15px;
-        bottom: 15px;
+        bottom: -50px; /* Ajustado para móviles */
         min-width: 130px;
       }
       
@@ -1004,6 +1068,7 @@
       .close-letter-btn {
         padding: 11px 25px;
         font-size: 15px;
+        bottom: -55px; /* Ajustado */
       }
       
       .hint {
@@ -1029,6 +1094,10 @@
         padding-bottom: 100px;
       }
       
+      .close-letter-btn {
+        bottom: -65px; /* Ajustado */
+      }
+      
       .flower {
         left: 12%;
         bottom: 22%;
@@ -1048,6 +1117,10 @@
       
       .hint {
         bottom: 100px;
+      }
+      
+      .close-letter-btn {
+        bottom: -80px; /* Ajustado para pantallas altas */
       }
     }
     
@@ -1086,7 +1159,7 @@
       .close-letter-btn {
         padding: 8px 20px;
         font-size: 14px;
-        bottom: 12px;
+        bottom: -40px; /* Ajustado para pantallas cortas */
       }
       
       .hint {
@@ -1135,6 +1208,10 @@
       .open .letter-container {
         transform: none;
         animation: none;
+      }
+      
+      .close-letter-btn {
+        bottom: -50px; /* Ajustado para landscape */
       }
       
       .hint {
@@ -1197,6 +1274,15 @@
       .letter::before {
         opacity: 0.4;
       }
+      
+      .salutation {
+        color: #d4b483;
+      }
+      
+      .romantic-phrase {
+        color: #d4a574;
+        background: rgba(60, 40, 20, 0.3);
+      }
     }
   </style>
 </head>
@@ -1221,7 +1307,7 @@
         <div class="envelope-flap"></div>
         <div class="envelope-string"></div>
         
-        <!-- Sello de cera con corazón -->
+        <!-- Sello de cera con fresa -->
         <div class="wax-seal">
           <div class="seal-border"></div>
         </div>
@@ -1243,23 +1329,36 @@
         <!-- Contenido -->
         <div class="letter-content" id="letterContent">
           <div class="letter-header">
-            <h1 class="letter-title">Para Ti, Con Todo Mi Cariño issa</h1>
+            <h1 class="letter-title">Para Ti, Con Todo mi cariño: issa</h1>
             <div class="letter-subtitle">Una carta escrita desde el corazón</div>
           </div>
           
           <div class="letter-body">
-            <p class="salutation">Mi muy querida Sofia</p>
+            <p class="salutation">Para mi querida Sofía<span class="heart-emoji">🍓</span>:</p>
             
             <p>
-              Aqui va escrito
+              El tiempo suele pasar rápido, así como un buen capítulo de una serie, 
+              como esas risas compartidas entre nosotras. Rápido, lo suficiente para 
+              extrañarte cada día que no te veo, cada noche que te pienso, cada 
+              pensamiento se vuelve más intenso.
             </p>
             
             <p>
-              Aqui va escrito
+              Recuerdo cuando recién nos conocimos, jamás imaginé que en algún momento 
+              diría que te extrañaría, o que simplemente te quería. 
+              <span class="highlighted-text">¿Es raro, no? Así como nosotras.</span>
             </p>
             
+            <div class="romantic-phrase">
+              No sabes cuánto te amo. La felicidad que me causa cada mensaje de ti, 
+              esos detalles que me llenan el corazón, y esa simpleza en tu mirada 
+              es deslumbrante.
+            </div>
+            
             <p>
-              Aqui va escrito
+              Ni escribiendo mil cartas llegaría a expresar todo lo que siento por ti, 
+              porque te amo, no para un rato, no por un simple juego; causas en mí 
+              primeras veces. Pensaba que ya había vivido y sentido todo, hasta que te conocí.
             </p>
             
             <!-- Foto -->
@@ -1270,16 +1369,10 @@
             </div>
             
             <p>
-              Aquiva escrito
+              Hoy te amo más que ayer, y mañana te amaré más que hoy, mi princesita. 
+              Tus ojos son igual de deslumbrantes que un zafiro<span class="heart-emoji">💎</span>.
             </p>
             
-            <p>
-              Aqui va escrito
-            </p>
-            
-            <p>
-              aqui va escrito
-            </p>
             
             <div class="letter-signature">
               <div class="signature-name">Con todo mi amor</div>
@@ -1288,7 +1381,7 @@
           </div>
         </div>
         
-        <!-- Botón para cerrar -->
+        <!-- Botón para cerrar - AHORA ESTÁ MÁS ABAJO -->
         <button class="close-letter-btn" id="closeBtn">Cerrar carta</button>
       </div>
     </div>
