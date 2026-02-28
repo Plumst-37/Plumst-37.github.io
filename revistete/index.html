@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>revistete · app de ropa</title>
+    <!-- Font Awesome (iconos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Fuente: sistema (apariencia nativa) + alguna cursiva linda -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f7f2ee;  /* base cálida de app */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #2b2b2b;
+            line-height: 1.4;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* pantalla completa móvil */
+        .app-screen {
+            max-width: 390px;  /* típico ancho de iPhone 12/13 etc */
+            width: 100%;
+            margin: 0 auto;
+            background-color: #fefaf7;
+            box-shadow: 0 0 40px rgba(0,0,0,0.03);
+            min-height: 100vh;
+            position: relative;
+            border-radius: 32px 32px 0 0;
+            overflow: hidden;
+            padding: 0 0 20px 0;
+        }
+
+        /* header app (estilo nativo) */
+        .app-header {
+            padding: 18px 20px 8px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fefaf7;
+            border-bottom: 1px solid #f0e4dc;
+        }
+        .app-header .logo {
+            font-size: 1.9rem;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            font-family: "Iowan Old Style", "Playfair Display", serif;
+            color: #443731;
+        }
+        .app-header .logo span {
+            color: #c37e5a;
+            font-style: italic;
+            font-size: 2rem;
+        }
+        .header-icons {
+            display: flex;
+            gap: 18px;
+            color: #5e4b40;
+            font-size: 1.3rem;
+        }
+
+        /* historia / stories (solo visual) */
+        .stories-row {
+            display: flex;
+            gap: 16px;
+            padding: 16px 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            background-color: #fefaf7;
+            border-bottom: 1px solid #f0e4dc;
+        }
+        .stories-row::-webkit-scrollbar {
+            display: none;
+        }
+        .story-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .story-avatar {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: #d9c9be;
+            border: 3px solid #fefaf7;
+            box-shadow: 0 0 0 2px #cfa786;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #a1745b;
+            object-fit: cover;
+            background-size: cover;
+            background-position: center;
+        }
+        .story-avatar.p1 { background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=120&h=120&fit=crop&auto=format'); }
+        .story-avatar.p2 { background-image: url('https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?w=120&h=120&fit=crop&auto=format'); }
+        .story-avatar.p3 { background-image: url('https://images.unsplash.com/photo-1445205170230-053b83016050?w=120&h=120&fit=crop&auto=format'); }
+        .story-avatar.p4 { background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=120&h=120&fit=crop&auto=format'); }
+        .story-avatar.p5 { background-image: url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=120&h=120&fit=crop&auto=format'); }
+        .story-name {
+            font-size: 0.7rem;
+            color: #5e4b40;
+            font-weight: 500;
+        }
+
+        /* main contenido (cards de ropa real) */
+        .feed-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px 6px 20px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #3b2f28;
+        }
+        .feed-title i {
+            color: #c37e5a;
+        }
+
+        /* tarjetas de prendas (look app, nada shein) */
+        .prenda-card {
+            background-color: #ffffff;
+            margin: 10px 20px 20px 20px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(110, 70, 50, 0.06);
+            border: 1px solid #efdfd5;
+        }
+
+        .prenda-img {
+            width: 100%;
+            height: 220px;
+            background-color: #ddd1c7;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .prenda-tag {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(255, 245, 235, 0.9);
+            backdrop-filter: blur(4px);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #654438;
+            border: 1px solid #fff2e7;
+        }
+        .prenda-info {
+            padding: 14px 16px 16px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .prenda-super {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .prenda-nombre {
+            font-weight: 650;
+            font-size: 1.2rem;
+            color: #2b2b2b;
+        }
+        .prenda-precio {
+            background: #f3eae3;
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #4d382c;
+        }
+        .prenda-desc {
+            display: flex;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #6f5b4f;
+            align-items: center;
+        }
+        .prenda-desc i {
+            color: #b68162;
+            width: 18px;
+        }
+        .donacion-badge {
+            background-color: #efe1d7;
+            color: #7c5b48;
+            border: none;
+            border-radius: 50px;
+            padding: 4px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            width: fit-content;
+        }
+
+        /* botones de acción (como en app) */
+        .action-row {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0 4px;
+            border-top: 1px solid #f0e2d8;
+            margin-top: 6px;
+            justify-content: space-around;
+        }
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #5d4a3c;
+            padding: 8px 12px;
+            border-radius: 50px;
+            background: #f9f1eb;
+            flex: 1;
+            justify-content: center;
+        }
+        .action-btn i {
+            font-size: 1.1rem;
+            color: #c37e5a;
+        }
+
+        /* segunda prenda (más ropa) */
+        .prenda-img.dos { background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&h=250&fit=crop&auto=format'); }
+        .prenda-img.tres { background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&h=250&fit=crop&auto=format'); }
+        .prenda-img.cuatro { background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&h=250&fit=crop&auto=format'); }
+        .prenda-img.cinco { background-image: url('https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=250&fit=crop&auto=format'); }
+
+        /* barra inferior (navegación app) */
+        .bottom-nav {
+            background: #fefaf7;
+            border-top: 1px solid #e9dbd1;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 20px 10px;
+            margin-top: 20px;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #98897e;
+            font-size: 0.7rem;
+            transition: color 0.1s;
+        }
+        .nav-item i {
+            font-size: 1.4rem;
+            margin-bottom: 3px;
+        }
+        .nav-item.activo {
+            color: #b3704f;
+        }
+        .nav-item span {
+            font-weight: 500;
+        }
+
+        /* insignia flotante donar (destacada) */
+        .floating-dona {
+            background: #c47e5a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 14px 22px;
+            border-radius: 50px;
+            width: fit-content;
+            margin: 10px auto 5px;
+            font-weight: 600;
+            box-shadow: 0 10px 18px #e3b9a2;
+            border: 2px solid #fceae2;
+        }
+
+        /* tipografía más humana */
+        .soft-quote {
+            padding: 8px 20px 0;
+            font-size: 0.9rem;
+            color: #8c6f5d;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-style: italic;
+        }
+        .soft-quote i {
+            color: #b68162;
+        }
+
+        /* reset de enlaces / sin interacción real */
+        .action-btn, .nav-item, .floating-dona, .story-item {
+            cursor: default;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Vista móvil de la app revistete (ropa real, vibes comunitarias) -->
+    <div class="app-screen">
+        <!-- cabecera app -->
+        <div class="app-header">
+            <div class="logo">revist<span>é</span>te</div>
+            <div class="header-icons">
+                <i class="far fa-bell"></i>
+                <i class="far fa-comment-dots"></i>
+            </div>
+        </div>
+
+        <!-- historias (ropa, personas) -->
+        <div class="stories-row">
+            <div class="story-item">
+                <div class="story-avatar p1"></div>
+                <span class="story-name">marta_v</span>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar p2"></div>
+                <span class="story-name">carlosp</span>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar p3"></div>
+                <span class="story-name">valen_</span>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar p4"></div>
+                <span class="story-name">laura_r</span>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar p5"></div>
+                <span class="story-name">donaropa</span>
+            </div>
+        </div>
+
+        <!-- frase cálida -->
+        <div class="soft-quote">
+            <i class="fas fa-hand-sparkles"></i>  ropa querida, nueva vida
+        </div>
+
+        <!-- feed principal: tarjetas de ropa con pinta real -->
+        <div class="feed-title">
+            <span>✨ últimas prendas</span>
+            <i class="far fa-heart"></i>
+        </div>
+
+        <!-- tarjeta 1 (donación) -->
+        <div class="prenda-card">
+            <div class="prenda-img" style="background-image: url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400&h=250&fit=crop&auto=format');">
+                <span class="prenda-tag"><i class="far fa-clock"></i> hace 2h</span>
+            </div>
+            <div class="prenda-info">
+                <div class="prenda-super">
+                    <span class="prenda-nombre">Vestido años 50</span>
+                    <span class="prenda-precio">donar</span>
+                </div>
+                <div class="prenda-desc">
+                    <i class="fas fa-user-circle"></i> <span>Lucía · talle S · algodón</span>
+                </div>
+                <div class="donacion-badge">
+                    <i class="fas fa-gift"></i>  punto de donación: Malasaña
+                </div>
+                <div class="action-row">
+                    <div class="action-btn"><i class="far fa-heart"></i> 45</div>
+                    <div class="action-btn"><i class="far fa-comment"></i> 12</div>
+                    <div class="action-btn"><i class="fas fa-hand-holding-heart"></i> donar</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- tarjeta 2 (venta amiga) -->
+        <div class="prenda-card">
+            <div class="prenda-img dos" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&h=250&fit=crop&auto=format');">
+                <span class="prenda-tag"><i class="fas fa-tag"></i> 18€</span>
+            </div>
+            <div class="prenda-info">
+                <div class="prenda-super">
+                    <span class="prenda-nombre">Gabardina beige</span>
+                    <span class="prenda-precio">venta</span>
+                </div>
+                <div class="prenda-desc">
+                    <i class="fas fa-user-circle"></i> <span>Álex · M · vintage</span>
+                </div>
+                <div style="font-size:0.85rem; color:#886b58;"><i class="fas fa-rotate-left"></i>  segunda mano · impecable</div>
+                <div class="action-row">
+                    <div class="action-btn"><i class="far fa-heart"></i> 23</div>
+                    <div class="action-btn"><i class="far fa-comment"></i> 6</div>
+                    <div class="action-btn"><i class="fas fa-shopping-bag"></i> comprar</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- tarjeta 3 (donación / outfit) -->
+        <div class="prenda-card">
+            <div class="prenda-img tres" style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&h=250&fit=crop&auto=format');">
+                <span class="prenda-tag"><i class="far fa-heart"></i> donar</span>
+            </div>
+            <div class="prenda-info">
+                <div class="prenda-super">
+                    <span class="prenda-nombre">Camisa floral</span>
+                    <span class="prenda-precio">donar</span>
+                </div>
+                <div class="prenda-desc">
+                    <i class="fas fa-user-circle"></i> <span>Clara · XS · mezcla</span>
+                </div>
+                <div style="font-size:0.85rem; color:#886b58;"><i class="fas fa-location-dot"></i>  recogida en Centro</div>
+                <div class="action-row">
+                    <div class="action-btn"><i class="far fa-heart"></i> 67</div>
+                    <div class="action-btn"><i class="far fa-comment"></i> 19</div>
+                    <div class="action-btn"><i class="fas fa-hand-holding-heart"></i> donar</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- tarjeta 4 (con más rollo) -->
+        <div class="prenda-card">
+            <div class="prenda-img cuatro" style="background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&h=250&fit=crop&auto=format');">
+                <span class="prenda-tag"><i class="fas fa-euro-sign"></i> 24€</span>
+            </div>
+            <div class="prenda-info">
+                <div class="prenda-super">
+                    <span class="prenda-nombre">Abrigo lana</span>
+                    <span class="prenda-precio">venta</span>
+                </div>
+                <div class="prenda-desc">
+                    <i class="fas fa-user-circle"></i> <span>Irene · L · acolchado</span>
+                </div>
+                <div style="display: flex; gap:10px; font-size:0.8rem; color:#9b7a64;">
+                    <span><i class="fas fa-star"></i>  prenda destacada</span>
+                </div>
+                <div class="action-row">
+                    <div class="action-btn"><i class="far fa-heart"></i> 98</div>
+                    <div class="action-btn"><i class="far fa-comment"></i> 30</div>
+                    <div class="action-btn"><i class="fas fa-shopping-bag"></i> comprar</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- botón flotante donar (acción principal) -->
+        <div class="floating-dona">
+            <i class="fas fa-hand-holding-heart"></i>  donar ropa ahora
+        </div>
+
+        <!-- mini etiqueta comunidad -->
+        <div style="padding: 16px 20px 8px; display: flex; gap:8px; flex-wrap: wrap;">
+            <span style="background:#f0e3da; padding:5px 14px; border-radius: 30px; font-size:0.8rem;"><i class="fas-regular fa-circle"></i> #modacircular</span>
+            <span style="background:#f0e3da; padding:5px 14px; border-radius: 30px; font-size:0.8rem;"><i class="fas-regular fa-circle"></i> #revistete</span>
+            <span style="background:#f0e3da; padding:5px 14px; border-radius: 30px; font-size:0.8rem;">intercambio</span>
+        </div>
+
+        <!-- barra inferior de navegación (como app nativa) -->
+        <div class="bottom-nav">
+            <div class="nav-item activo">
+                <i class="fas fa-house"></i>
+                <span>Inicio</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-magnifying-glass"></i>
+                <span>Buscar</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-camera-retro"></i>
+                <span>Donar</span>
+            </div>
+            <div class="nav-item">
+                <i class="far fa-heart"></i>
+                <span>Favoritos</span>
+            </div>
+            <div class="nav-item">
+                <i class="far fa-user"></i>
+                <span>Perfil</span>
+            </div>
+        </div>
+
+        <!-- espacio inferior (todo junto) -->
+        <div style="height: 10px;"></div>
+    </div>
+    <!-- fin app-screen -->
+</body>
+</html>
