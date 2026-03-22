@@ -3,41 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="Stylesheet" href="style.css">
-    <title>Flower</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Flores Amarillas - Para Hanelit</title>
+    <style>
+        /* ===== CSS ORIGINAL DE LAS FLORES AMARILLAS ===== */
+        body {
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .flower {
+            height: 200px;
+            width: 200px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-color: transparent;
+            animation: pulsate 2s infinite;
+        }
+
+        @keyframes pulsate {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .mid {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #000, #ff5e00, #000);
+            z-index: 4;
+            background-size: 5px 5px;
+            filter: drop-shadow(0 0 8px #682600);
+        }
+        
+        .Petal1 {
+            position: absolute;
+            left: 40px;
+            z-index: 3;
+            width: 120px;
+            height: 30px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff5e00, #ffbb00);
+            filter: drop-shadow(0 0 5px #e05200);
+        }
+        
+        .Petal1.p1 {
+            transform: rotate(22.5deg);
+        }
+        .Petal1.p2 {
+            transform: rotate(67.5deg);
+        }
+        .Petal1.p3 {
+            transform: rotate(110.5deg);
+        }
+        .Petal1.p4 {
+            transform: rotate(157.5deg);
+        }
+        
+        .Petal2 {
+            position: absolute;
+            left: 0;
+            z-index: 2;
+            width: 200px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff5e00, #fbd702);
+            filter: drop-shadow(0 0 5px #e05200);
+        }
+        
+        .Petal2.p2 {
+            transform: rotate(90deg);
+        }
+        .Petal2.p3 {
+            transform: rotate(45deg);
+        }
+        .Petal2.p4 {
+            transform: rotate(135deg);
+        }
+        
+        .Petal3 {
+            position: absolute;
+            left: 0px;
+            z-index: 1;
+            width: 200px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff5e00, #fbd702);
+            filter: drop-shadow(0 0 2px #fbd702);
+        }
+        
+        .Petal3.p1 {
+            transform: rotate(22.5deg);
+        }
+        .Petal3.p2 {
+            transform: rotate(67.5deg);
+        }
+        .Petal3.p3 {
+            transform: rotate(110.5deg);
+        }
+        .Petal3.p4 {
+            transform: rotate(157.5deg);
+        }
+
+        /* ===== MEJORAS PARA QUE LA FLOR SE VEA COMPLETA Y EL TEXTO SEA LEGIBLE ===== */
+        
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #000;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        
+        /* Contenedor de la flor para que se vea completa y centrada */
+        .flower-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0 30px 0;
+            padding: 30px 20px;
+            background-color: #000;
+            width: 100%;
+        }
+        
+        /* Ajuste para que la flor se vea completa en móviles */
+        @media (max-width: 550px) {
+            .flower {
+                transform: scale(0.85);
+                margin: -20px 0;
+            }
+            .flower-container {
+                margin: 10px 0 20px 0;
+                padding: 20px 10px;
+            }
+        }
+        
+        /* Para tablets, escala un poco más */
+        @media (min-width: 551px) and (max-width: 768px) {
+            .flower {
+                transform: scale(0.92);
+            }
+        }
+        
+        /* Texto superior con el nombre completo */
+        .text-above {
+            text-align: center;
+            color: #fff;
+            font-size: 26px;
+            font-weight: bold;
+            font-family: 'Segoe UI', 'Quicksand', system-ui, 'Helvetica Neue', sans-serif;
+            text-shadow: 0 0 12px #ff5e00, 0 0 5px #ffaa33;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #ffcc77, #ffaa44);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: none;
+            margin-bottom: 15px;
+            padding: 0 10px;
+        }
+        
+        /* Fallback para navegadores que no soporten gradient text */
+        @supports not (background-clip: text) {
+            .text-above {
+                color: #ffaa44;
+                text-shadow: 0 0 8px #ff5e00;
+            }
+        }
+        
+        @media (max-width: 550px) {
+            .text-above {
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+        }
+        
+        /* Mensaje debajo de la flor: completamente legible */
+        .text-below {
+            position: relative;
+            font-size: 16px;
+            line-height: 1.65;
+            color: #fff5e6;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 22px 24px;
+            max-width: 750px;
+            width: 100%;
+            font-family: 'Segoe UI', 'Quicksand', system-ui, -apple-system, 'Roboto', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.3px;
+            word-break: break-word;
+            white-space: normal;
+            border: 1px solid rgba(255, 94, 0, 0.5);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 0 1px rgba(255, 94, 0, 0.2);
+            margin-top: 20px;
+        }
+        
+        /* Estilo especial para los corazones del final - que se vean hermosos */
+        .text-below {
+            font-weight: 500;
+        }
+        
+        /* Aseguramos que los corazones y emoticonos se vean grandes y brillantes */
+        .text-below {
+            font-size: 1.05rem;
+        }
+        
+        @media (max-width: 650px) {
+            .text-below {
+                font-size: 15px;
+                line-height: 1.6;
+                padding: 18px 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .text-below {
+                font-size: 14px;
+                padding: 16px 18px;
+                border-radius: 24px;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .text-below {
+                font-size: 18px;
+                line-height: 1.7;
+                max-width: 850px;
+                padding: 28px 32px;
+            }
+        }
+        
+        /* Decoración sutil sin modificar texto */
+        .flower-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        /* Hacemos que los corazones del final brillen */
+        .text-below {
+            transition: all 0.2s ease;
+        }
+    </style>
 </head>
 <body>
-
-<div class="flower">
-    <div class="text-above">De Reinaldo</div>
-    <div class="mid">
+    <div class="page-container">
+        <div class="flower-wrapper">
+            <!-- Texto superior con el nombre completo: "Para Hanelit Valeska Pagano de Liendo" -->
+            <div class="text-above">✨ Para Hanelit Valeska Pagano de Liendo ✨</div>
+            
+            <!-- Contenedor especial para que la flor se vea COMPLETA y centrada -->
+            <div class="flower-container">
+                <div class="flower">
+                    <div class="mid"></div>
+                    <div class="Petal1 p1"></div>
+                    <div class="Petal1 p2"></div>
+                    <div class="Petal1 p3"></div>
+                    <div class="Petal1 p4"></div>
+                    <div class="Petal2 p1"></div>
+                    <div class="Petal2 p2"></div>
+                    <div class="Petal2 p3"></div>
+                    <div class="Petal2 p4"></div>
+                    <div class="Petal3 p1"></div>
+                    <div class="Petal3 p2"></div>
+                    <div class="Petal3 p3"></div>
+                    <div class="Petal3 p4"></div>
+                </div>
+            </div>
+            
+            <!-- Mensaje COMPLETO E ÍNTEGRO, sin modificar absolutamente nada -->
+            <div class="text-below">Para ti,solo Pa ti hane recuerda que te amo mucho hoy solo hoy 21/03/26 quiero que sepas que te amo a pesar de que me quieren lejos sigo intentado por que te amo no pienses que te voy a dejar sola ni pienses que te voy a olvidar de ti quiero que pienses que esto es un juego y pronto el juego se acabara con un gran final es la vida real si pero pronto nos veremos y bueno espero que no me agarres rabia ni rencor con el tiempo ya que oiras muchas cosas de mi o que se yo para lavarte el cerebro o cosas que simplemente te atormentaran pero quiero que sepas que te amo hane no me falles si yo siempre te esperare y si conoces a alguien bueno espero que sea alguien de bien jejeje que te ame como yo no pude hacerlo sabes me arrepiento de tantas cosas que no hice contigo mi culona jejejeje y quiero que sepas cuanto te amo que estas palabras no son suficiente mi copito de nieve quisiera que sea fuerte y me esperes pero nadie manda en el corazon te amo mi vida pronto nos veremos jejeje te lo prometo la unica manera es que ya hayas conocido a alguien jeje y vea que eres feliz ya te amo te esperare siempre y para siempre y recuerda que para mi ya eres mi señorita liendo apesar que no es legal para mi si lo es te amo tanto y esta fue unas de las primeras flores amarilla que te di te vuelvo a dar para que veas todo lo que e estado esperando y todo lo que hecho por quererte amar no quiero hacerte daño solo quiero amarte por la eternidad la verdad te amo mi chiquita esto es para mi. ♥ Hane mi copito de nieve,mi culona, mi Señorita Liendo♥ <3</div>
+        </div>
     </div>
-    <div class="Petal1 p1">
-    </div>
-    <div class="Petal1 p2">
-    </div>
-    <div class="Petal1 p3">
-    </div>
-    <div class="Petal1 p4">
-    </div>
-    <div class="Petal2 p1">
-    </div>
-    <div class="Petal2 p2">
-    </div>
-    <div class="Petal2 p3">
-    </div>
-    <div class="Petal2 p4">
-    </div>
-    <div class="Petal3 p1">
-    </div>
-    <div class="Petal3 p2">
-    </div>
-    <div class="Petal3 p3">
-    </div>
-    <div class="Petal3 p4">
-    </div>
-    <div class="text-below">Para ti,solo Pa ti hane recuerda que te amo mucho hoy solo hoy 21/03/26 quiero que sepas que te amo a pesar de que me quieren lejos sigo intentado por que te amo no pienses que te voy a dejar sola ni pienses que te voy a olvidar de ti quiero que pienses que esto es un juego y pronto el juego se acabara con un gran final es la vida real si pero pronto nos veremos y bueno espero que no me agarres rabia ni rencor con el tiempo ya que oiras muchas cosas de mi o que se yo para lavarte el cerebro o cosas que simplemente te atormentaran pero quiero que sepas que te amo hane no me falles si yo siempre te esperare y si conoces a alguien bueno espero que sea alguien de bien jejeje que te ame como yo no pude hacerlo sabes me arrepiento de tantas cosas que no hice contigo mi culona jejejeje y quiero que sepas cuanto te amo que estas palabras no son suficiente mi copito de nieve quisiera que sea fuerte y me esperes pero nadie manda en el corazon te amo mi vida pronto nos veremos jejeje te lo prometo la unica manera es que ya hayas conocido a alguien jeje y vea que eres feliz ya te amo te esperare siempre y para siempre y recuerda que para mi ya eres mi señorita liendo apesar que no es legal para mi si lo es te amo tanto y esta fue unas de las primeras flores amarilla que te di te vuelvo a dar para que veas todo lo que e estado esperando y todo lo que hecho por quererte amar no quiero hacerte daño solo quiero amarte por la eternidad la verdad te amo mi chiquita esto es para mi. ♥ Hane mi copito de nieve,mi culona, mi Señorita Liendo♥ <3</div>
-  </div>/
-</body>/
+</body>
 </html>
