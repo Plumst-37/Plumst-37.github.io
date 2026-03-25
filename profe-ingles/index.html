@@ -3,117 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <title>Happy Birthday Miss Niria 💜</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: linear-gradient(135deg, #6a0dad, #b266ff, #d9b3ff);
-        height: 100vh;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-    }
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #4b0082, #8a2be2, #d8b4ff);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    .container {
-        text-align: center;
-        position: relative;
-    }
+/* Fondo con burbujas */
+.background span {
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: rgba(255,255,255,0.1);
+    animation: float 10s linear infinite;
+    bottom: -50px;
+    border-radius: 50%;
+}
 
-    h1 {
-        font-size: 3em;
-        text-shadow: 0 0 10px #fff;
-        animation: glow 2s infinite alternate;
-    }
+@keyframes float {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-1000px) scale(1.5); opacity: 0; }
+}
 
-    @keyframes glow {
-        from { text-shadow: 0 0 10px #fff; }
-        to { text-shadow: 0 0 25px #ffccff, 0 0 40px #ffffff; }
-    }
+/* Tarjeta */
+.card {
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255,255,255,0.2);
+    animation: fadeIn 2s ease;
+    color: white;
+}
 
-    /* Corazón */
-    .heart {
-        position: relative;
-        width: 120px;
-        height: 120px;
-        margin: 30px auto;
-        transform: rotate(-45deg);
-        background: #ff66cc;
-        animation: beat 1s infinite;
-    }
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(30px);}
+    to {opacity: 1; transform: translateY(0);}
+}
 
-    .heart:before,
-    .heart:after {
-        content: "";
-        position: absolute;
-        width: 120px;
-        height: 120px;
-        background: #ff66cc;
-        border-radius: 50%;
-    }
+h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.2em;
+    margin: 0;
+    text-shadow: 0 0 15px #fff;
+}
 
-    .heart:before {
-        top: -60px;
-        left: 0;
-    }
+/* Corazón premium */
+.heart {
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, #ff66cc, #cc00ff);
+    transform: rotate(-45deg);
+    margin: 30px auto;
+    position: relative;
+    animation: pulse 1.2s infinite;
+    box-shadow: 0 0 30px #ff99ff;
+}
 
-    .heart:after {
-        left: 60px;
-        top: 0;
-    }
+.heart::before,
+.heart::after {
+    content: "";
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, #ff66cc, #cc00ff);
+    border-radius: 50%;
+    position: absolute;
+}
 
-    @keyframes beat {
-        0% { transform: scale(1) rotate(-45deg); }
-        50% { transform: scale(1.2) rotate(-45deg); }
-        100% { transform: scale(1) rotate(-45deg); }
-    }
+.heart::before {
+    top: -60px;
+    left: 0;
+}
 
-    /* Estrellitas */
-    .star {
-        position: absolute;
-        width: 5px;
-        height: 5px;
-        background: white;
-        border-radius: 50%;
-        animation: twinkle 2s infinite alternate;
-    }
+.heart::after {
+    left: 60px;
+    top: 0;
+}
 
-    @keyframes twinkle {
-        from { opacity: 0.3; }
-        to { opacity: 1; }
-    }
+@keyframes pulse {
+    0% { transform: scale(1) rotate(-45deg); }
+    50% { transform: scale(1.15) rotate(-45deg); }
+    100% { transform: scale(1) rotate(-45deg); }
+}
 
-    /* Mensaje extra */
-    p {
-        font-size: 1.3em;
-        margin-top: 10px;
-    }
+p {
+    font-size: 1.2em;
+    margin: 10px 0;
+    opacity: 0.9;
+}
+
+/* Brillos */
+.glow {
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #fff; }
+    to { text-shadow: 0 0 30px #ffccff, 0 0 50px #fff; }
+}
+
 </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h1>💜 Happy Birthday, Miss Niria 💜</h1>
+<div class="background">
+    <span style="left:10%; animation-delay:0s"></span>
+    <span style="left:20%; animation-delay:2s"></span>
+    <span style="left:30%; animation-delay:4s"></span>
+    <span style="left:50%; animation-delay:1s"></span>
+    <span style="left:70%; animation-delay:3s"></span>
+    <span style="left:90%; animation-delay:5s"></span>
+</div>
+
+<div class="card">
+    <h1 class="glow">💜 Happy Birthday, Miss Niria 💜</h1>
 
     <div class="heart"></div>
 
-    <p>You are an amazing teacher! ✨</p>
-    <p>Wishing you a day full of happiness and love 💜</p>
-</div>
+    <p>You are not just a teacher,</p>
+    <p>you are an inspiration ✨</p>
 
-<!-- Estrellas -->
-<script>
-    for (let i = 0; i < 40; i++) {
-        let star = document.createElement("div");
-        star.className = "star";
-        star.style.top = Math.random() * window.innerHeight + "px";
-        star.style.left = Math.random() * window.innerWidth + "px";
-        star.style.animationDuration = (Math.random() * 2 + 1) + "s";
-        document.body.appendChild(star);
-    }
-</script>
+    <p>Thank you for your kindness and dedication 💜</p>
+
+    <p><b>Have a magical and beautiful day!</b> 🎂</p>
+</div>
 
 </body>
 </html>
