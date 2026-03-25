@@ -1,1 +1,119 @@
-hola
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday Miss Niria 💜</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #6a0dad, #b266ff, #d9b3ff);
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+
+    .container {
+        text-align: center;
+        position: relative;
+    }
+
+    h1 {
+        font-size: 3em;
+        text-shadow: 0 0 10px #fff;
+        animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+        from { text-shadow: 0 0 10px #fff; }
+        to { text-shadow: 0 0 25px #ffccff, 0 0 40px #ffffff; }
+    }
+
+    /* Corazón */
+    .heart {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin: 30px auto;
+        transform: rotate(-45deg);
+        background: #ff66cc;
+        animation: beat 1s infinite;
+    }
+
+    .heart:before,
+    .heart:after {
+        content: "";
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        background: #ff66cc;
+        border-radius: 50%;
+    }
+
+    .heart:before {
+        top: -60px;
+        left: 0;
+    }
+
+    .heart:after {
+        left: 60px;
+        top: 0;
+    }
+
+    @keyframes beat {
+        0% { transform: scale(1) rotate(-45deg); }
+        50% { transform: scale(1.2) rotate(-45deg); }
+        100% { transform: scale(1) rotate(-45deg); }
+    }
+
+    /* Estrellitas */
+    .star {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background: white;
+        border-radius: 50%;
+        animation: twinkle 2s infinite alternate;
+    }
+
+    @keyframes twinkle {
+        from { opacity: 0.3; }
+        to { opacity: 1; }
+    }
+
+    /* Mensaje extra */
+    p {
+        font-size: 1.3em;
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>💜 Happy Birthday, Miss Niria 💜</h1>
+
+    <div class="heart"></div>
+
+    <p>You are an amazing teacher! ✨</p>
+    <p>Wishing you a day full of happiness and love 💜</p>
+</div>
+
+<!-- Estrellas -->
+<script>
+    for (let i = 0; i < 40; i++) {
+        let star = document.createElement("div");
+        star.className = "star";
+        star.style.top = Math.random() * window.innerHeight + "px";
+        star.style.left = Math.random() * window.innerWidth + "px";
+        star.style.animationDuration = (Math.random() * 2 + 1) + "s";
+        document.body.appendChild(star);
+    }
+</script>
+
+</body>
+</html>
