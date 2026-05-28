@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-  
   <style>
     /* ----------------------------------------------------
        1. VARIABLES DE DISEÑO & ESTILOS GLOBALES (Plin Plin)
@@ -45,8 +44,9 @@
     
     body {
       font-family: var(--font-body);
-      color: var(--font-text);
-      background: radial-gradient(circle, var(--color-sky-light) 0%, var(--color-sky-dark) 100%);
+      color: var(--color-text);
+      /* Rayos de sol de circo celestes y blancos */
+      background: repeating-conic-gradient(from 0deg, #c2e9fb 0deg 15deg, #d8f0fc 15deg 30deg);
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
@@ -57,7 +57,7 @@
     }
     
     /* ----------------------------------------------------
-       2. ELEMENTOS FLOTANTES & DE ATMÓSFERA (Plin Plin)
+       2. ELEMENTOS DE FONDO (Parque de Diversiones 3D)
        ---------------------------------------------------- */
     /* Canvas de confeti permanente de fondo */
     #bg-confetti {
@@ -80,6 +80,107 @@
       pointer-events: none;
       z-index: 2;
       overflow: hidden;
+    }
+    
+    /* Rueda de la Fortuna (Ferris Wheel) en la izquierda del fondo */
+    .bg-ferris-wheel {
+      position: fixed;
+      bottom: -30px;
+      left: -100px;
+      width: 280px;
+      height: 280px;
+      opacity: 0.12;
+      z-index: 1;
+      pointer-events: none;
+      animation: spinWheel 45s infinite linear;
+      border: 6px solid var(--color-purple);
+      border-radius: 50%;
+    }
+    
+    .bg-ferris-wheel::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      background: var(--color-yellow);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 10px var(--color-yellow);
+    }
+    
+    /* Radios de la rueda */
+    .wheel-spoke {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: rgba(0,0,0,0.15);
+      transform-origin: center center;
+    }
+    .wheel-spoke:nth-child(1) { transform: rotate(0deg); }
+    .wheel-spoke:nth-child(2) { transform: rotate(30deg); }
+    .wheel-spoke:nth-child(3) { transform: rotate(60deg); }
+    .wheel-spoke:nth-child(4) { transform: rotate(90deg); }
+    .wheel-spoke:nth-child(5) { transform: rotate(120deg); }
+    .wheel-spoke:nth-child(6) { transform: rotate(150deg); }
+    
+    @keyframes spinWheel {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Carrusel de Caballitos en la derecha del fondo */
+    .bg-carousel {
+      position: fixed;
+      bottom: -10px;
+      right: -80px;
+      width: 240px;
+      height: 220px;
+      opacity: 0.12;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(to bottom, var(--color-yellow) 10%, transparent 15%, transparent 85%, var(--color-red) 90%);
+      border-left: 6px dashed var(--color-orange);
+      border-right: 6px dashed var(--color-orange);
+      border-radius: 20px;
+      animation: bobCarousel 4s infinite alternate ease-in-out;
+    }
+    
+    @keyframes bobCarousel {
+      from { transform: translateY(0); }
+      to { transform: translateY(-15px); }
+    }
+    
+    /* Globos aerostáticos flotando de fondo */
+    .bg-hot-air {
+      position: absolute;
+      width: 45px;
+      height: 60px;
+      background: radial-gradient(circle, var(--color-red) 40%, var(--color-yellow) 100%);
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      opacity: 0.2;
+      animation: floatHotAir 35s infinite linear;
+      bottom: -100px;
+    }
+    .bg-hot-air::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 17px;
+      width: 11px;
+      height: 6px;
+      background: #8e44ad;
+      border-radius: 1px;
+    }
+    
+    @keyframes floatHotAir {
+      0% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0; }
+      10% { opacity: 0.25; }
+      90% { opacity: 0.25; }
+      100% { transform: translateY(-110vh) translateX(80px) scale(1.1); opacity: 0; }
     }
     
     /* Nubes animadas */
@@ -167,7 +268,7 @@
       to { transform: rotate(8deg); }
     }
     
-    /* Estrellas flotantes y rotativas */
+    /* Estrellas flotantes */
     .atmosphere-star {
       position: absolute;
       width: 25px;
@@ -217,7 +318,6 @@
       display: block;
     }
     
-    /* Botón SALTAR elegante */
     #skip-btn {
       position: absolute;
       top: 25px;
@@ -246,7 +346,6 @@
       box-shadow: var(--shadow-neon-yellow);
     }
     
-    /* Fallback en caso de que falte el video (Con fondo Plin Plin) */
     .video-fallback-card {
       position: absolute;
       top: 0;
@@ -254,7 +353,7 @@
       width: 100%;
       height: 100%;
       background: linear-gradient(rgba(26, 15, 46, 0.8), rgba(62, 27, 95, 0.85)), url('imagene_plinplin/hero-mob.jpg') center/cover no-repeat;
-      display: none; /* Se activa por JS si el video falla */
+      display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -327,11 +426,11 @@
       width: 100%;
       max-width: 900px;
       margin: 0 auto;
-      padding: 40px 20px;
+      padding: 20px 10px;
       opacity: 0;
       transform: translateY(40px);
       transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
-      display: none; /* Se activa por JS tras cerrar intro */
+      display: none;
     }
     
     #main-content.visible {
@@ -340,321 +439,611 @@
       display: block;
     }
     
-    /* Encabezado Principal */
-    .main-header {
-      text-align: center;
-      margin-bottom: 50px;
-      position: relative;
-    }
-    
-    .avatar-container {
-      width: 180px;
-      height: 180px;
-      margin: 0 auto 20px auto;
-      position: relative;
-    }
-    
-    .avatar-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 8px solid var(--color-white);
-      box-shadow: var(--shadow-medium);
-      position: relative;
-      z-index: 5;
-    }
-    
-    .avatar-frame {
-      position: absolute;
-      top: -12px;
-      left: -12px;
-      right: -12px;
-      bottom: -12px;
-      border: 6px dashed var(--color-yellow);
-      border-radius: 50%;
-      animation: spinFrame 25s infinite linear;
-      z-index: 4;
-    }
-    
-    @keyframes spinFrame {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    
-    .invitation-title {
-      font-size: 42px;
-      color: var(--color-red);
-      text-shadow: 2px 2px 0px var(--color-white), 4px 4px 0px rgba(0,0,0,0.06);
-      margin-bottom: 10px;
-      letter-spacing: 0.5px;
-      animation: bouncyText 1.5s ease-in-out infinite alternate;
-    }
-    
-    @keyframes bouncyText {
-      from { transform: translateY(0); }
-      to { transform: translateY(-8px); }
-    }
-    
-    .sofi-name {
-      font-family: var(--font-fun);
-      font-size: 58px;
-      color: var(--color-blue);
-      text-shadow: 3px 3px 0px var(--color-white), 6px 6px 0px rgba(41, 182, 246, 0.2);
-      margin-bottom: 15px;
-      display: inline-block;
-    }
-    
-    .invitation-subtitle {
-      font-size: 20px;
-      background: var(--color-white);
-      padding: 10px 25px;
-      border-radius: 50px;
-      display: inline-block;
-      box-shadow: var(--shadow-soft);
-      font-weight: 600;
-      color: #576574;
-    }
-    
     /* ----------------------------------------------------
-       5. GALERÍA DE FOTOS (Polaroid Masonry - Sin textos fijos)
+       5. LA TARJETA DE INVITACIÓN DE CIRCO (Plin Plin style)
        ---------------------------------------------------- */
-    .gallery-section {
-      margin-bottom: 60px;
-    }
-    
-    .section-title {
-      text-align: center;
-      font-size: 34px;
-      color: var(--color-purple);
-      text-shadow: 2px 2px 0px var(--color-white);
-      margin-bottom: 35px;
-    }
-    
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 30px;
-      justify-items: center;
-    }
-    
-    .polaroid-card {
-      background: var(--color-white);
-      padding: 15px 15px 22px 15px; /* Margen inferior limpio, imitando Polaroid real vacía */
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-      border-radius: 4px;
-      width: 250px;
-      cursor: pointer;
+    #circus-invitation-card {
+      background: #fdfefe;
+      border: 8px solid white;
+      border-radius: 35px;
+      box-shadow: var(--shadow-medium), 0 25px 55px rgba(0,0,0,0.18);
       position: relative;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      padding: 55px 25px 25px 25px;
+      margin: 30px auto;
+      max-width: 500px;
+      width: 100%;
       overflow: hidden;
-      transform-origin: center;
+      text-align: center;
+      border-image: linear-gradient(135deg, var(--color-yellow) 0%, var(--color-orange) 50%, var(--color-red) 100%) 8;
     }
     
-    /* Cinta adhesiva decorativa */
-    .polaroid-tape {
+    /* Techo de Carpa de Circo */
+    .tent-peak {
       position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%) rotate(-3deg);
-      width: 90px;
-      height: 25px;
-      background: rgba(255, 213, 79, 0.7);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 48px;
+      background: repeating-linear-gradient(to right, var(--color-red) 0px, var(--color-red) 22px, white 22px, white 44px);
+      border-bottom: 5px solid var(--color-yellow);
+      z-index: 10;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    .tent-peak::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      width: 100%;
+      height: 12px;
+      background: radial-gradient(circle at 11px -4px, transparent 10px, var(--color-yellow) 11px, var(--color-yellow) 14px, transparent 15px);
+      background-size: 22px 20px;
+    }
+    
+    /* Guirnalda de Banderines pequeños del circo */
+    .card-bunting {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      position: absolute;
+      top: 48px;
+      left: 0;
+      width: 100%;
+      z-index: 9;
+      pointer-events: none;
+    }
+    .card-bunting span {
+      width: 0;
+      height: 0;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-top: 15px solid var(--color-red);
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+    }
+    .card-bunting span:nth-child(2n) { border-top-color: var(--color-yellow); }
+    .card-bunting span:nth-child(3n) { border-top-color: var(--color-blue); }
+    .card-bunting span:nth-child(4n) { border-top-color: var(--color-green); }
+    .card-bunting span:nth-child(5n) { border-top-color: var(--color-orange); }
+    
+    /* Marquesina del Letrero Superior */
+    .card-marquee {
+      background: white;
+      border: 5px solid var(--color-yellow);
+      border-radius: 20px;
+      padding: 15px 10px;
+      margin: 15px auto 20px auto;
+      max-width: 90%;
+      position: relative;
+      box-shadow: var(--shadow-soft), inset 0 0 15px rgba(255, 213, 79, 0.15);
+      z-index: 8;
+    }
+    
+    /* Bombillas Marquesina Animadas */
+    .marquee-bulbs {
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      right: -6px;
+      bottom: -6px;
+      border-radius: 24px;
+      pointer-events: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-content: space-between;
+      padding: 2px;
       z-index: 10;
     }
     
-    /* Marco colorido interno de la foto */
-    .photo-wrapper {
-      width: 100%;
-      height: 220px;
-      overflow: hidden;
-      border: 4px solid var(--color-white);
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-      border-radius: 3px;
+    .bulb {
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 5px white;
+      animation: blinkBulb 0.8s infinite alternate;
+      position: absolute;
+    }
+    .bulb:nth-child(2n) {
+      animation-delay: 0.4s;
+      background: var(--color-yellow);
+      box-shadow: 0 0 7px var(--color-yellow);
+    }
+    
+    @keyframes blinkBulb {
+      0% { opacity: 0.3; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1.15); filter: brightness(1.2); }
+    }
+    
+    .marquee-text-small {
+      font-size: 16px;
+      color: var(--color-red);
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+    .marquee-text-medium {
+      font-size: 20px;
+      color: var(--color-blue);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    
+    /* Bloques de Letras A-Ñ-I-T-O */
+    .marquee-letters-row {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+    .letter-box {
+      width: 46px;
+      height: 46px;
+      color: white;
+      font-size: 28px;
+      font-family: var(--font-fun);
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      border: 2px solid white;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
       position: relative;
     }
     
-    .polaroid-img {
+    /* Dot interior en los bloques imitando focos */
+    .letter-box::before {
+      content: '•';
+      position: absolute;
+      font-size: 10px;
+      top: 1px;
+      color: rgba(255,255,255,0.7);
+    }
+    
+    .letter-a { background: var(--color-red); transform: rotate(-5deg); }
+    .letter-n { background: var(--color-orange); transform: rotate(3deg); }
+    .letter-i { background: var(--color-yellow); color: var(--color-text) !important; transform: rotate(-3deg); }
+    .letter-t { background: var(--color-green); transform: rotate(5deg); }
+    .letter-o { background: var(--color-blue); transform: rotate(-2deg); }
+    
+    /* Cinta Azul 3D del Nombre */
+    .ribbon-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 15px auto;
+      width: 90%;
+      max-width: 350px;
+      z-index: 12;
+    }
+    .ribbon-center {
+      background: var(--color-blue);
+      color: white;
+      padding: 10px 20px;
+      font-size: 38px;
+      font-family: var(--font-fun);
+      border-radius: 8px;
+      text-align: center;
+      position: relative;
+      width: 100%;
+      box-shadow: 0 6px 15px rgba(41, 182, 246, 0.4);
+      border: 3px solid white;
+      z-index: 10;
+    }
+    .ribbon-text {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 0px rgba(0,0,0,0.15), -2px -2px 0px rgba(255,255,255,0.1);
+      display: inline-block;
+      animation: swingRibbon 3s infinite alternate ease-in-out;
+      transform-origin: center center;
+    }
+    
+    @keyframes swingRibbon {
+      from { transform: rotate(-1.5deg); }
+      to { transform: rotate(1.5deg); }
+    }
+    
+    /* Colas y pliegues laterales 3D */
+    .ribbon-flap-left, .ribbon-flap-right {
+      position: absolute;
+      top: 50%;
+      width: 25px;
+      height: 38px;
+      background: #0b76a6;
+      border: 2px solid white;
+      z-index: 8;
+      transform: translateY(-50%);
+    }
+    .ribbon-flap-left {
+      left: -16px;
+      border-radius: 6px 0 0 6px;
+      clip-path: polygon(100% 0, 0 50%, 100% 100%, 100% 0);
+    }
+    .ribbon-flap-right {
+      right: -16px;
+      border-radius: 0 6px 6px 0;
+      clip-path: polygon(0 0, 100% 50%, 0 100%, 0 0);
+    }
+    .ribbon-fold-left, .ribbon-fold-right {
+      position: absolute;
+      bottom: -6px;
+      border-style: solid;
+      z-index: 7;
+    }
+    .ribbon-fold-left {
+      left: 6px;
+      border-width: 6px 6px 0 0;
+      border-color: #064b6b transparent transparent transparent;
+    }
+    .ribbon-fold-right {
+      right: 6px;
+      border-width: 6px 0 0 6px;
+      border-color: #064b6b transparent transparent transparent;
+    }
+    
+    /* Sub-header "Mi 1 Añito" */
+    .card-sub-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 15px auto;
+      font-family: var(--font-fun);
+      font-size: 28px;
+      color: var(--color-purple);
+      text-shadow: 1px 1px 0 white;
+    }
+    
+    /* Número "1" de Marquesina */
+    .marquee-number-one {
+      position: relative;
+      display: inline-block;
+      font-size: 75px;
+      color: var(--color-red);
+      text-shadow: 2px 2px 0px white, 5px 5px 0px rgba(255, 74, 90, 0.15);
+      line-height: 1;
+      margin: 0 15px;
+      animation: pulseOne 1.5s infinite alternate ease-in-out;
+    }
+    
+    @keyframes pulseOne {
+      from { transform: scale(0.95); }
+      to { transform: scale(1.05); }
+    }
+    
+    /* Focos en el número 1 */
+    .one-bulbs {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .one-bulbs span {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 5px white;
+      animation: blinkBulb 0.6s infinite alternate;
+    }
+    .one-bulbs span:nth-child(1) { top: 12px; left: 16px; }
+    .one-bulbs span:nth-child(2) { top: 22px; left: 24px; animation-delay: 0.15s; }
+    .one-bulbs span:nth-child(3) { top: 38px; left: 25px; animation-delay: 0.3s; }
+    .one-bulbs span:nth-child(4) { top: 54px; left: 25px; animation-delay: 0.45s; }
+    .one-bulbs span:nth-child(5) { top: 62px; left: 14px; animation-delay: 0.2s; }
+    .one-bulbs span:nth-child(6) { top: 62px; left: 32px; animation-delay: 0.35s; }
+    
+    .card-description {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-text);
+      max-width: 85%;
+      margin: 10px auto 25px auto;
+      line-height: 1.5;
+    }
+    
+    /* ----------------------------------------------------
+       5.1. ESCENARIO CARAVANA CAROUSEL (Fotos de Sofi)
+       ---------------------------------------------------- */
+    .caravan-container {
+      position: relative;
+      width: 280px;
+      height: 330px;
+      margin: 25px auto;
+      border-radius: 20px;
+      border: 8px solid var(--color-yellow);
+      background: #111;
+      box-shadow: var(--shadow-medium), inset 0 0 25px rgba(0,0,0,0.8);
+      overflow: hidden;
+      z-index: 5;
+    }
+    
+    /* Telones de Teatro a los costados */
+    .caravan-curtain {
+      position: absolute;
+      top: 0;
+      width: 32px;
+      height: 100%;
+      background: var(--color-red);
+      z-index: 10;
+      box-shadow: 4px 0 10px rgba(0,0,0,0.4);
+      pointer-events: none;
+    }
+    .curtain-left {
+      left: 0;
+      border-radius: 0 15px 15px 0;
+      background: linear-gradient(to right, #b30012, var(--color-red));
+    }
+    .curtain-right {
+      right: 0;
+      border-radius: 15px 0 0 15px;
+      background: linear-gradient(to left, #b30012, var(--color-red));
+    }
+    
+    .caravan-stage {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    
+    .caravan-carousel-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    
+    .caravan-carousel-inner img {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+      transform: scale(0.92);
+      cursor: pointer;
+    }
+    .caravan-carousel-inner img.active {
+      opacity: 1;
+      transform: scale(1);
     }
     
-    /* Clases de colores de marcos */
-    .border-red { border-color: var(--color-red) !important; }
-    .border-yellow { border-color: var(--color-yellow) !important; }
-    .border-blue { border-color: var(--color-blue) !important; }
-    .border-green { border-color: var(--color-green) !important; }
-    .border-orange { border-color: var(--color-orange) !important; }
-    .border-purple { border-color: var(--color-purple) !important; }
+    /* Botones de Navegación del Escenario */
+    .stage-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(5px);
+      border: 2px solid white;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 15;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+    .stage-nav-btn:hover {
+      background: var(--color-yellow);
+      color: var(--color-text);
+      transform: translateY(-50%) scale(1.1);
+    }
+    .stage-prev { left: 40px; }
+    .stage-next { right: 40px; }
     
-    /* Clases de rotaciones aleatorias */
-    .rot-left-1 { transform: rotate(-2.5deg); }
-    .rot-right-1 { transform: rotate(2.8deg); }
-    .rot-left-2 { transform: rotate(-3.5deg); }
-    .rot-right-2 { transform: rotate(1.8deg); }
-    .rot-left-3 { transform: rotate(-1.5deg); }
-    .rot-right-3 { transform: rotate(3.2deg); }
+    /* ----------------------------------------------------
+       5.2. TABLA DE DETALLES PUNTEADA (Dashed Details Box)
+       ---------------------------------------------------- */
+    .dashed-details-box {
+      border: 4px dashed var(--color-purple);
+      border-radius: 18px;
+      padding: 20px 10px;
+      margin: 25px auto;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.95);
+      width: 95%;
+      box-shadow: var(--shadow-soft);
+    }
     
-    .polaroid-card:hover {
-      transform: scale(1.08) translateY(-10px) rotate(0deg) !important;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    .details-col {
+      flex: 1;
+      text-align: center;
+      padding: 2px;
+    }
+    
+    .col-divider {
+      width: 2px;
+      height: 55px;
+      background: var(--color-purple);
+      opacity: 0.25;
+    }
+    
+    .detail-icon {
+      font-size: 26px;
+      margin-bottom: 6px;
+      animation: heartbeat 2s infinite ease-in-out;
+    }
+    
+    .detail-label {
+      font-family: var(--font-fun);
+      font-size: 13px;
+      color: #95a5a6;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      letter-spacing: 0.5px;
+    }
+    
+    .detail-val {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+    
+    /* Cinta Inferior ★ ¡NO FALTES! ★ */
+    .bottom-ribbon {
+      background: var(--color-blue);
+      color: white;
+      padding: 10px;
+      font-family: var(--font-fun);
+      font-size: 18px;
+      letter-spacing: 1.5px;
+      border-radius: 10px;
+      border: 2px solid white;
+      box-shadow: var(--shadow-soft);
+      margin-top: 15px;
+      display: inline-block;
+      width: 100%;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+      animation: pulseOne 1.5s infinite alternate ease-in-out;
+    }
+    
+    /* ----------------------------------------------------
+       6. ADHESIVOS / AMIGOS DE PLIN PLIN FLOTANTES
+       ---------------------------------------------------- */
+    /* Contenedor de stickers en Desktop */
+    .friends-stickers-left, .friends-stickers-right {
+      position: absolute;
+      top: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      z-index: 10;
+    }
+    .friends-stickers-left { left: 40px; }
+    .friends-stickers-right { right: 40px; }
+    
+    /* El Sticker Circular de Feria */
+    .friend-sticker {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: var(--shadow-medium);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      border: 4px solid var(--color-yellow);
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: floatSticker 5s infinite alternate ease-in-out;
+    }
+    
+    .friend-sticker::after {
+      content: '';
+      position: absolute;
+      top: -3px; left: -3px; right: -3px; bottom: -3px;
+      border: 2px dashed rgba(0,0,0,0.15);
+      border-radius: 50%;
+    }
+    
+    /* Estrellitas en los stickers */
+    .sticker-star {
+      position: absolute;
+      font-size: 10px;
+      color: var(--color-yellow);
+      bottom: 2px;
+      right: 2px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    /* Colores del borde del sticker */
+    .border-pink { border-color: var(--color-red) !important; animation-delay: 0s; }
+    .border-purple { border-color: var(--color-purple) !important; animation-delay: 0.8s; }
+    .border-orange { border-color: var(--color-orange) !important; animation-delay: 1.6s; }
+    .border-yellow { border-color: var(--color-yellow) !important; animation-delay: 0.4s; }
+    .border-blue { border-color: var(--color-blue) !important; animation-delay: 1.2s; }
+    .border-magenta { border-color: #ff007f !important; animation-delay: 2s; }
+    
+    .friend-sticker:hover {
+      transform: scale(1.15) rotate(10deg);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
       z-index: 100;
     }
     
-    .polaroid-card:hover .polaroid-img {
-      transform: scale(1.1);
-    }
-
-    /* ----------------------------------------------------
-       5.1. SECCIÓN DE MEMES / RULETA DE TRAVESURAS
-       ---------------------------------------------------- */
-    .meme-section {
-      margin-bottom: 60px;
+    @keyframes floatSticker {
+      from { transform: translateY(0) rotate(-3deg); }
+      to { transform: translateY(-12px) rotate(3deg); }
     }
     
-    .meme-container {
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(10px);
-      border-radius: 30px;
-      padding: 40px 20px;
-      box-shadow: var(--shadow-medium);
-      border: 6px dashed var(--color-purple);
-      max-width: 500px;
-      margin: 0 auto;
-      position: relative;
-    }
-    
-    .meme-card {
-      width: 100%;
-      max-width: 320px;
-      margin: 0 auto;
-      background: white;
-      padding: 15px 15px 20px 15px;
-      box-shadow: var(--shadow-medium);
-      border-radius: 8px;
-      perspective: 1000px;
-      transform-style: preserve-3d;
-      transition: transform 0.6s ease-in-out;
-    }
-    
-    .meme-card.spinning {
-      transform: rotateY(360deg);
-    }
-    
-    .meme-photo-wrapper {
-      width: 100%;
-      height: 320px;
-      overflow: hidden;
-      position: relative;
-      border: 4px solid var(--color-text);
-      border-radius: 4px;
-    }
-    
-    #meme-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    /* Texto del Meme (Estilo Impacto con contorno negro pesado) */
-    .meme-text {
+    /* Badge Especial para Plin Plin con Globos en la tarjeta */
+    .plinplin-badge-container {
       position: absolute;
-      width: 100%;
-      left: 0;
-      text-align: center;
-      color: white;
-      font-family: var(--font-fun);
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-shadow: 
-        -2px -2px 0 #000,  
-         2px -2px 0 #000,
-        -2px  2px 0 #000,
-         2px  2px 0 #000,
-        -3px  0px 0 #000,
-         3px  0px 0 #000,
-         0px -3px 0 #000,
-         0px  3px 0 #000;
-      padding: 10px 5px;
-      text-transform: uppercase;
-      pointer-events: none;
-    }
-    
-    .meme-text-top {
-      top: 5px;
-    }
-    
-    .meme-text-bottom {
-      bottom: 5px;
-    }
-    
-    .btn-spin-meme {
-      background: var(--color-purple);
-      color: white;
-      font-size: 18px;
-      padding: 16px 30px;
-      border-radius: 50px;
-      border: none;
+      bottom: 120px;
+      left: -35px;
+      width: 90px;
+      height: 90px;
+      z-index: 15;
       cursor: pointer;
-      box-shadow: 0 6px 20px rgba(171, 71, 188, 0.4);
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .btn-spin-meme:hover {
-      background: #9c27b0;
-      transform: scale(1.08) translateY(-3px);
-      box-shadow: 0 10px 25px rgba(171, 71, 188, 0.6);
-    }
-    
-    /* ----------------------------------------------------
-       6. TARJETA RSVP - INTERACTIVA (¿Vienes?)
-       ---------------------------------------------------- */
-    .rsvp-section {
-      background: var(--color-white);
-      border-radius: 30px;
-      padding: 40px 30px;
-      box-shadow: var(--shadow-medium);
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto 50px auto;
-      border: 8px solid var(--color-yellow);
-      position: relative;
-      overflow: visible;
-    }
-    
-    /* Mascota Flotante e Interactiva */
-    .mascot-container {
-      position: absolute;
-      top: -65px;
-      right: -40px;
-      width: 110px;
-      height: 110px;
-      z-index: 20;
-      cursor: pointer;
-      animation: floatMascot 4s infinite alternate ease-in-out;
+      animation: floatSticker 4.5s infinite alternate ease-in-out;
       transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
-    .mascot-container:hover {
-      transform: scale(1.15) rotate(6deg) !important;
+    .plinplin-badge-container:hover {
+      transform: scale(1.2) rotate(6deg) !important;
     }
     
-    .mascot-img {
+    .plinplin-badge-img {
       width: 100%;
       height: 100%;
       border-radius: 50%;
       border: 5px solid var(--color-yellow);
       box-shadow: var(--shadow-medium);
       object-fit: cover;
+      position: relative;
+      z-index: 5;
     }
     
+    /* Globos pegados a Plin Plin */
+    .balloon-bundle {
+      position: absolute;
+      top: -30px;
+      right: -15px;
+      display: flex;
+      gap: 2px;
+      z-index: 1;
+    }
+    
+    .bundle-balloon {
+      width: 20px;
+      height: 25px;
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      display: inline-block;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      position: relative;
+    }
+    .bundle-balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 8px;
+      border-left: 2px solid transparent;
+      border-right: 2px solid transparent;
+      border-top: 3px solid rgba(0,0,0,0.2);
+    }
+    .color-red { background: var(--color-red); }
+    .color-yellow { background: var(--color-yellow); }
+    .color-blue { background: var(--color-blue); }
+    
+    /* Globo de Diálogo de Plin Plin */
     .mascot-bubble {
       position: absolute;
       background: white;
@@ -664,33 +1053,31 @@
       font-size: 11px;
       font-weight: 700;
       color: var(--color-text);
-      width: 150px;
-      top: -55px;
-      right: -25px;
+      width: 155px;
+      top: -65px;
+      left: 10px;
       box-shadow: var(--shadow-soft);
       animation: bubbleWave 2s infinite alternate ease-in-out;
-      transition: transform 0.2s ease;
+      pointer-events: none;
+      z-index: 12;
     }
     
     .mascot-bubble::after {
       content: '';
       position: absolute;
       bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 25%;
       border-width: 10px 8px 0;
       border-style: solid;
       border-color: white transparent;
       display: block;
       width: 0;
     }
-    
     .mascot-bubble::before {
       content: '';
       position: absolute;
       bottom: -13px;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 25%;
       border-width: 11px 9px 0;
       border-style: solid;
       border-color: var(--color-yellow) transparent;
@@ -699,30 +1086,42 @@
       z-index: -1;
     }
     
-    @keyframes floatMascot {
-      from { transform: translateY(0) rotate(-3deg); }
-      to { transform: translateY(-10px) rotate(3deg); }
-    }
-    
     @keyframes bubbleWave {
       from { transform: scale(0.95); }
       to { transform: scale(1.05); }
     }
     
+    /* ----------------------------------------------------
+       7. TARJETA RSVP - DISEÑADA COMO TAQUILLA DE BOLETOS
+       ---------------------------------------------------- */
+    .rsvp-section {
+      background: var(--color-white);
+      border-radius: 30px;
+      padding: 40px 30px;
+      box-shadow: var(--shadow-medium);
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto 50px auto;
+      border: 8px solid var(--color-yellow);
+      position: relative;
+      overflow: visible;
+      z-index: 6;
+    }
+    
     .rsvp-section::before {
       content: '🎪';
-      font-size: 50px;
+      font-size: 45px;
       position: absolute;
       top: -38px;
       left: 50%;
       transform: translateX(-50%);
-      background: var(--color-sky-light);
-      padding: 0 10px;
+      background: #c2e9fb;
+      padding: 0 12px;
       border-radius: 50%;
     }
     
     .rsvp-question {
-      font-size: 28px;
+      font-size: 26px;
       color: var(--color-purple);
       margin-bottom: 25px;
       text-shadow: 1px 1px 0px rgba(0,0,0,0.05);
@@ -732,14 +1131,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 30px;
+      gap: 25px;
       min-height: 80px;
       position: relative;
     }
     
     .btn {
-      padding: 16px 36px;
-      font-size: 20px;
+      padding: 15px 32px;
+      font-size: 18px;
       border-radius: 50px;
       cursor: pointer;
       border: none;
@@ -776,192 +1175,107 @@
     }
     
     /* ----------------------------------------------------
-       7. PANTALLA RECONSIDERAR (Sad Modal - Fotos aleatorias)
+       8. RULETA DE TRAVESURAS / MEMES DE SOFI
        ---------------------------------------------------- */
-    #sad-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(26, 26, 46, 0.95);
-      z-index: 20000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-      padding: 20px;
-    }
-    
-    #sad-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    
-    .sad-card {
-      background: white;
-      border-radius: 25px;
-      max-width: 480px;
-      width: 100%;
-      padding: 35px 25px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-      text-align: center;
-      border: 6px solid var(--color-red);
+    .meme-section {
+      margin-bottom: 50px;
       position: relative;
-      transform: scale(0.8);
-      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 6;
     }
     
-    #sad-overlay.active .sad-card {
-      transform: scale(1);
+    .meme-container {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      padding: 40px 20px;
+      box-shadow: var(--shadow-medium);
+      border: 6px dashed var(--color-purple);
+      max-width: 480px;
+      margin: 0 auto;
+      position: relative;
     }
     
-    .sad-img-container {
-      width: 160px;
-      height: 160px;
-      margin: 0 auto 20px auto;
-      border-radius: 50%;
-      border: 5px solid var(--color-red);
+    .meme-card {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+      background: white;
+      padding: 12px 12px 18px 12px;
+      box-shadow: var(--shadow-medium);
+      border-radius: 8px;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease-in-out;
+    }
+    
+    .meme-card.spinning {
+      transform: rotateY(360deg);
+    }
+    
+    .meme-photo-wrapper {
+      width: 100%;
+      height: 300px;
       overflow: hidden;
       position: relative;
+      border: 4px solid var(--color-text);
+      border-radius: 4px;
     }
     
-    .sad-img-container img {
+    #meme-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
     
-    .sad-img-container::after {
-      content: '😢';
-      font-size: 30px;
+    .meme-text {
       position: absolute;
-      bottom: 5px;
-      right: 5px;
-      animation: heartbeat 1s infinite alternate;
-    }
-    
-    .sad-title {
-      font-size: 26px;
-      color: var(--color-red);
-      margin-bottom: 15px;
-    }
-    
-    .sad-text {
-      font-size: 16px;
-      color: #555;
-      line-height: 1.6;
-      margin-bottom: 25px;
-    }
-    
-    .sad-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    
-    .btn-reconsider {
-      background: var(--color-green);
-      color: white;
-      font-size: 18px;
-      padding: 14px 25px;
-      justify-content: center;
       width: 100%;
+      left: 0;
+      text-align: center;
+      color: white;
+      font-family: var(--font-fun);
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-shadow: 
+        -2px -2px 0 #000,  
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000,
+        -3px  0px 0 #000,
+         3px  0px 0 #000,
+         0px -3px 0 #000,
+         0px  3px 0 #000;
+      padding: 10px 5px;
+      text-transform: uppercase;
+      pointer-events: none;
     }
+    .meme-text-top { top: 5px; }
+    .meme-text-bottom { bottom: 5px; }
     
-    .btn-confirm-no {
-      background: #f1f2f6;
-      color: #747d8c;
-      font-size: 14px;
-      padding: 10px 20px;
+    .btn-spin-meme {
+      background: var(--color-purple);
+      color: white;
+      font-size: 17px;
+      padding: 15px 28px;
       border-radius: 50px;
       border: none;
       cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    
-    .btn-confirm-no:hover {
-      background: #dfe4ea;
-      color: #2f3542;
-    }
-    
-    /* Anuncios de Circo Pop-up (Plin Plin) */
-    .circus-popup {
-      transform-origin: center;
-      animation: popInCircus 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    }
-    
-    @keyframes popInCircus {
-      0% { transform: scale(0.6) rotate(-15deg); opacity: 0; }
-      100% { transform: scale(1) rotate(var(--popup-rotation, 0deg)); opacity: 1; }
-    }
-    
-    /* Banderines de Circo Plin Plin */
-    .circus-bunting-garland {
-      display: flex;
-      justify-content: center;
-      gap: 5px;
-      margin-bottom: 15px;
-    }
-    
-    .circus-bunting-flag {
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-top: 18px solid var(--color-red);
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-      animation: swingFlag 1.5s infinite alternate ease-in-out;
-      transform-origin: top center;
-    }
-    
-    .circus-bunting-flag:nth-child(2n) {
-      border-top-color: var(--color-yellow);
-      animation-delay: 0.2s;
-    }
-    
-    .circus-bunting-flag:nth-child(3n) {
-      border-top-color: var(--color-blue);
-      animation-delay: 0.4s;
-    }
-    
-    .circus-bunting-flag:nth-child(4n) {
-      border-top-color: var(--color-green);
-      animation-delay: 0.6s;
-    }
-    
-    .circus-bunting-flag:nth-child(5n) {
-      border-top-color: var(--color-orange);
-      animation-delay: 0.8s;
-    }
-    
-    .header-mascot-img {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      border: 4px solid var(--color-yellow);
-      box-shadow: var(--shadow-soft);
+      box-shadow: 0 6px 20px rgba(171, 71, 188, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      animation: bounceHeaderMascot 3s infinite alternate ease-in-out;
-      display: inline-block;
     }
     
-    .header-mascot-img:hover {
-      transform: scale(1.15) rotate(5deg);
-      border-color: var(--color-red);
-      box-shadow: var(--shadow-medium);
+    .btn-spin-meme:hover {
+      background: #9c27b0;
+      transform: scale(1.08) translateY(-3px);
+      box-shadow: 0 10px 25px rgba(171, 71, 188, 0.6);
     }
     
-    @keyframes bounceHeaderMascot {
-      from { transform: translateY(0); }
-      to { transform: translateY(-6px); }
-    }
-
     /* ----------------------------------------------------
-       8. SECCIÓN DETALLES DEL EVENTO (Se activa al SÍ)
+       9. SECCIÓN DETALLES REVELADOS AL SÍ (Mapa & WhatsApp)
        ---------------------------------------------------- */
     #celebration-section {
       display: none;
@@ -969,6 +1283,8 @@
       transform: scale(0.95);
       transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       margin-top: 50px;
+      position: relative;
+      z-index: 6;
     }
     
     #celebration-section.active {
@@ -980,126 +1296,19 @@
     .invited-banner {
       background: linear-gradient(135deg, var(--color-red) 0%, var(--color-orange) 100%);
       color: white;
-      padding: 25px;
+      padding: 22px;
       border-radius: 20px;
-      font-size: 36px;
+      font-size: 32px;
       font-weight: 900;
-      margin-bottom: 40px;
+      margin-bottom: 35px;
       box-shadow: var(--shadow-medium);
       text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
       animation: waveText 1s ease-in-out infinite alternate;
     }
     
     @keyframes waveText {
-      0% { transform: skewX(-5deg) scale(1); }
-      100% { transform: skewX(5deg) scale(1.04); }
-    }
-    
-    /* Foto especial de confirmación (jhgjghj.jpeg) */
-    .celebration-photo-container {
-      text-align: center;
-      margin-bottom: 45px;
-    }
-    
-    .celebration-photo-img {
-      width: 280px;
-      height: 350px;
-      object-fit: cover;
-      border-radius: 20px;
-      border: 8px solid white;
-      box-shadow: var(--shadow-medium);
-      position: relative;
-      z-index: 2;
-      transition: transform 0.3s ease;
-    }
-    
-    .celebration-photo-img:hover {
-      transform: scale(1.05) rotate(-2.5deg);
-    }
-    
-    /* Poster Afiche Oficial Decorativo */
-    .circus-poster-container {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    
-    .circus-poster-img {
-      max-width: 100%;
-      width: 320px;
-      border-radius: 20px;
-      border: 8px solid white;
-      box-shadow: var(--shadow-medium);
-      transition: transform 0.3s ease;
-    }
-    
-    .circus-poster-img:hover {
-      transform: scale(1.05) rotate(2deg);
-    }
-    
-    /* Ficha tipo Boleto de Circo */
-    .party-ticket {
-      background: white;
-      border-radius: 25px;
-      overflow: hidden;
-      box-shadow: var(--shadow-medium);
-      margin-bottom: 40px;
-      border: 6px double var(--color-blue);
-      position: relative;
-    }
-    
-    .party-ticket::before, .party-ticket::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 30px;
-      height: 30px;
-      background: radial-gradient(circle, var(--color-sky-dark) 40%, transparent 45%);
-      z-index: 10;
-    }
-    .party-ticket::before { left: -15px; transform: translateY(-50%); }
-    .party-ticket::after { right: -15px; transform: translateY(-50%); }
-    
-    .ticket-header {
-      background: var(--color-blue);
-      color: white;
-      padding: 15px;
-      font-size: 22px;
-      font-family: var(--font-fun);
-      letter-spacing: 2px;
-    }
-    
-    .ticket-body {
-      padding: 30px 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-    }
-    
-    .info-pod {
-      text-align: center;
-      padding: 10px;
-    }
-    
-    .info-icon {
-      font-size: 40px;
-      margin-bottom: 10px;
-      display: block;
-      animation: heartbeat 2s infinite ease-in-out;
-    }
-    
-    .info-label {
-      font-family: var(--font-fun);
-      font-size: 14px;
-      color: #95a5a6;
-      text-transform: uppercase;
-      margin-bottom: 5px;
-      letter-spacing: 1px;
-    }
-    
-    .info-value {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--color-text);
+      0% { transform: skewX(-4deg) scale(1); }
+      100% { transform: skewX(4deg) scale(1.03); }
     }
     
     /* Mapa embebido */
@@ -1118,25 +1327,29 @@
       font-family: var(--font-fun);
       font-size: 18px;
       letter-spacing: 0.5px;
+      text-align: center;
     }
     
     /* Botón de Confirmación por WhatsApp */
     .whatsapp-container {
       margin-top: 30px;
+      text-align: center;
     }
     
     .btn-whatsapp {
       background: #25d366;
       color: white;
-      font-size: 22px;
-      padding: 20px 45px;
+      font-size: 20px;
+      padding: 18px 40px;
       border-radius: 50px;
       text-decoration: none;
       box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      font-weight: bold;
       animation: buttonPulse 2.5s infinite;
+      transition: all 0.3s ease;
     }
     
     .btn-whatsapp:hover {
@@ -1152,7 +1365,48 @@
     }
     
     /* ----------------------------------------------------
-       9. LIGHTBOX (Visualizador de Fotos grande con cierre arreglado)
+       10. PANTALLA RECONSIDERAR (Sad Modal & Cascada Anuncios)
+       ---------------------------------------------------- */
+    /* Anuncios de Circo Pop-up (Plin Plin) */
+    .circus-popup {
+      transform-origin: center;
+      animation: popInCircus 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    
+    @keyframes popInCircus {
+      0% { transform: scale(0.6) rotate(-15deg); opacity: 0; }
+      100% { transform: scale(1) rotate(var(--popup-rotation, 0deg)); opacity: 1; }
+    }
+    
+    .circus-bunting-garland {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+    
+    .circus-bunting-flag {
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 18px solid var(--color-red);
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+      animation: swingFlag 1.5s infinite alternate ease-in-out;
+      transform-origin: top center;
+    }
+    .circus-bunting-flag:nth-child(2n) { border-top-color: var(--color-yellow); animation-delay: 0.2s; }
+    .circus-bunting-flag:nth-child(3n) { border-top-color: var(--color-blue); animation-delay: 0.4s; }
+    .circus-bunting-flag:nth-child(4n) { border-top-color: var(--color-green); animation-delay: 0.6s; }
+    .circus-bunting-flag:nth-child(5n) { border-top-color: var(--color-orange); animation-delay: 0.8s; }
+    
+    @keyframes swingFlag {
+      from { transform: rotate(-10deg); }
+      to { transform: rotate(10deg); }
+    }
+    
+    /* ----------------------------------------------------
+       11. LIGHTBOX (Visualizador de Fotos con Filtros)
        ---------------------------------------------------- */
     #lightbox {
       position: fixed;
@@ -1188,7 +1442,7 @@
     .lightbox-img-wrapper {
       border: 8px solid white;
       border-radius: 8px;
-      overflow: visible; /* Habilita que las decoraciones sobresalgan */
+      overflow: visible;
       box-shadow: 0 10px 40px rgba(0,0,0,0.5);
       max-height: 65vh;
       background: #111;
@@ -1202,17 +1456,6 @@
       display: block;
     }
     
-    #lightbox-caption {
-      color: white;
-      margin-top: 15px;
-      font-size: 20px;
-      font-family: var(--font-fun);
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-      letter-spacing: 0.5px;
-      text-align: center;
-    }
-    
-    /* Botón flotante superior fixed para asegurar accesibilidad en móviles */
     .lightbox-close {
       position: fixed;
       top: 20px;
@@ -1256,20 +1499,10 @@
       transition: color 0.2s ease;
       z-index: 30100;
     }
+    .lightbox-nav:hover { color: var(--color-yellow); }
+    .lightbox-prev { left: -80px; }
+    .lightbox-next { right: -80px; }
     
-    .lightbox-nav:hover {
-      color: var(--color-yellow);
-    }
-    
-    .lightbox-prev {
-      left: -80px;
-    }
-    
-    .lightbox-next {
-      right: -80px;
-    }
-
-    /* Barra de herramientas para filtros en Lightbox */
     .lightbox-toolbar {
       margin-top: 25px;
       background: rgba(255, 255, 255, 0.15);
@@ -1296,19 +1529,16 @@
       font-weight: 700;
       transition: all 0.2s ease;
     }
-    
     .filter-btn.active {
       background: var(--color-yellow);
       color: var(--color-text);
       box-shadow: var(--shadow-neon-yellow);
     }
-    
     .filter-btn:hover {
       transform: scale(1.05);
       background: rgba(255, 255, 255, 0.35);
     }
-
-    /* Leyenda flotante indicando cómo cerrar */
+    
     .lightbox-hint {
       color: rgba(255, 255, 255, 0.6);
       font-size: 12px;
@@ -1316,38 +1546,117 @@
       font-weight: 500;
       text-shadow: 0 1px 2px rgba(0,0,0,0.5);
     }
-
-    /* Animaciones filtros */
+    
     @keyframes pulseFilter {
       from { transform: translate(-50%, -50%) scale(0.9); }
       to { transform: translate(-50%, -50%) scale(1.1); }
     }
-    
     @keyframes bobFilter {
       from { transform: translate(-50%, -55%); }
       to { transform: translate(-50%, -45%); }
     }
     
-    /* Responsividad */
+    /* ----------------------------------------------------
+       12. RESPONSIVIDAD MÓVIL
+       ---------------------------------------------------- */
+    @media (max-width: 900px) {
+      .friends-stickers-left, .friends-stickers-right {
+        display: none; /* Ocultamos stickers laterales en tabletas pequeñas y móviles para no amontonar */
+      }
+    }
+    
     @media (max-width: 768px) {
-      .invitation-title { font-size: 32px; }
-      .sofi-name { font-size: 46px; }
-      .invitation-subtitle { font-size: 16px; }
-      .gallery-grid { gap: 20px; }
-      .polaroid-card { width: 45%; min-width: 140px; padding: 8px 8px 15px 8px; }
-      .photo-wrapper { height: 140px; }
+      body {
+        /* Rayos de circo más densos y pequeños en móviles */
+        background: repeating-conic-gradient(from 0deg, #c2e9fb 0deg 20deg, #d8f0fc 20deg 40deg);
+      }
+      
+      #circus-invitation-card {
+        max-width: 95%;
+        padding: 45px 12px 20px 12px;
+        margin: 15px auto;
+      }
+      
+      .tent-peak {
+        height: 38px;
+        background: repeating-linear-gradient(to right, var(--color-red) 0px, var(--color-red) 15px, white 15px, white 30px);
+      }
+      .tent-peak::after {
+        bottom: -10px;
+        height: 10px;
+        background: radial-gradient(circle at 8px -3px, transparent 8px, var(--color-yellow) 9px, var(--color-yellow) 11px, transparent 12px);
+        background-size: 16px 16px;
+      }
+      
+      .card-bunting { top: 38px; }
+      .card-bunting span {
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 11px solid var(--color-red);
+      }
+      
+      .letter-box {
+        width: 36px;
+        height: 36px;
+        font-size: 22px;
+      }
+      
+      .ribbon-center {
+        font-size: 30px;
+        padding: 8px 15px;
+      }
+      .ribbon-flap-left, .ribbon-flap-right {
+        height: 28px;
+        width: 20px;
+      }
+      .ribbon-flap-left { left: -12px; }
+      .ribbon-flap-right { right: -12px; }
+      .ribbon-fold-left { left: 4px; border-width: 4px 4px 0 0; bottom: -4px; }
+      .ribbon-fold-right { right: 4px; border-width: 4px 0 0 4px; bottom: -4px; }
+      
+      .marquee-number-one {
+        font-size: 60px;
+        margin: 0 10px;
+      }
+      
+      .one-bulbs span {
+        width: 5px;
+        height: 5px;
+      }
+      .one-bulbs span:nth-child(1) { top: 10px; left: 13px; }
+      .one-bulbs span:nth-child(2) { top: 18px; left: 19px; }
+      .one-bulbs span:nth-child(3) { top: 30px; left: 20px; }
+      .one-bulbs span:nth-child(4) { top: 43px; left: 20px; }
+      .one-bulbs span:nth-child(5) { top: 50px; left: 11px; }
+      .one-bulbs span:nth-child(6) { top: 50px; left: 25px; }
+      
+      .caravan-container {
+        width: 230px;
+        height: 270px;
+      }
+      
+      .stage-prev { left: 35px; }
+      .stage-next { right: 35px; }
+      
+      .dashed-details-box {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 10px;
+      }
+      .col-divider {
+        width: 60%;
+        height: 2px;
+      }
+      
       .btn { font-size: 16px; padding: 12px 24px; }
+      .rsvp-buttons { gap: 15px; }
+      .invited-banner { font-size: 24px; padding: 15px; }
+      
       .lightbox-prev { left: 0; background: rgba(0,0,0,0.4); border-radius: 0 8px 8px 0; }
       .lightbox-next { right: 0; background: rgba(0,0,0,0.4); border-radius: 8px 0 0 8px; }
       .lightbox-close { top: 15px; right: 15px; width: 40px; height: 40px; font-size: 22px; }
-      .ticket-body { grid-template-columns: 1fr; }
-      .rsvp-buttons { gap: 15px; }
-      .invited-banner { font-size: 26px; }
-      .mascot-container { width: 90px; height: 90px; top: -55px; right: -15px; }
-      .mascot-bubble { font-size: 10px; width: 110px; right: -10px; }
       .lightbox-toolbar { border-radius: 20px; padding: 10px; max-width: 95%; }
       .filter-btn { font-size: 11px; padding: 6px 12px; }
-      .celebration-photo-img { width: 200px; height: 250px; }
     }
   </style>
 </head>
@@ -1364,6 +1673,23 @@
   <div class="atmosphere-layer" id="atmosphere">
     <!-- Generado dinámicamente mediante JS -->
   </div>
+
+  <!-- Rueda de la Fortuna de fondo celestita -->
+  <div class="bg-ferris-wheel">
+    <div class="wheel-spoke"></div>
+    <div class="wheel-spoke"></div>
+    <div class="wheel-spoke"></div>
+    <div class="wheel-spoke"></div>
+    <div class="wheel-spoke"></div>
+    <div class="wheel-spoke"></div>
+  </div>
+  
+  <!-- Carrusel de Caballitos de fondo celestita -->
+  <div class="bg-carousel"></div>
+  
+  <!-- Globos aerostáticos flotando de fondo -->
+  <div class="bg-hot-air" style="left: 8%; animation-duration: 45s; animation-delay: -5s;"></div>
+  <div class="bg-hot-air" style="left: 85%; animation-duration: 35s; animation-delay: -15s; background: radial-gradient(circle, var(--color-blue) 40%, var(--color-green) 100%);"></div>
 
   <!-- ====================================================
        3. INTRO EN PANTALLA COMPLETA (Video / Fallback)
@@ -1389,56 +1715,167 @@
     </div>
   </div>
 
+  <!-- Adhesivos / Stickers de los amigos de Plin Plin flotantes en Desktop -->
+  <div class="friends-stickers-left">
+    <div class="friend-sticker border-pink" title="Hoggie"><span class="sticker-emoji">🐷</span><span class="sticker-star">★</span></div>
+    <div class="friend-sticker border-purple" title="Tuni"><span class="sticker-emoji">🐘</span><span class="sticker-star">★</span></div>
+    <div class="friend-sticker border-orange" title="Milpo"><span class="sticker-emoji">🐻</span><span class="sticker-star">★</span></div>
+  </div>
+  <div class="friends-stickers-right">
+    <div class="friend-sticker border-yellow" title="Acra"><span class="sticker-emoji">🐰</span><span class="sticker-star">★</span></div>
+    <div class="friend-sticker border-blue" title="Bam"><span class="sticker-emoji">🐦</span><span class="sticker-star">★</span></div>
+    <div class="friend-sticker border-magenta" title="Nuni"><span class="sticker-emoji">🐱</span><span class="sticker-star">★</span></div>
+  </div>
+
   <!-- ====================================================
        4. CONTENIDO PRINCIPAL DE LA INVITACIÓN
        ==================================================== -->
   <div id="main-content">
     
-    <!-- Encabezado -->
-    <header class="main-header">
-      <!-- Guirnalda de Banderines de Circo Plin Plin -->
-      <div class="circus-bunting-garland" style="margin-top: -10px; margin-bottom: 25px;">
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
-        <div class="circus-bunting-flag"></div>
+    <!-- ----------------------------------------------------
+         LA TARJETA DE INVITACIÓN DE CIRCO DE SOFÍA
+         ---------------------------------------------------- -->
+    <div id="circus-invitation-card">
+      <!-- Techo de Carpa de Circo -->
+      <div class="tent-peak"></div>
+      
+      <!-- Guirnalda de Banderines pequeños -->
+      <div class="card-bunting">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
       </div>
-      <div class="avatar-container">
-        <div class="avatar-frame"></div>
-        <img src="fotos sofi/WhatsApp Image 2026-05-19 at 1.01.13 PM.jpeg" alt="Sofi" class="avatar-img">
-      </div>
-      <h2 class="invitation-title">¡Estás Invitado al Cumpleaños de!</h2>
-      <h1 class="sofi-name">Sofía 💕</h1>
-      <!-- Avatar de Plin Plin Badge -->
-      <div style="text-align: center; margin: 15px 0;">
-        <img src="imagene_plinplin/channels4_profile.jpg" alt="Plin Plin" class="header-mascot-img">
-      </div>
-      <div>
-        <span class="invitation-subtitle">¡Acompáñame a celebrar un año de magia y diversión! 🎪🎈</span>
-      </div>
-    </header>
 
-    <!-- Galería de Fotos Polaroid (Sin leyendas fijas) -->
-    <section class="gallery-section">
-      <h2 class="section-title">✨ Mis Fotos de Cumpleaños ✨</h2>
-      <div class="gallery-grid" id="photo-gallery">
-        <!-- Generado dinámicamente con JS -->
+      <!-- Letrero Marquesina -->
+      <div class="card-marquee">
+        <!-- Bombillas LED parpadeantes -->
+        <div class="marquee-bulbs">
+          <div class="bulb" style="top: -2px; left: 10%;"></div>
+          <div class="bulb" style="top: -2px; left: 30%;"></div>
+          <div class="bulb" style="top: -2px; left: 50%;"></div>
+          <div class="bulb" style="top: -2px; left: 70%;"></div>
+          <div class="bulb" style="top: -2px; left: 90%;"></div>
+          
+          <div class="bulb" style="bottom: -2px; left: 10%;"></div>
+          <div class="bulb" style="bottom: -2px; left: 30%;"></div>
+          <div class="bulb" style="bottom: -2px; left: 50%;"></div>
+          <div class="bulb" style="bottom: -2px; left: 70%;"></div>
+          <div class="bulb" style="bottom: -2px; left: 90%;"></div>
+          
+          <div class="bulb" style="left: -2px; top: 30%;"></div>
+          <div class="bulb" style="left: -2px; top: 60%;"></div>
+          <div class="bulb" style="right: -2px; top: 30%;"></div>
+          <div class="bulb" style="right: -2px; top: 60%;"></div>
+        </div>
+        
+        <div class="marquee-text-small">¡ESTÁS INVITADO!</div>
+        <div class="marquee-text-medium">A MI PRIMER</div>
+        <div class="marquee-letters-row">
+          <span class="letter-box letter-a">A</span>
+          <span class="letter-box letter-n">Ñ</span>
+          <span class="letter-box letter-i">I</span>
+          <span class="letter-box letter-t">T</span>
+          <span class="letter-box letter-o">O</span>
+        </div>
+      </div>
+
+      <!-- Cinta Azul 3D del Nombre -->
+      <div class="ribbon-wrapper">
+        <div class="ribbon-flap-left"></div>
+        <div class="ribbon-center">
+          <span class="ribbon-text">Sofía</span>
+        </div>
+        <div class="ribbon-flap-right"></div>
+        <div class="ribbon-fold-left"></div>
+        <div class="ribbon-fold-right"></div>
+      </div>
+
+      <!-- Sub-header "Mi 1 Añito" con 1 Marquesina -->
+      <div class="card-sub-header">
+        <span>Mi</span>
+        <div class="marquee-number-one">
+          <span>1</span>
+          <div class="one-bulbs">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <span>Añito</span>
+      </div>
+
+      <!-- Texto descriptivo -->
+      <p class="card-description">
+        Nuestra bebé celebra su primer añito y queremos compartirlo contigo 🎪🍿
+      </p>
+
+      <!-- Escenario de Fotos de Sofía (Caravana / Telón) -->
+      <div class="caravan-container">
+        <div class="caravan-curtain curtain-left"></div>
+        <div class="caravan-curtain curtain-right"></div>
+        <div class="caravan-stage">
+          <div class="caravan-carousel-inner" id="stage-carousel">
+            <!-- Fotos de Sofía que rotan de forma automática, ampliables al Lightbox -->
+            <img src="fotos sofi/WhatsApp Image 2026-05-19 at 1.01.13 PM.jpeg" alt="Sofía" class="active" onclick="openLightbox(0)">
+            <img src="fotos sofi/WhatsApp Image 2026-05-26 at 10.46.56 PM.jpeg" alt="Sofía" onclick="openLightbox(1)">
+            <img src="fotos sofi/WhatsApp Image 2026-05-26 at 10.46.57 PM.jpeg" alt="Sofía" onclick="openLightbox(2)">
+            <img src="fotos sofi/WhatsApp Image 2026-05-26 at 10.46.58 PM.jpeg" alt="Sofía" onclick="openLightbox(3)">
+            <img src="fotos sofi/WhatsApp Image 2026-05-26 at 10.46.59 PM.jpeg" alt="Sofía" onclick="openLightbox(4)">
+            <img src="fotos sofi/WhatsApp Image 2026-05-26 at 10.47.00 PM.jpeg" alt="Sofía" onclick="openLightbox(5)">
+            <img src="fotos sofi/dfgdg.jpeg" alt="Sofía" onclick="openLightbox(6)">
+            <img src="fotos sofi/ghfgh.jpeg" alt="Sofía" onclick="openLightbox(7)">
+          </div>
+          <!-- Controles del escenario -->
+          <button class="stage-nav-btn stage-prev" onclick="prevStagePhoto(event)">‹</button>
+          <button class="stage-nav-btn stage-next" onclick="nextStagePhoto(event)">›</button>
+        </div>
+      </div>
+
+      <!-- Plin Plin Badge interactiva integrada en la tarjeta -->
+      <div class="plinplin-badge-container" onclick="speakMascot()">
+        <img src="imagene_plinplin/channels4_profile.jpg" alt="Plin Plin" class="plinplin-badge-img">
+        <div class="balloon-bundle">
+          <span class="bundle-balloon color-red"></span>
+          <span class="bundle-balloon color-yellow"></span>
+          <span class="bundle-balloon color-blue"></span>
+        </div>
+        <div class="mascot-bubble">¡Sofi te espera para celebrar! 🎈🤡<br><small style="color:var(--color-purple); font-size:9px; font-weight:bold;">(¡Hazme clic! 👆)</small></div>
+      </div>
+
+      <!-- Tabla de Detalles Descontinuada (Fecha, Hora, Lugar) -->
+      <div class="dashed-details-box">
+        <div class="details-col">
+          <div class="detail-icon">📅</div>
+          <div class="detail-label">Fecha</div>
+          <div class="detail-val" id="event-date-text">Sábado, 21 de Noviembre</div>
+        </div>
+        <div class="col-divider"></div>
+        <div class="details-col">
+          <div class="detail-icon">⏰</div>
+          <div class="detail-label">Hora</div>
+          <div class="detail-val">16:30 Hrs<br>(4:30 PM)</div>
+        </div>
+        <div class="col-divider"></div>
+        <div class="details-col">
+          <div class="detail-icon">📍</div>
+          <div class="detail-label">Lugar</div>
+          <div class="detail-val" style="font-size: 11px;">1 de Mayo #1150, Población Berta</div>
+        </div>
+      </div>
+
+      <!-- Cinta de Cierre "NO FALTES" -->
+      <div class="bottom-ribbon">
+        <span>★ ¡NO FALTES! ★</span>
+      </div>
+    </div>
+
+    <!-- Tarjeta de Confirmación Interactiva (RSVP) -->
+    <section class="rsvp-section" id="rsvp-card" style="margin-top: 30px; margin-bottom: 30px;">
+      <h2 class="rsvp-question">¿Vas a venir a mi cumpleaños? 🎂🍿</h2>
+      <div class="rsvp-buttons">
+        <button class="btn btn-yes" onclick="handleYesResponse()">SÍ, ¡OBVIO! 😍🎈</button>
+        <button class="btn btn-no" id="no-btn">NO 😢</button>
       </div>
     </section>
 
-    <!-- SECCIÓN INNOVADORA: RULETA DE TRAVESURAS / MEMES DE SOFI -->
-    <section class="meme-section">
+    <!-- MÓDULO RULETA DE TRAVESURAS / MEMES DE SOFI -->
+    <section class="meme-section" style="margin-bottom: 30px;">
       <h2 class="section-title" style="text-align: center; margin-bottom: 25px;">🎡 ¡La Ruleta de Travesuras de Sofi! 🎡</h2>
       <div class="meme-container">
         <div class="meme-card" id="meme-card">
@@ -1455,19 +1892,6 @@
         </div>
       </div>
     </section>
-    <section class="rsvp-section" id="rsvp-card">
-      <!-- Mascota de Plin Plin Flotante e Interactiva (onclick) -->
-      <div class="mascot-container" onclick="speakMascot()">
-        <img src="imagene_plinplin/channels4_profile.jpg" alt="Mascota Plin Plin" class="mascot-img">
-        <div class="mascot-bubble">¡Sofi te espera para celebrar! 🎈🤡<br><small style="color:var(--color-purple); font-size:9px; font-weight:bold;">(¡Hazme clic! 👆)</small></div>
-      </div>
-      
-      <h2 class="rsvp-question" style="text-align: left; max-width: 75%;">¿Vas a venir a mi cumpleaños? 🎂🍿</h2>
-      <div class="rsvp-buttons">
-        <button class="btn btn-yes" onclick="handleYesResponse()">SÍ, ¡OBVIO! 😍🎈</button>
-        <button class="btn btn-no" id="no-btn">NO 😢</button>
-      </div>
-    </section>
 
     <!-- Sección Especial que se revela con el SÍ -->
     <section id="celebration-section">
@@ -1476,47 +1900,21 @@
       </div>
 
       <!-- Foto especial de confirmación (jhgjghj.jpeg) -->
-      <div class="celebration-photo-container">
+      <div class="celebration-photo-container" style="text-align: center; margin-bottom: 35px;">
         <div style="position: relative; display: inline-block;">
-          <div style="position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; border: 4px dashed var(--color-yellow); border-radius: 20px; animation: spinFrame 30s infinite linear;"></div>
-          <img src="fotos sofi/jhgjghj.jpeg" alt="¡Sofi te espera!" class="celebration-photo-img">
+          <div style="position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; border: 4px dashed var(--color-yellow); border-radius: 20px; animation: spinWheel 30s infinite linear;"></div>
+          <img src="fotos sofi/jhgjghj.jpeg" alt="¡Sofi te espera!" style="width: 250px; height: 320px; object-fit: cover; border-radius: 20px; border: 6px solid white; box-shadow: var(--shadow-medium);">
         </div>
       </div>
 
-      <!-- Afiche Oficial de Plin Plin proporcionado por el usuario -->
-      <div class="circus-poster-container">
-        <img src="imagene_plinplin/ab67616d0000b2734c6fd7eebeeaa671adea1584.jpg" alt="Afiche Plin Plin" class="circus-poster-img">
-      </div>
-
-      <!-- Ficha Boleto de Fiesta (Se revela con el SÍ) -->
-      <div class="party-ticket">
-        <div class="ticket-header" style="text-align: center;">
-          🎟️ BOLETO MÁGICO DE FIESTA 🎟️
-        </div>
-        <div class="ticket-body">
-          <div class="info-pod">
-            <span class="info-icon">📅</span>
-            <span class="info-label">Día</span>
-            <span class="info-value" id="event-date-text">Sábado, 21 de Noviembre</span>
-          </div>
-          
-          <div class="info-pod">
-            <span class="info-icon">⏰</span>
-            <span class="info-label">Hora</span>
-            <span class="info-value">16:30 Hrs (4:30 PM)</span>
-          </div>
-          
-          <div class="info-pod">
-            <span class="info-icon">📍</span>
-            <span class="info-label">Lugar</span>
-            <span class="info-value" style="font-size: 15px;">1 de Mayo #1150, Población Berta</span>
-          </div>
-        </div>
+      <!-- Afiche Oficial de Plin Plin -->
+      <div class="circus-poster-container" style="text-align: center; margin-bottom: 35px;">
+        <img src="imagene_plinplin/ab67616d0000b2734c6fd7eebeeaa671adea1584.jpg" alt="Afiche Plin Plin" style="max-width: 100%; width: 280px; border-radius: 20px; border: 6px solid white; box-shadow: var(--shadow-medium);">
       </div>
 
       <!-- Mapa interactivo -->
       <div class="map-container">
-        <div class="map-header" style="text-align: center;">
+        <div class="map-header">
           🗺️ ¿Cómo llegar al circo de Sofi? 📍
         </div>
         <iframe 
@@ -1530,7 +1928,7 @@
       </div>
 
       <!-- Botón de Confirmación por WhatsApp -->
-      <div class="whatsapp-container" style="text-align: center;">
+      <div class="whatsapp-container">
         <a id="whatsapp-link" href="#" target="_blank" class="btn-whatsapp">
           Confirmar Asistencia por WhatsApp 💬🎁
         </a>
@@ -1594,23 +1992,8 @@
       { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.46.58 PM.jpeg', caption: '¡Qué gran día! ☀️' },
       { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.46.59 PM.jpeg', caption: 'Travesuras dulces 🍭' },
       { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.47.00 PM.jpeg', caption: '¡Feliz como una lombriz! 🐛' },
-      { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.47.01 PM.jpeg', caption: 'Sofi la exploradora 🌟' },
-      { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.47.02 PM.jpeg', caption: '¡A jugar! 🧸' },
-      { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.47.08 PM.jpeg', caption: 'Sonrisas de sol 💛' },
-      { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.47.14 PM.jpeg', caption: '¡Celebrando la vida! 🎉' },
       { url: 'fotos sofi/dfgdg.jpeg', caption: '¡Risas locas! 🤪' },
-      { url: 'fotos sofi/dfsdf.jpeg', caption: '¡Ojitos brillantes! 👀' },
-      { url: 'fotos sofi/fsdfsdf.jpeg', caption: '¡Abrazos fuertes! 🤗' },
-      { url: 'fotos sofi/gfdgdfg.jpeg', caption: '¡Siempre alegre! 😁' },
-      { url: 'fotos sofi/ghfgh.jpeg', caption: '¡Modo traviesa! 😈' },
-      { url: 'fotos sofi/hfghfghfgjh.jpeg', caption: '¡Hermosa princesita! 👑' },
-      { url: 'fotos sofi/hgfhfgh.jpeg', caption: 'Momentos inolvidables 📸' },
-      { url: 'fotos sofi/hgohuih.jpeg', caption: '¡Jugando en el parque! 🌳' },
-      { url: 'fotos sofi/hjkjhk.jpeg', caption: '¡Pura ternura! 🥰' },
-      { url: 'fotos sofi/jhgjghj.jpeg', caption: '¡Lista para la fiesta! 🥳' },
-      { url: 'fotos sofi/sdfsdf.jpeg', caption: '¡Carita preciosa! 😍' },
-      { url: 'fotos sofi/sdfsdfsdf.jpeg', caption: '¡Día de magia! 🪄' },
-      { url: 'fotos sofi/sfsdfsd.jpeg', caption: '¡Jugando a cantar! 🎤' }
+      { url: 'fotos sofi/ghfgh.jpeg', caption: '¡Modo traviesa! 😈' }
     ];
 
     /* ----------------------------------------------------
@@ -1652,6 +2035,54 @@
 
     let currentLightboxIndex = 0;
     let activeFilter = 'none';
+
+    /* ----------------------------------------------------
+       LÓGICA DEL ESCENARIO CARAVANA CAROUSEL (FOTOS SOFI)
+       ---------------------------------------------------- */
+    let currentStageIndex = 0;
+    let stageInterval;
+    
+    function showStagePhoto(index) {
+      const stagePhotos = document.querySelectorAll('#stage-carousel img');
+      if (stagePhotos.length === 0) return;
+      
+      if (index >= stagePhotos.length) {
+        currentStageIndex = 0;
+      } else if (index < 0) {
+        currentStageIndex = stagePhotos.length - 1;
+      } else {
+        currentStageIndex = index;
+      }
+      
+      stagePhotos.forEach((img, i) => {
+        if (i === currentStageIndex) {
+          img.classList.add('active');
+        } else {
+          img.classList.remove('active');
+        }
+      });
+      
+      resetStageInterval();
+    }
+    
+    function nextStagePhoto(event) {
+      if (event) event.stopPropagation();
+      showStagePhoto(currentStageIndex + 1);
+      playChimeEffect('pop');
+    }
+    
+    function prevStagePhoto(event) {
+      if (event) event.stopPropagation();
+      showStagePhoto(currentStageIndex - 1);
+      playChimeEffect('pop');
+    }
+    
+    function resetStageInterval() {
+      clearInterval(stageInterval);
+      stageInterval = setInterval(() => {
+        showStagePhoto(currentStageIndex + 1);
+      }, 4000);
+    }
 
     /* ----------------------------------------------------
        SINTETIZADOR DE SONIDOS (Web Audio API)
@@ -1729,10 +2160,12 @@
        ---------------------------------------------------- */
     document.addEventListener("DOMContentLoaded", () => {
       initAtmosphere();
-      renderGallery();
       initBackgroundConfetti();
       initStarTrailCursor();
       initMemeAutoSpin();
+      
+      // Inicializar auto-slide del escenario de Sofía
+      resetStageInterval();
       
       const waLink = document.getElementById('whatsapp-link');
       waLink.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
@@ -1923,25 +2356,7 @@
       animate();
     }
 
-    /* Sonido sutil de destello mágico al pasar por las Polaroids */
-    function playHoverSound() {
-      try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(1000 + Math.random() * 400, audioCtx.currentTime);
-        
-        gain.gain.setValueAtTime(0.012, audioCtx.currentTime); // Súper suave para no interrumpir
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-        
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.06);
-      } catch (e) {}
-    }
+
 
     /* ----------------------------------------------------
        MÓDULO DE INTERACTIVIDAD PARA LA MASCOTA PLIN PLIN
@@ -1959,7 +2374,7 @@
       }, 250);
       
       // Obtener el centro de la mascota para disparar los emojis
-      const mascot = document.querySelector('.mascot-container');
+      const mascot = document.querySelector('.plinplin-badge-container');
       if (mascot) {
         const rect = mascot.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
@@ -2047,43 +2462,7 @@
       }
     }
 
-    /* ----------------------------------------------------
-       RENDERIZADO DE LA GALERÍA DE FOTOS (Sin leyendas escritas abajo)
-       ---------------------------------------------------- */
-    function renderGallery() {
-      const grid = document.getElementById('photo-gallery');
-      const borders = ['border-red', 'border-yellow', 'border-blue', 'border-green', 'border-orange', 'border-purple'];
-      const rotations = ['rot-left-1', 'rot-right-1', 'rot-left-2', 'rot-right-2', 'rot-left-3', 'rot-right-3'];
-      
-      photoList.forEach((photo, index) => {
-        const card = document.createElement('div');
-        const rot = rotations[index % rotations.length];
-        card.className = `polaroid-card ${rot}`;
-        card.onclick = () => openLightbox(index);
-        card.onmouseenter = () => playHoverSound(); // Activar micro-sonido de magia
-        
-        const tape = document.createElement('div');
-        tape.className = 'polaroid-tape';
-        const tapeColors = ['rgba(255, 213, 79, 0.7)', 'rgba(41, 182, 246, 0.6)', 'rgba(255, 74, 90, 0.6)', 'rgba(102, 187, 106, 0.6)'];
-        tape.style.background = tapeColors[index % tapeColors.length];
-        card.appendChild(tape);
-        
-        const wrapper = document.createElement('div');
-        const border = borders[index % borders.length];
-        wrapper.className = `photo-wrapper ${border}`;
-        
-        const img = document.createElement('img');
-        img.src = photo.url;
-        img.alt = `Sofi ${index + 1}`;
-        img.className = 'polaroid-img';
-        img.loading = 'lazy';
-        
-        wrapper.appendChild(img);
-        card.appendChild(wrapper);
-        
-        grid.appendChild(card);
-      });
-    }
+
 
     /* ----------------------------------------------------
        RULETA INTERACTIVA DE MEMES / TRAVESURAS DE SOFI
