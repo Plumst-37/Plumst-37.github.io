@@ -1821,7 +1821,7 @@
   <!-- ====================================================
        AUDIO DE FONDO (Música Mágica)
        ==================================================== -->
-  <audio id="bg-music" loop>
+  <audio id="bg-music">
     <source src="musica/Invitación video digital de plim plim.mp3" type="audio/mp3">
     <source src="musica/Invitaci%C3%B3n%20video%20digital%20de%20plim%20plim.mp3" type="audio/mp3">
   </audio>
@@ -2271,10 +2271,16 @@
       const icon = btn.querySelector('.music-icon');
       
       if (music.paused) {
-        music.play();
-        btn.classList.add('playing');
-        icon.innerText = '🎵';
-        playChimeEffect('success');
+        if (music.ended) {
+          music.currentTime = 0;
+        }
+        music.play().then(() => {
+          btn.classList.add('playing');
+          icon.innerText = '🎵';
+          playChimeEffect('success');
+        }).catch(err => {
+          console.log("No se pudo iniciar la música:", err);
+        });
       } else {
         music.pause();
         btn.classList.remove('playing');
@@ -2282,6 +2288,65 @@
         playChimeEffect('pop');
       }
     }
+
+    // Detener la animación del botón de música si la canción termina (solo se reproduce una vez)
+    document.addEventListener("DOMContentLoaded", () => {
+      const music = document.getElementById('bg-music');
+      if (music) {
+        music.addEventListener('ended', () => {
+          const btn = document.getElementById('music-toggle-btn');
+          if (btn) {
+            btn.classList.remove('playing');
+            const icon = btn.querySelector('.music-icon');
+            if (icon) icon.innerText = '🔇';
+          }
+        });
+      }
+    });
+
+    // Controlar que el audio/video se detengan al salir de la aplicación
+    let wasMusicPlayingBeforeHide = false;
+    let wasVideoPlayingBeforeHide = false;
+    
+    document.addEventListener("visibilitychange", () => {
+      const music = document.getElementById('bg-music');
+      const btn = document.getElementById('music-toggle-btn');
+      const icon = btn ? btn.querySelector('.music-icon') : null;
+      const video = document.getElementById('intro-video');
+      const introOverlay = document.getElementById('intro-overlay');
+      
+      if (document.hidden) {
+        // Pausar música si estaba sonando
+        if (music && !music.paused) {
+          wasMusicPlayingBeforeHide = true;
+          music.pause();
+          if (btn) btn.classList.remove('playing');
+        } else {
+          wasMusicPlayingBeforeHide = false;
+        }
+        
+        // Pausar video de entrada si está reproduciéndose y el intro sigue visible
+        if (video && !video.paused && introOverlay && introOverlay.style.display !== 'none') {
+          wasVideoPlayingBeforeHide = true;
+          video.pause();
+        } else {
+          wasVideoPlayingBeforeHide = false;
+        }
+      } else {
+        // Reanudar música si estaba activa antes de salir
+        if (wasMusicPlayingBeforeHide && music && music.paused) {
+          music.play().then(() => {
+            if (btn) btn.classList.add('playing');
+            if (icon) icon.innerText = '🎵';
+          }).catch(err => console.log("Error al reanudar música:", err));
+        }
+        
+        // Reanudar video si estaba activo antes de salir
+        if (wasVideoPlayingBeforeHide && video && video.paused) {
+          video.play().catch(err => console.log("Error al reanudar video:", err));
+        }
+      }
+    });
 
     /* ----------------------------------------------------
        LÓGICA DEL ESCENARIO CARAVANA CAROUSEL (FOTOS SOFI)
