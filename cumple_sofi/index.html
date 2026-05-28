@@ -1658,9 +1658,199 @@
       .lightbox-toolbar { border-radius: 20px; padding: 10px; max-width: 95%; }
       .filter-btn { font-size: 11px; padding: 6px 12px; }
     }
+    
+    /* Portal de Recomendación de Audio */
+    #audio-gateway {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, var(--color-sky-light) 0%, var(--color-sky-dark) 100%);
+      z-index: 20000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .gateway-ticket {
+      background: white;
+      border: 8px double var(--color-red);
+      border-radius: 30px;
+      max-width: 420px;
+      width: 100%;
+      padding: 40px 25px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      animation: pulseOne 1.5s infinite alternate ease-in-out;
+    }
+    
+    .gateway-bunting {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      pointer-events: none;
+    }
+    .gateway-bunting span {
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 15px solid var(--color-red);
+    }
+    .gateway-bunting span:nth-child(2n) { border-top-color: var(--color-yellow); }
+    .gateway-bunting span:nth-child(3n) { border-top-color: var(--color-blue); }
+    .gateway-bunting span:nth-child(4n) { border-top-color: var(--color-green); }
+    
+    .gateway-logo {
+      font-size: 60px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      animation: bounceHeaderMascot 3s infinite alternate ease-in-out;
+      display: inline-block;
+    }
+    
+    .gateway-title {
+      font-size: 28px;
+      color: var(--color-red);
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 0 white;
+      font-family: var(--font-fun);
+    }
+    
+    .gateway-subtitle {
+      font-size: 15px;
+      color: #555;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+    
+    .sound-alert-box {
+      background: rgba(41, 182, 246, 0.1);
+      border: 2px dashed var(--color-blue);
+      border-radius: 15px;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 30px;
+      text-align: left;
+    }
+    
+    .sound-alert-icon {
+      font-size: 32px;
+      animation: heartbeat 1.5s infinite ease-in-out;
+    }
+    
+    .sound-alert-text {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-text);
+      line-height: 1.4;
+    }
+    
+    .gateway-btn {
+      background: var(--color-green);
+      color: white;
+      font-size: 20px;
+      padding: 15px 30px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+      box-shadow: 0 8px 20px rgba(102, 187, 106, 0.4);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      font-family: var(--font-fun);
+    }
+    
+    .gateway-btn:hover {
+      background: #4caf50;
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 187, 106, 0.6);
+    }
+    
+    /* Botón flotante de música */
+    .music-floating-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      width: 50px;
+      height: 50px;
+      background: var(--color-purple);
+      color: white;
+      border: 3px solid white;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none; /* Se activa por JS */
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      box-shadow: 0 4px 15px rgba(171, 71, 188, 0.4);
+      z-index: 29000;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .music-floating-btn.playing {
+      animation: spinMusicBtn 4s infinite linear;
+      background: var(--color-green);
+      box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
+    }
+    
+    .music-floating-btn:hover {
+      transform: scale(1.15);
+    }
+    
+    @keyframes spinMusicBtn {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
+
+  <!-- ====================================================
+       AUDIO DE FONDO (Música Mágica)
+       ==================================================== -->
+  <audio id="bg-music" loop>
+    <source src="musica/Invitación video digital de plim plim.mp3" type="audio/mp3">
+    <source src="musica/Invitaci%C3%B3n%20video%20digital%20de%20plim%20plim.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- ====================================================
+       PORTAL DE ENTRADA CON RECOMENDACIÓN DE AUDIO
+       ==================================================== -->
+  <div id="audio-gateway">
+    <div class="gateway-ticket">
+      <div class="gateway-bunting">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="gateway-logo">🎪🤡🎶</div>
+      <h2 class="gateway-title">¡EL CIRCO DE SOFÍA!</h2>
+      <p class="gateway-subtitle">Para disfrutar de la magia completa con música y sonido:</p>
+      <div class="sound-alert-box">
+        <span class="sound-alert-icon">🔊</span>
+        <span class="sound-alert-text">Por favor, activa el sonido y sube el volumen de tu dispositivo.</span>
+      </div>
+      <button class="gateway-btn" onclick="startMagicalInvitation()">
+        ¡ENTRAR CON MÚSICA MÁGICA! 🎈✨
+      </button>
+    </div>
+  </div>
+
+  <!-- Botón de Música Flotante -->
+  <button id="music-toggle-btn" class="music-floating-btn" onclick="toggleBackgroundMusic(event)">
+    <span class="music-icon">🎵</span>
+  </button>
 
   <!-- ====================================================
        1. CANVAS PARA CONFETI CONTINUO
@@ -2037,6 +2227,63 @@
     let activeFilter = 'none';
 
     /* ----------------------------------------------------
+       LÓGICA DEL PORTAL DE AUDIO Y REPRODUCTOR DE MÚSICA
+       ---------------------------------------------------- */
+    function startMagicalInvitation() {
+      // 1. Desvanecer y ocultar el portal de recomendación
+      const gateway = document.getElementById('audio-gateway');
+      gateway.style.opacity = '0';
+      gateway.style.transform = 'scale(0.9)';
+      setTimeout(() => {
+        gateway.style.display = 'none';
+      }, 600);
+      
+      // 2. Reproducir la música de fondo
+      const music = document.getElementById('bg-music');
+      music.volume = 0.35; // Volumen agradable
+      music.play().then(() => {
+        // Mostrar el botón flotante de música
+        const musicBtn = document.getElementById('music-toggle-btn');
+        if (musicBtn) {
+          musicBtn.style.display = 'flex';
+          musicBtn.classList.add('playing');
+        }
+      }).catch(err => {
+        console.log("Música bloqueada por el navegador", err);
+      });
+      
+      // 3. Reproducir el video de entrada
+      const video = document.getElementById('intro-video');
+      if (video) {
+        video.play().catch(err => {
+          console.log("No se pudo iniciar el video, mostrando fallback", err);
+          const fallback = document.getElementById('fallback-card');
+          if (fallback) fallback.style.display = 'flex';
+        });
+      }
+    }
+    
+    function toggleBackgroundMusic(event) {
+      if (event) event.stopPropagation();
+      
+      const music = document.getElementById('bg-music');
+      const btn = document.getElementById('music-toggle-btn');
+      const icon = btn.querySelector('.music-icon');
+      
+      if (music.paused) {
+        music.play();
+        btn.classList.add('playing');
+        icon.innerText = '🎵';
+        playChimeEffect('success');
+      } else {
+        music.pause();
+        btn.classList.remove('playing');
+        icon.innerText = '🔇';
+        playChimeEffect('pop');
+      }
+    }
+
+    /* ----------------------------------------------------
        LÓGICA DEL ESCENARIO CARAVANA CAROUSEL (FOTOS SOFI)
        ---------------------------------------------------- */
     let currentStageIndex = 0;
@@ -2204,18 +2451,7 @@
       const video = document.getElementById('intro-video');
       const fallbackCard = document.getElementById('fallback-card');
       
-      const videoTimeout = setTimeout(() => {
-        if (video.paused) {
-          fallbackCard.style.display = 'flex';
-        }
-      }, 2500);
-      
-      video.addEventListener('playing', () => {
-        clearTimeout(videoTimeout);
-      });
-      
       video.addEventListener('error', () => {
-        clearTimeout(videoTimeout);
         fallbackCard.style.display = 'flex';
       });
       
