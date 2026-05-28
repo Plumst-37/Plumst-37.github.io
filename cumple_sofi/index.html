@@ -1,0 +1,2441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Te invito a mi Cumpleaños! - Sofi ✨🎈</title>
+  
+  <!-- Tipografías divertidas y legibles desde Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ----------------------------------------------------
+       1. VARIABLES DE DISEÑO & ESTILOS GLOBALES (Plin Plin)
+       ---------------------------------------------------- */
+    :root {
+      --color-sky-light: #c2e9fb;
+      --color-sky-dark: #a1c4fd;
+      
+      /* Colores Plin Plin */
+      --color-red: #ff4a5a;
+      --color-yellow: #ffd54f;
+      --color-blue: #29b6f6;
+      --color-green: #66bb6a;
+      --color-orange: #ffa726;
+      --color-purple: #ab47bc;
+      --color-white: #ffffff;
+      --color-text: #2c3e50;
+      
+      --font-fun: 'Fredoka', sans-serif;
+      --font-body: 'Quicksand', sans-serif;
+      
+      --shadow-soft: 0 8px 30px rgba(0,0,0,0.08);
+      --shadow-medium: 0 12px 35px rgba(0,0,0,0.12);
+      --shadow-neon-yellow: 0 0 15px rgba(255, 213, 79, 0.6);
+      --shadow-neon-blue: 0 0 15px rgba(41, 182, 246, 0.6);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: var(--font-body);
+      color: var(--font-text);
+      background: radial-gradient(circle, var(--color-sky-light) 0%, var(--color-sky-dark) 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    h1, h2, h3, .btn {
+      font-family: var(--font-fun);
+    }
+    
+    /* ----------------------------------------------------
+       2. ELEMENTOS FLOTANTES & DE ATMÓSFERA (Plin Plin)
+       ---------------------------------------------------- */
+    /* Canvas de confeti permanente de fondo */
+    #bg-confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    /* Contenedor de elementos animados */
+    .atmosphere-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+      overflow: hidden;
+    }
+    
+    /* Nubes animadas */
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 100px;
+      box-shadow: 0 8px 20px rgba(255,255,255,0.2);
+      animation: floatClouds linear infinite;
+    }
+    
+    .cloud::before, .cloud::after {
+      content: '';
+      position: absolute;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 50%;
+    }
+    
+    .cloud-type-1 {
+      width: 120px;
+      height: 40px;
+    }
+    .cloud-type-1::before { width: 50px; height: 50px; top: -25px; left: 15px; }
+    .cloud-type-1::after { width: 70px; height: 70px; top: -35px; right: 15px; }
+    
+    .cloud-type-2 {
+      width: 180px;
+      height: 60px;
+    }
+    .cloud-type-2::before { width: 75px; height: 75px; top: -35px; left: 25px; }
+    .cloud-type-2::after { width: 100px; height: 100px; top: -50px; right: 25px; }
+    
+    @keyframes floatClouds {
+      from { transform: translateX(-200px); }
+      to { transform: translateX(calc(100vw + 200px)); }
+    }
+    
+    /* Globos flotantes */
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 60px;
+      height: 75px;
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      animation: floatBalloons 18s infinite ease-in;
+    }
+    
+    .balloon::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 26px;
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+    }
+    
+    .balloon-string {
+      position: absolute;
+      bottom: -48px;
+      left: 29px;
+      width: 2px;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.15);
+      transform-origin: top center;
+      animation: stringWave 2s infinite ease-in-out alternate;
+    }
+    
+    @keyframes floatBalloons {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 0.9; }
+      90% { opacity: 0.9; }
+      100% {
+        transform: translateY(-115vh) rotate(15deg);
+        opacity: 0;
+      }
+    }
+    
+    @keyframes stringWave {
+      from { transform: rotate(-8deg); }
+      to { transform: rotate(8deg); }
+    }
+    
+    /* Estrellas flotantes y rotativas */
+    .atmosphere-star {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background: var(--color-yellow);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      box-shadow: var(--shadow-neon-yellow);
+      animation: spinStar 8s infinite linear, twinkleStar 3s infinite alternate ease-in-out;
+    }
+    
+    @keyframes spinStar {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes twinkleStar {
+      from { opacity: 0.3; transform: scale(0.8) rotate(var(--current-rotation, 0deg)); }
+      to { opacity: 1; transform: scale(1.2) rotate(var(--current-rotation, 360deg)); }
+    }
+    
+    /* Estrellas interactivas en cursor */
+    .cursor-star {
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    
+    /* ----------------------------------------------------
+       3. VIDEO DE ENTRADA (Intro Overlay)
+       ---------------------------------------------------- */
+    #intro-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      z-index: 10000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+    }
+    
+    #intro-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    /* Botón SALTAR elegante */
+    #skip-btn {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      z-index: 10002;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    #skip-btn:hover {
+      background: var(--color-yellow);
+      color: var(--color-text);
+      border-color: var(--color-yellow);
+      transform: scale(1.1) translateY(-2px);
+      box-shadow: var(--shadow-neon-yellow);
+    }
+    
+    /* Fallback en caso de que falte el video (Con fondo Plin Plin) */
+    .video-fallback-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(26, 15, 46, 0.8), rgba(62, 27, 95, 0.85)), url('imagene_plinplin/hero-mob.jpg') center/cover no-repeat;
+      display: none; /* Se activa por JS si el video falla */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      z-index: 10001;
+    }
+    
+    .fallback-logo {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: pulseFallback 2s infinite alternate ease-in-out;
+    }
+    
+    .fallback-title {
+      font-family: var(--font-fun);
+      font-size: 36px;
+      margin-bottom: 10px;
+      color: var(--color-yellow);
+      text-shadow: 0 4px 15px rgba(255, 213, 79, 0.6);
+    }
+    
+    .fallback-subtitle {
+      font-size: 20px;
+      margin-bottom: 40px;
+      opacity: 0.9;
+      max-width: 450px;
+      font-weight: 500;
+    }
+    
+    .play-invite-btn {
+      background: var(--color-red);
+      color: white;
+      border: none;
+      padding: 18px 45px;
+      font-size: 24px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 10px 25px rgba(255, 74, 90, 0.5);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: heartbeat 1.5s infinite ease-in-out;
+    }
+    
+    .play-invite-btn:hover {
+      background: var(--color-yellow);
+      color: var(--color-text);
+      box-shadow: var(--shadow-neon-yellow);
+      transform: scale(1.1) translateY(-3px);
+    }
+    
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes pulseFallback {
+      from { transform: translateY(0); }
+      to { transform: translateY(-15px); }
+    }
+    
+    /* ----------------------------------------------------
+       4. CONTENIDO PRINCIPAL (Main Content)
+       ---------------------------------------------------- */
+    #main-content {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+      display: none; /* Se activa por JS tras cerrar intro */
+    }
+    
+    #main-content.visible {
+      opacity: 1;
+      transform: translateY(0);
+      display: block;
+    }
+    
+    /* Encabezado Principal */
+    .main-header {
+      text-align: center;
+      margin-bottom: 50px;
+      position: relative;
+    }
+    
+    .avatar-container {
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 20px auto;
+      position: relative;
+    }
+    
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 8px solid var(--color-white);
+      box-shadow: var(--shadow-medium);
+      position: relative;
+      z-index: 5;
+    }
+    
+    .avatar-frame {
+      position: absolute;
+      top: -12px;
+      left: -12px;
+      right: -12px;
+      bottom: -12px;
+      border: 6px dashed var(--color-yellow);
+      border-radius: 50%;
+      animation: spinFrame 25s infinite linear;
+      z-index: 4;
+    }
+    
+    @keyframes spinFrame {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .invitation-title {
+      font-size: 42px;
+      color: var(--color-red);
+      text-shadow: 2px 2px 0px var(--color-white), 4px 4px 0px rgba(0,0,0,0.06);
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+      animation: bouncyText 1.5s ease-in-out infinite alternate;
+    }
+    
+    @keyframes bouncyText {
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
+    }
+    
+    .sofi-name {
+      font-family: var(--font-fun);
+      font-size: 58px;
+      color: var(--color-blue);
+      text-shadow: 3px 3px 0px var(--color-white), 6px 6px 0px rgba(41, 182, 246, 0.2);
+      margin-bottom: 15px;
+      display: inline-block;
+    }
+    
+    .invitation-subtitle {
+      font-size: 20px;
+      background: var(--color-white);
+      padding: 10px 25px;
+      border-radius: 50px;
+      display: inline-block;
+      box-shadow: var(--shadow-soft);
+      font-weight: 600;
+      color: #576574;
+    }
+    
+    /* ----------------------------------------------------
+       5. GALERÍA DE FOTOS (Polaroid Masonry - Sin textos fijos)
+       ---------------------------------------------------- */
+    .gallery-section {
+      margin-bottom: 60px;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 34px;
+      color: var(--color-purple);
+      text-shadow: 2px 2px 0px var(--color-white);
+      margin-bottom: 35px;
+    }
+    
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 30px;
+      justify-items: center;
+    }
+    
+    .polaroid-card {
+      background: var(--color-white);
+      padding: 15px 15px 22px 15px; /* Margen inferior limpio, imitando Polaroid real vacía */
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      width: 250px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      overflow: hidden;
+      transform-origin: center;
+    }
+    
+    /* Cinta adhesiva decorativa */
+    .polaroid-tape {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-3deg);
+      width: 90px;
+      height: 25px;
+      background: rgba(255, 213, 79, 0.7);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      z-index: 10;
+    }
+    
+    /* Marco colorido interno de la foto */
+    .photo-wrapper {
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      border: 4px solid var(--color-white);
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+      border-radius: 3px;
+      position: relative;
+    }
+    
+    .polaroid-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    
+    /* Clases de colores de marcos */
+    .border-red { border-color: var(--color-red) !important; }
+    .border-yellow { border-color: var(--color-yellow) !important; }
+    .border-blue { border-color: var(--color-blue) !important; }
+    .border-green { border-color: var(--color-green) !important; }
+    .border-orange { border-color: var(--color-orange) !important; }
+    .border-purple { border-color: var(--color-purple) !important; }
+    
+    /* Clases de rotaciones aleatorias */
+    .rot-left-1 { transform: rotate(-2.5deg); }
+    .rot-right-1 { transform: rotate(2.8deg); }
+    .rot-left-2 { transform: rotate(-3.5deg); }
+    .rot-right-2 { transform: rotate(1.8deg); }
+    .rot-left-3 { transform: rotate(-1.5deg); }
+    .rot-right-3 { transform: rotate(3.2deg); }
+    
+    .polaroid-card:hover {
+      transform: scale(1.08) translateY(-10px) rotate(0deg) !important;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      z-index: 100;
+    }
+    
+    .polaroid-card:hover .polaroid-img {
+      transform: scale(1.1);
+    }
+
+    /* ----------------------------------------------------
+       5.1. SECCIÓN DE MEMES / RULETA DE TRAVESURAS
+       ---------------------------------------------------- */
+    .meme-section {
+      margin-bottom: 60px;
+    }
+    
+    .meme-container {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      padding: 40px 20px;
+      box-shadow: var(--shadow-medium);
+      border: 6px dashed var(--color-purple);
+      max-width: 500px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .meme-card {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      background: white;
+      padding: 15px 15px 20px 15px;
+      box-shadow: var(--shadow-medium);
+      border-radius: 8px;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease-in-out;
+    }
+    
+    .meme-card.spinning {
+      transform: rotateY(360deg);
+    }
+    
+    .meme-photo-wrapper {
+      width: 100%;
+      height: 320px;
+      overflow: hidden;
+      position: relative;
+      border: 4px solid var(--color-text);
+      border-radius: 4px;
+    }
+    
+    #meme-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* Texto del Meme (Estilo Impacto con contorno negro pesado) */
+    .meme-text {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      text-align: center;
+      color: white;
+      font-family: var(--font-fun);
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-shadow: 
+        -2px -2px 0 #000,  
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000,
+        -3px  0px 0 #000,
+         3px  0px 0 #000,
+         0px -3px 0 #000,
+         0px  3px 0 #000;
+      padding: 10px 5px;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    
+    .meme-text-top {
+      top: 5px;
+    }
+    
+    .meme-text-bottom {
+      bottom: 5px;
+    }
+    
+    .btn-spin-meme {
+      background: var(--color-purple);
+      color: white;
+      font-size: 18px;
+      padding: 16px 30px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(171, 71, 188, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .btn-spin-meme:hover {
+      background: #9c27b0;
+      transform: scale(1.08) translateY(-3px);
+      box-shadow: 0 10px 25px rgba(171, 71, 188, 0.6);
+    }
+    
+    /* ----------------------------------------------------
+       6. TARJETA RSVP - INTERACTIVA (¿Vienes?)
+       ---------------------------------------------------- */
+    .rsvp-section {
+      background: var(--color-white);
+      border-radius: 30px;
+      padding: 40px 30px;
+      box-shadow: var(--shadow-medium);
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 50px auto;
+      border: 8px solid var(--color-yellow);
+      position: relative;
+      overflow: visible;
+    }
+    
+    /* Mascota Flotante e Interactiva */
+    .mascot-container {
+      position: absolute;
+      top: -65px;
+      right: -40px;
+      width: 110px;
+      height: 110px;
+      z-index: 20;
+      cursor: pointer;
+      animation: floatMascot 4s infinite alternate ease-in-out;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .mascot-container:hover {
+      transform: scale(1.15) rotate(6deg) !important;
+    }
+    
+    .mascot-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 5px solid var(--color-yellow);
+      box-shadow: var(--shadow-medium);
+      object-fit: cover;
+    }
+    
+    .mascot-bubble {
+      position: absolute;
+      background: white;
+      border: 2px solid var(--color-yellow);
+      padding: 8px 12px;
+      border-radius: 15px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-text);
+      width: 150px;
+      top: -55px;
+      right: -25px;
+      box-shadow: var(--shadow-soft);
+      animation: bubbleWave 2s infinite alternate ease-in-out;
+      transition: transform 0.2s ease;
+    }
+    
+    .mascot-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 10px 8px 0;
+      border-style: solid;
+      border-color: white transparent;
+      display: block;
+      width: 0;
+    }
+    
+    .mascot-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 11px 9px 0;
+      border-style: solid;
+      border-color: var(--color-yellow) transparent;
+      display: block;
+      width: 0;
+      z-index: -1;
+    }
+    
+    @keyframes floatMascot {
+      from { transform: translateY(0) rotate(-3deg); }
+      to { transform: translateY(-10px) rotate(3deg); }
+    }
+    
+    @keyframes bubbleWave {
+      from { transform: scale(0.95); }
+      to { transform: scale(1.05); }
+    }
+    
+    .rsvp-section::before {
+      content: '🎪';
+      font-size: 50px;
+      position: absolute;
+      top: -38px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-sky-light);
+      padding: 0 10px;
+      border-radius: 50%;
+    }
+    
+    .rsvp-question {
+      font-size: 28px;
+      color: var(--color-purple);
+      margin-bottom: 25px;
+      text-shadow: 1px 1px 0px rgba(0,0,0,0.05);
+    }
+    
+    .rsvp-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      min-height: 80px;
+      position: relative;
+    }
+    
+    .btn {
+      padding: 16px 36px;
+      font-size: 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      border: none;
+      font-weight: bold;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-yes {
+      background: var(--color-green);
+      color: white;
+      animation: yesPulse 2s infinite ease-in-out;
+    }
+    
+    .btn-yes:hover {
+      background: #4caf50;
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 10px 20px rgba(102, 187, 106, 0.4);
+    }
+    
+    .btn-no {
+      background: var(--color-red);
+      color: white;
+      position: relative;
+    }
+    
+    @keyframes yesPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+      100% { transform: scale(1); }
+    }
+    
+    /* ----------------------------------------------------
+       7. PANTALLA RECONSIDERAR (Sad Modal - Fotos aleatorias)
+       ---------------------------------------------------- */
+    #sad-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 26, 46, 0.95);
+      z-index: 20000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      padding: 20px;
+    }
+    
+    #sad-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    .sad-card {
+      background: white;
+      border-radius: 25px;
+      max-width: 480px;
+      width: 100%;
+      padding: 35px 25px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+      text-align: center;
+      border: 6px solid var(--color-red);
+      position: relative;
+      transform: scale(0.8);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    #sad-overlay.active .sad-card {
+      transform: scale(1);
+    }
+    
+    .sad-img-container {
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 20px auto;
+      border-radius: 50%;
+      border: 5px solid var(--color-red);
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .sad-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .sad-img-container::after {
+      content: '😢';
+      font-size: 30px;
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      animation: heartbeat 1s infinite alternate;
+    }
+    
+    .sad-title {
+      font-size: 26px;
+      color: var(--color-red);
+      margin-bottom: 15px;
+    }
+    
+    .sad-text {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+    
+    .sad-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .btn-reconsider {
+      background: var(--color-green);
+      color: white;
+      font-size: 18px;
+      padding: 14px 25px;
+      justify-content: center;
+      width: 100%;
+    }
+    
+    .btn-confirm-no {
+      background: #f1f2f6;
+      color: #747d8c;
+      font-size: 14px;
+      padding: 10px 20px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-confirm-no:hover {
+      background: #dfe4ea;
+      color: #2f3542;
+    }
+    
+    /* Anuncios de Circo Pop-up (Plin Plin) */
+    .circus-popup {
+      transform-origin: center;
+      animation: popInCircus 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    
+    @keyframes popInCircus {
+      0% { transform: scale(0.6) rotate(-15deg); opacity: 0; }
+      100% { transform: scale(1) rotate(var(--popup-rotation, 0deg)); opacity: 1; }
+    }
+    
+    /* Banderines de Circo Plin Plin */
+    .circus-bunting-garland {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+    
+    .circus-bunting-flag {
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 18px solid var(--color-red);
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+      animation: swingFlag 1.5s infinite alternate ease-in-out;
+      transform-origin: top center;
+    }
+    
+    .circus-bunting-flag:nth-child(2n) {
+      border-top-color: var(--color-yellow);
+      animation-delay: 0.2s;
+    }
+    
+    .circus-bunting-flag:nth-child(3n) {
+      border-top-color: var(--color-blue);
+      animation-delay: 0.4s;
+    }
+    
+    .circus-bunting-flag:nth-child(4n) {
+      border-top-color: var(--color-green);
+      animation-delay: 0.6s;
+    }
+    
+    .circus-bunting-flag:nth-child(5n) {
+      border-top-color: var(--color-orange);
+      animation-delay: 0.8s;
+    }
+    
+    .header-mascot-img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 4px solid var(--color-yellow);
+      box-shadow: var(--shadow-soft);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: bounceHeaderMascot 3s infinite alternate ease-in-out;
+      display: inline-block;
+    }
+    
+    .header-mascot-img:hover {
+      transform: scale(1.15) rotate(5deg);
+      border-color: var(--color-red);
+      box-shadow: var(--shadow-medium);
+    }
+    
+    @keyframes bounceHeaderMascot {
+      from { transform: translateY(0); }
+      to { transform: translateY(-6px); }
+    }
+
+    /* ----------------------------------------------------
+       8. SECCIÓN DETALLES DEL EVENTO (Se activa al SÍ)
+       ---------------------------------------------------- */
+    #celebration-section {
+      display: none;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      margin-top: 50px;
+    }
+    
+    #celebration-section.active {
+      display: block;
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    .invited-banner {
+      background: linear-gradient(135deg, var(--color-red) 0%, var(--color-orange) 100%);
+      color: white;
+      padding: 25px;
+      border-radius: 20px;
+      font-size: 36px;
+      font-weight: 900;
+      margin-bottom: 40px;
+      box-shadow: var(--shadow-medium);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      animation: waveText 1s ease-in-out infinite alternate;
+    }
+    
+    @keyframes waveText {
+      0% { transform: skewX(-5deg) scale(1); }
+      100% { transform: skewX(5deg) scale(1.04); }
+    }
+    
+    /* Foto especial de confirmación (jhgjghj.jpeg) */
+    .celebration-photo-container {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+    
+    .celebration-photo-img {
+      width: 280px;
+      height: 350px;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 8px solid white;
+      box-shadow: var(--shadow-medium);
+      position: relative;
+      z-index: 2;
+      transition: transform 0.3s ease;
+    }
+    
+    .celebration-photo-img:hover {
+      transform: scale(1.05) rotate(-2.5deg);
+    }
+    
+    /* Poster Afiche Oficial Decorativo */
+    .circus-poster-container {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .circus-poster-img {
+      max-width: 100%;
+      width: 320px;
+      border-radius: 20px;
+      border: 8px solid white;
+      box-shadow: var(--shadow-medium);
+      transition: transform 0.3s ease;
+    }
+    
+    .circus-poster-img:hover {
+      transform: scale(1.05) rotate(2deg);
+    }
+    
+    /* Ficha tipo Boleto de Circo */
+    .party-ticket {
+      background: white;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: var(--shadow-medium);
+      margin-bottom: 40px;
+      border: 6px double var(--color-blue);
+      position: relative;
+    }
+    
+    .party-ticket::before, .party-ticket::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 30px;
+      height: 30px;
+      background: radial-gradient(circle, var(--color-sky-dark) 40%, transparent 45%);
+      z-index: 10;
+    }
+    .party-ticket::before { left: -15px; transform: translateY(-50%); }
+    .party-ticket::after { right: -15px; transform: translateY(-50%); }
+    
+    .ticket-header {
+      background: var(--color-blue);
+      color: white;
+      padding: 15px;
+      font-size: 22px;
+      font-family: var(--font-fun);
+      letter-spacing: 2px;
+    }
+    
+    .ticket-body {
+      padding: 30px 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+    }
+    
+    .info-pod {
+      text-align: center;
+      padding: 10px;
+    }
+    
+    .info-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+      display: block;
+      animation: heartbeat 2s infinite ease-in-out;
+    }
+    
+    .info-label {
+      font-family: var(--font-fun);
+      font-size: 14px;
+      color: #95a5a6;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      letter-spacing: 1px;
+    }
+    
+    .info-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    
+    /* Mapa embebido */
+    .map-container {
+      margin-bottom: 40px;
+      border-radius: 25px;
+      overflow: hidden;
+      border: 8px solid var(--color-white);
+      box-shadow: var(--shadow-medium);
+    }
+    
+    .map-header {
+      background: var(--color-orange);
+      color: white;
+      padding: 12px;
+      font-family: var(--font-fun);
+      font-size: 18px;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Botón de Confirmación por WhatsApp */
+    .whatsapp-container {
+      margin-top: 30px;
+    }
+    
+    .btn-whatsapp {
+      background: #25d366;
+      color: white;
+      font-size: 22px;
+      padding: 20px 45px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      animation: buttonPulse 2.5s infinite;
+    }
+    
+    .btn-whatsapp:hover {
+      background: #1ebd59;
+      transform: scale(1.08) translateY(-4px);
+      box-shadow: 0 12px 30px rgba(37, 211, 102, 0.6);
+    }
+    
+    @keyframes buttonPulse {
+      0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+      70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    }
+    
+    /* ----------------------------------------------------
+       9. LIGHTBOX (Visualizador de Fotos grande con cierre arreglado)
+       ---------------------------------------------------- */
+    #lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 30000;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      padding: 20px;
+    }
+    
+    #lightbox.active {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .lightbox-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 75vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .lightbox-img-wrapper {
+      border: 8px solid white;
+      border-radius: 8px;
+      overflow: visible; /* Habilita que las decoraciones sobresalgan */
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      max-height: 65vh;
+      background: #111;
+      position: relative;
+    }
+    
+    #lightbox-img {
+      max-width: 100%;
+      max-height: 60vh;
+      object-fit: contain;
+      display: block;
+    }
+    
+    #lightbox-caption {
+      color: white;
+      margin-top: 15px;
+      font-size: 20px;
+      font-family: var(--font-fun);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+    
+    /* Botón flotante superior fixed para asegurar accesibilidad en móviles */
+    .lightbox-close {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 30200;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border: 2px solid rgba(255,255,255,0.4);
+    }
+    
+    .lightbox-close:hover {
+      background: var(--color-red);
+      color: white;
+      border-color: var(--color-red);
+      transform: scale(1.1);
+    }
+    
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 56px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      padding: 20px;
+      transition: color 0.2s ease;
+      z-index: 30100;
+    }
+    
+    .lightbox-nav:hover {
+      color: var(--color-yellow);
+    }
+    
+    .lightbox-prev {
+      left: -80px;
+    }
+    
+    .lightbox-next {
+      right: -80px;
+    }
+
+    /* Barra de herramientas para filtros en Lightbox */
+    .lightbox-toolbar {
+      margin-top: 25px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 50px;
+      padding: 10px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      border: 2px solid rgba(255,255,255,0.2);
+      z-index: 30500;
+    }
+    
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+    
+    .filter-btn.active {
+      background: var(--color-yellow);
+      color: var(--color-text);
+      box-shadow: var(--shadow-neon-yellow);
+    }
+    
+    .filter-btn:hover {
+      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    /* Leyenda flotante indicando cómo cerrar */
+    .lightbox-hint {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 12px;
+      margin-top: 10px;
+      font-weight: 500;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    /* Animaciones filtros */
+    @keyframes pulseFilter {
+      from { transform: translate(-50%, -50%) scale(0.9); }
+      to { transform: translate(-50%, -50%) scale(1.1); }
+    }
+    
+    @keyframes bobFilter {
+      from { transform: translate(-50%, -55%); }
+      to { transform: translate(-50%, -45%); }
+    }
+    
+    /* Responsividad */
+    @media (max-width: 768px) {
+      .invitation-title { font-size: 32px; }
+      .sofi-name { font-size: 46px; }
+      .invitation-subtitle { font-size: 16px; }
+      .gallery-grid { gap: 20px; }
+      .polaroid-card { width: 45%; min-width: 140px; padding: 8px 8px 15px 8px; }
+      .photo-wrapper { height: 140px; }
+      .btn { font-size: 16px; padding: 12px 24px; }
+      .lightbox-prev { left: 0; background: rgba(0,0,0,0.4); border-radius: 0 8px 8px 0; }
+      .lightbox-next { right: 0; background: rgba(0,0,0,0.4); border-radius: 8px 0 0 8px; }
+      .lightbox-close { top: 15px; right: 15px; width: 40px; height: 40px; font-size: 22px; }
+      .ticket-body { grid-template-columns: 1fr; }
+      .rsvp-buttons { gap: 15px; }
+      .invited-banner { font-size: 26px; }
+      .mascot-container { width: 90px; height: 90px; top: -55px; right: -15px; }
+      .mascot-bubble { font-size: 10px; width: 110px; right: -10px; }
+      .lightbox-toolbar { border-radius: 20px; padding: 10px; max-width: 95%; }
+      .filter-btn { font-size: 11px; padding: 6px 12px; }
+      .celebration-photo-img { width: 200px; height: 250px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ====================================================
+       1. CANVAS PARA CONFETI CONTINUO
+       ==================================================== -->
+  <canvas id="bg-confetti"></canvas>
+
+  <!-- ====================================================
+       2. CAPA DE ATMÓSFERA ANIMADA
+       ==================================================== -->
+  <div class="atmosphere-layer" id="atmosphere">
+    <!-- Generado dinámicamente mediante JS -->
+  </div>
+
+  <!-- ====================================================
+       3. INTRO EN PANTALLA COMPLETA (Video / Fallback)
+       ==================================================== -->
+  <div id="intro-overlay">
+    <!-- Botón Saltar -->
+    <button id="skip-btn" onclick="exitIntro()">SALTAR →</button>
+    
+    <!-- Video de Entrada -->
+    <video id="intro-video" autoplay muted playsinline>
+      <!-- El video proporcionado por el usuario en Video_plinplin -->
+      <source src="Video_plinplin/videoplayback.mp4" type="video/mp4">
+      <source src="entrada/video.mp4" type="video/mp4">
+      <source src="entrada/entrada.mp4" type="video/mp4">
+    </video>
+    
+    <!-- Fallback si el video falla al cargar o no existe (Con fondo Plin Plin) -->
+    <div class="video-fallback-card" id="fallback-card">
+      <div class="fallback-logo">🎪🤡✨</div>
+      <h2 class="fallback-title">¡La Fiesta Mágica de Sofi!</h2>
+      <p class="fallback-subtitle">Te invitamos a abrir esta súper invitación animada</p>
+      <button class="play-invite-btn" onclick="exitIntro()">¡ABRIR INVITACIÓN! 🎬💖</button>
+    </div>
+  </div>
+
+  <!-- ====================================================
+       4. CONTENIDO PRINCIPAL DE LA INVITACIÓN
+       ==================================================== -->
+  <div id="main-content">
+    
+    <!-- Encabezado -->
+    <header class="main-header">
+      <!-- Guirnalda de Banderines de Circo Plin Plin -->
+      <div class="circus-bunting-garland" style="margin-top: -10px; margin-bottom: 25px;">
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+        <div class="circus-bunting-flag"></div>
+      </div>
+      <div class="avatar-container">
+        <div class="avatar-frame"></div>
+        <img src="fotos sofi/WhatsApp Image 2026-05-19 at 1.01.13 PM.jpeg" alt="Sofi" class="avatar-img">
+      </div>
+      <h2 class="invitation-title">¡Estás Invitado al Cumpleaños de!</h2>
+      <h1 class="sofi-name">Sofía 💕</h1>
+      <!-- Avatar de Plin Plin Badge -->
+      <div style="text-align: center; margin: 15px 0;">
+        <img src="imagene_plinplin/channels4_profile.jpg" alt="Plin Plin" class="header-mascot-img">
+      </div>
+      <div>
+        <span class="invitation-subtitle">¡Acompáñame a celebrar un año de magia y diversión! 🎪🎈</span>
+      </div>
+    </header>
+
+    <!-- Galería de Fotos Polaroid (Sin leyendas fijas) -->
+    <section class="gallery-section">
+      <h2 class="section-title">✨ Mis Fotos de Cumpleaños ✨</h2>
+      <div class="gallery-grid" id="photo-gallery">
+        <!-- Generado dinámicamente con JS -->
+      </div>
+    </section>
+
+    <!-- SECCIÓN INNOVADORA: RULETA DE TRAVESURAS / MEMES DE SOFI -->
+    <section class="meme-section">
+      <h2 class="section-title" style="text-align: center; margin-bottom: 25px;">🎡 ¡La Ruleta de Travesuras de Sofi! 🎡</h2>
+      <div class="meme-container">
+        <div class="meme-card" id="meme-card">
+          <div class="meme-photo-wrapper">
+            <img id="meme-img" src="fotos sofi/WhatsApp Image 2026-05-19 at 1.01.13 PM.jpeg" alt="Travesura de Sofi">
+            <div class="meme-text meme-text-top" id="meme-text-top">¡MI CARA CUANDO...</div>
+            <div class="meme-text meme-text-bottom" id="meme-text-bottom">...ME PREGUNTAN SI QUIERO PASTEL! 🍰</div>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 25px;">
+          <button class="btn-spin-meme" onclick="spinMemeRuleta()">
+            <span>🎡 ¡GIRAR RULETA DE TRAVESURAS! 🎡</span>
+          </button>
+        </div>
+      </div>
+    </section>
+    <section class="rsvp-section" id="rsvp-card">
+      <!-- Mascota de Plin Plin Flotante e Interactiva (onclick) -->
+      <div class="mascot-container" onclick="speakMascot()">
+        <img src="imagene_plinplin/channels4_profile.jpg" alt="Mascota Plin Plin" class="mascot-img">
+        <div class="mascot-bubble">¡Sofi te espera para celebrar! 🎈🤡<br><small style="color:var(--color-purple); font-size:9px; font-weight:bold;">(¡Hazme clic! 👆)</small></div>
+      </div>
+      
+      <h2 class="rsvp-question" style="text-align: left; max-width: 75%;">¿Vas a venir a mi cumpleaños? 🎂🍿</h2>
+      <div class="rsvp-buttons">
+        <button class="btn btn-yes" onclick="handleYesResponse()">SÍ, ¡OBVIO! 😍🎈</button>
+        <button class="btn btn-no" id="no-btn">NO 😢</button>
+      </div>
+    </section>
+
+    <!-- Sección Especial que se revela con el SÍ -->
+    <section id="celebration-section">
+      <div class="invited-banner" style="text-align: center;">
+        🎉 ¡¡SÍII, ESTÁS INVITADA/O!! 🎉
+      </div>
+
+      <!-- Foto especial de confirmación (jhgjghj.jpeg) -->
+      <div class="celebration-photo-container">
+        <div style="position: relative; display: inline-block;">
+          <div style="position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; border: 4px dashed var(--color-yellow); border-radius: 20px; animation: spinFrame 30s infinite linear;"></div>
+          <img src="fotos sofi/jhgjghj.jpeg" alt="¡Sofi te espera!" class="celebration-photo-img">
+        </div>
+      </div>
+
+      <!-- Afiche Oficial de Plin Plin proporcionado por el usuario -->
+      <div class="circus-poster-container">
+        <img src="imagene_plinplin/ab67616d0000b2734c6fd7eebeeaa671adea1584.jpg" alt="Afiche Plin Plin" class="circus-poster-img">
+      </div>
+
+      <!-- Ficha Boleto de Fiesta (Se revela con el SÍ) -->
+      <div class="party-ticket">
+        <div class="ticket-header" style="text-align: center;">
+          🎟️ BOLETO MÁGICO DE FIESTA 🎟️
+        </div>
+        <div class="ticket-body">
+          <div class="info-pod">
+            <span class="info-icon">📅</span>
+            <span class="info-label">Día</span>
+            <span class="info-value" id="event-date-text">Sábado, 21 de Noviembre</span>
+          </div>
+          
+          <div class="info-pod">
+            <span class="info-icon">⏰</span>
+            <span class="info-label">Hora</span>
+            <span class="info-value">16:30 Hrs (4:30 PM)</span>
+          </div>
+          
+          <div class="info-pod">
+            <span class="info-icon">📍</span>
+            <span class="info-label">Lugar</span>
+            <span class="info-value" style="font-size: 15px;">1 de Mayo #1150, Población Berta</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mapa interactivo -->
+      <div class="map-container">
+        <div class="map-header" style="text-align: center;">
+          🗺️ ¿Cómo llegar al circo de Sofi? 📍
+        </div>
+        <iframe 
+          width="100%" 
+          height="350" 
+          style="border:0; display:block;" 
+          loading="lazy" 
+          allowfullscreen 
+          src="https://maps.google.com/maps?q=1%20de%20Mayo%201150,%20Poblaci%C3%B3n%20Berta,%20Coronel,%20Chile&t=&z=16&ie=UTF8&iwloc=&output=embed">
+        </iframe>
+      </div>
+
+      <!-- Botón de Confirmación por WhatsApp -->
+      <div class="whatsapp-container" style="text-align: center;">
+        <a id="whatsapp-link" href="#" target="_blank" class="btn-whatsapp">
+          Confirmar Asistencia por WhatsApp 💬🎁
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ====================================================
+       6. LIGHTBOX PARA AMPLIAR IMÁGENES (Con filtros divertidos y cierre arreglado)
+       ==================================================== -->
+  <div id="lightbox">
+    <!-- Botón flotante fixed para asegurar accesibilidad en móviles -->
+    <div class="lightbox-close" onclick="closeLightbox()">✕</div>
+    <div class="lightbox-nav lightbox-prev" onclick="prevLightbox()">‹</div>
+    
+    <div class="lightbox-content">
+      <div class="lightbox-img-wrapper">
+        <img id="lightbox-img" src="" alt="">
+        <!-- Overlay del Filtro se inserta por JS aquí -->
+      </div>
+      <div id="lightbox-caption" style="display: none;"></div> <!-- Ocultamos textos en lightbox de fotos fijas -->
+      <div class="lightbox-hint">👆 Toca fuera de la foto para cerrar</div>
+    </div>
+    
+    <div class="lightbox-nav lightbox-next" onclick="nextLightbox()">›</div>
+
+    <!-- Barra de Herramientas de Filtros Divertidos -->
+    <div class="lightbox-toolbar">
+      <span style="font-family: var(--font-fun); color: white; margin-right: 5px; font-size: 13px;">🎭 ¡Ponle un Filtro a Sofi!:</span>
+      <button class="filter-btn active" id="f-none" onclick="applyLightboxFilter('none')">Normal ❌</button>
+      <button class="filter-btn" id="f-clown" onclick="applyLightboxFilter('clown')">Payaso 🔴🤡</button>
+      <button class="filter-btn" id="f-crown" onclick="applyLightboxFilter('crown')">Princesa 👑✨</button>
+      <button class="filter-btn" id="f-hat" onclick="applyLightboxFilter('hat')">Gorro 🥳🎉</button>
+      <button class="filter-btn" id="f-mustache" onclick="applyLightboxFilter('mustache')">Bigote 🥸</button>
+    </div>
+  </div>
+
+  <!-- ====================================================
+       7. JAVASCRIPT: MAGIA, INTERACCIONES Y ANIMACIONES
+       ==================================================== -->
+  <script>
+    /* ----------------------------------------------------
+       CONFIGURACIÓN BÁSICA DEL EVENTO
+       ---------------------------------------------------- */
+    // Tu número de WhatsApp en formato internacional (Chile es 56, quitamos el signo +)
+    const WHATSAPP_PHONE = '56941846133'; 
+    const WHATSAPP_MESSAGE = '¡Hola! 🎉 ¡Confirmadísimo! Sí voy a asistir al cumpleaños de Sofi el Sábado 21 de Noviembre a las 4:30 PM 🎂 ¡Nos vemos en 1 de Mayo #1150, Población Berta! 🎈✨';
+    
+    // Fecha del evento: AÑO, MES (0-11, 10 es Noviembre), DÍA, HORA, MINUTOS
+    // Configurada para el 21 de Noviembre de 2026 a las 16:30 Hrs (4:30 PM)
+    const TARGET_DATE = new Date(2026, 10, 21, 16, 30, 0); 
+
+    /* ----------------------------------------------------
+       LISTA DE FOTOS DE LA GALERÍA (23 fotos únicas, sin duplicados)
+       ---------------------------------------------------- */
+    const photoList = [
+      { url: 'fotos sofi/WhatsApp Image 2026-05-19 at 1.01.13 PM.jpeg', caption: '¡Sonrisa mágica! ✨' },
+      { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.46.56 PM.jpeg', caption: '¡Diversión al máximo! 🎈' },
+      { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.46.57 PM.jpeg', caption: 'Momentos felices 💕' },
+      { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.46.58 PM.jpeg', caption: '¡Qué gran día! ☀️' },
+      { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.46.59 PM.jpeg', caption: 'Travesuras dulces 🍭' },
+      { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.47.00 PM.jpeg', caption: '¡Feliz como una lombriz! 🐛' },
+      { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.47.01 PM.jpeg', caption: 'Sofi la exploradora 🌟' },
+      { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.47.02 PM.jpeg', caption: '¡A jugar! 🧸' },
+      { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.47.08 PM.jpeg', caption: 'Sonrisas de sol 💛' },
+      { url: 'fotos sofi/WhatsApp Image 2026-05-26 at 10.47.14 PM.jpeg', caption: '¡Celebrando la vida! 🎉' },
+      { url: 'fotos sofi/dfgdg.jpeg', caption: '¡Risas locas! 🤪' },
+      { url: 'fotos sofi/dfsdf.jpeg', caption: '¡Ojitos brillantes! 👀' },
+      { url: 'fotos sofi/fsdfsdf.jpeg', caption: '¡Abrazos fuertes! 🤗' },
+      { url: 'fotos sofi/gfdgdfg.jpeg', caption: '¡Siempre alegre! 😁' },
+      { url: 'fotos sofi/ghfgh.jpeg', caption: '¡Modo traviesa! 😈' },
+      { url: 'fotos sofi/hfghfghfgjh.jpeg', caption: '¡Hermosa princesita! 👑' },
+      { url: 'fotos sofi/hgfhfgh.jpeg', caption: 'Momentos inolvidables 📸' },
+      { url: 'fotos sofi/hgohuih.jpeg', caption: '¡Jugando en el parque! 🌳' },
+      { url: 'fotos sofi/hjkjhk.jpeg', caption: '¡Pura ternura! 🥰' },
+      { url: 'fotos sofi/jhgjghj.jpeg', caption: '¡Lista para la fiesta! 🥳' },
+      { url: 'fotos sofi/sdfsdf.jpeg', caption: '¡Carita preciosa! 😍' },
+      { url: 'fotos sofi/sdfsdfsdf.jpeg', caption: '¡Día de magia! 🪄' },
+      { url: 'fotos sofi/sfsdfsd.jpeg', caption: '¡Jugando a cantar! 🎤' }
+    ];
+
+    /* ----------------------------------------------------
+       LISTA DE LEYENDAS DIVERTIDAS PARA LA RULETA DE MEMES
+       ---------------------------------------------------- */
+    const memeCaptions = [
+      { top: '¡Mi cara cuando...', bottom: '...me dicen que hay piñata! 🍬💥' },
+      { top: '¿Cómo que...', bottom: '...se acabó la torta de chocolate? 🍰😭' },
+      { top: '¡Planeando...', bottom: '...mi siguiente gran travesura! 😈🤫' },
+      { top: 'Yo después de...', bottom: '...comer 5 gelatinas y 3 helados 🍭🚀' },
+      { top: '¡Cuando veo...', bottom: '...que traen el regalo más grande! 🎁👀' },
+      { top: 'Mi cara cuando me dicen:', bottom: '"¡Una foto para la tía!" 📸🤪' },
+      { top: '¿Dormir temprano?', bottom: '¡No en mi cumpleaños! 😴❌' },
+      { top: '¡Cuidado mundo!', bottom: '¡Hoy tengo licencia para comer dulces! 🧁🥳' }
+    ];
+
+    /* ----------------------------------------------------
+       FRASES DE PLIN PLIN AL PRESIONAR LA MASCOTA
+       ---------------------------------------------------- */
+    const mascotPhrases = [
+      '¡Cuidado con el botón NO! ¡Tiene cosquillas y sale corriendo! 🏃‍♂️🤪',
+      '¡El pastel de cumpleaños de Sofi da superpoderes para comer dulces! 🍰⚡',
+      '¡Alerta roja! Quien no asista tendrá que lavar los platos del payaso! 🤡🧼',
+      '¡Rum rumbaaa! ¡Plin Plin dice que el que baile mejor se gana dos globos! 🎈🕺',
+      '¡Sofi se comió 3 globos de helio y ahora habla como ardillita! 🐿️🎈',
+      '¿Sabías que el confeti de esta página es mágico y nunca se limpia? 🧹✨'
+    ];
+
+    /* ----------------------------------------------------
+       FOTOS ALEATORIAS PARA EL CHANTAJE TIERNO (PANTALLA "NO")
+       ---------------------------------------------------- */
+    const sadPhotos = [
+      'fotos sofi/gfdgdfg.jpeg',
+      'fotos sofi/fsdfsdf.jpeg',
+      'fotos sofi/hfghfghfgjh.jpeg',
+      'fotos sofi/hgohuih.jpeg',
+      'fotos sofi/hjkjhk.jpeg'
+    ];
+
+    let currentLightboxIndex = 0;
+    let activeFilter = 'none';
+
+    /* ----------------------------------------------------
+       SINTETIZADOR DE SONIDOS (Web Audio API)
+       ---------------------------------------------------- */
+    function playChimeEffect(type) {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        if (type === 'success') {
+          const notes = [523.25, 659.25, 783.99, 1046.50];
+          const duration = 0.2;
+          notes.forEach((freq, index) => {
+            setTimeout(() => {
+              const osc = audioCtx.createOscillator();
+              const gain = audioCtx.createGain();
+              osc.type = 'triangle';
+              osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+              gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+              osc.connect(gain);
+              gain.connect(audioCtx.destination);
+              osc.start();
+              osc.stop(audioCtx.currentTime + duration);
+            }, index * 100);
+          });
+        } else if (type === 'sad') {
+          const notes = [196.00, 155.56, 130.81];
+          const duration = 0.4;
+          notes.forEach((freq, index) => {
+            setTimeout(() => {
+              const osc = audioCtx.createOscillator();
+              const gain = audioCtx.createGain();
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+              gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+              osc.connect(gain);
+              gain.connect(audioCtx.destination);
+              osc.start();
+              osc.stop(audioCtx.currentTime + duration);
+            }, index * 250);
+          });
+        } else if (type === 'pop') {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1);
+          gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.15);
+        } else if (type === 'boing') {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(100, audioCtx.currentTime);
+          osc.frequency.quadraticRampToValueAtTime(800, audioCtx.currentTime + 0.3);
+          gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.35);
+        }
+      } catch (e) {
+        console.log('El navegador bloqueó o no soporta Web Audio API');
+      }
+    }
+
+    /* ----------------------------------------------------
+       CARGA INICIAL DE LA INVITACIÓN
+       ---------------------------------------------------- */
+    document.addEventListener("DOMContentLoaded", () => {
+      initAtmosphere();
+      renderGallery();
+      initBackgroundConfetti();
+      initStarTrailCursor();
+      initMemeAutoSpin();
+      
+      const waLink = document.getElementById('whatsapp-link');
+      waLink.href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+      
+      const noBtn = document.getElementById('no-btn');
+      noBtn.addEventListener('click', handleNoResponse);
+      
+      // Cerrar lightbox de forma súper fácil y divertida
+      const lightboxEl = document.getElementById('lightbox');
+      lightboxEl.addEventListener('click', (e) => {
+        // Ignorar clics en los botones de navegación o filtros
+        if (e.target.closest('.lightbox-nav') || e.target.closest('.lightbox-toolbar') || e.target.closest('.filter-btn')) {
+          return;
+        }
+        
+        // Si hay un filtro activo, y hicieron clic en la imagen/envoltura, reposicionamos el accesorio
+        const imgWrapper = document.querySelector('.lightbox-img-wrapper');
+        if (activeFilter !== 'none' && (e.target === imgWrapper || imgWrapper.contains(e.target))) {
+          const rect = imgWrapper.getBoundingClientRect();
+          const clickX = ((e.clientX - rect.left) / rect.width) * 100;
+          const clickY = ((e.clientY - rect.top) / rect.height) * 100;
+          
+          const overlay = document.getElementById('lightbox-filter-overlay');
+          if (overlay) {
+            overlay.style.left = `${clickX}%`;
+            overlay.style.top = `${clickY}%`;
+            playChimeEffect('pop');
+          }
+          return;
+        }
+        
+        // Si no hay filtros, o si hicieron clic fuera del marco, cerramos
+        closeLightbox();
+      });
+      
+      const video = document.getElementById('intro-video');
+      const fallbackCard = document.getElementById('fallback-card');
+      
+      const videoTimeout = setTimeout(() => {
+        if (video.paused) {
+          fallbackCard.style.display = 'flex';
+        }
+      }, 2500);
+      
+      video.addEventListener('playing', () => {
+        clearTimeout(videoTimeout);
+      });
+      
+      video.addEventListener('error', () => {
+        clearTimeout(videoTimeout);
+        fallbackCard.style.display = 'flex';
+      });
+      
+      video.addEventListener('ended', exitIntro);
+    });
+
+    /* ----------------------------------------------------
+       GIRO AUTOMÁTICO DE LA RULETA AL ENTRAR EN VISTA (Wow Effect)
+       ---------------------------------------------------- */
+    function initMemeAutoSpin() {
+      const memeCard = document.getElementById('meme-card');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Dar un giro automático de demostración tras 800ms de entrar en pantalla
+            setTimeout(spinMemeRuleta, 800);
+            // Dejar de observar para que solo ocurra la primera vez
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      observer.observe(memeCard);
+    }
+
+    /* ----------------------------------------------------
+       ESTRELLA SALTARINA SEGUIDORA EN EL CURSOR
+       ---------------------------------------------------- */
+    function initStarTrailCursor() {
+      document.addEventListener('mousemove', (e) => {
+        if (window.innerWidth < 768) return; 
+        createStarTrail(e.clientX, e.clientY);
+      });
+      
+      document.addEventListener('click', (e) => {
+        for (let i = 0; i < 6; i++) {
+          createStarTrail(e.clientX, e.clientY, true);
+        }
+      });
+    }
+    
+    function createStarTrail(x, y, isBurst = false) {
+      const star = document.createElement('span');
+      star.className = 'cursor-star';
+      
+      const colors = ['#ff4a5a', '#ffd54f', '#29b6f6', '#66bb6a', '#ffa726', '#ab47bc'];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      
+      star.innerHTML = '★';
+      star.style.position = 'fixed';
+      star.style.left = x + 'px';
+      star.style.top = y + 'px';
+      star.style.color = randomColor;
+      star.style.fontSize = (Math.random() * 15 + 10) + 'px';
+      star.style.pointerEvents = 'none';
+      star.style.zIndex = '999999';
+      star.style.textShadow = '0 0 5px rgba(255,255,255,0.8)';
+      
+      const vx = isBurst ? (Math.random() * 6 - 3) : (Math.random() * 2 - 1);
+      const vy = isBurst ? (Math.random() * 6 - 3) : (Math.random() * -2 - 1);
+      
+      let opacity = 1;
+      let scale = 1;
+      let posX = x;
+      let posY = y;
+      
+      document.body.appendChild(star);
+      
+      function animate() {
+        posX += vx;
+        posY += vy;
+        opacity -= 0.03;
+        scale -= 0.02;
+        
+        star.style.left = posX + 'px';
+        star.style.top = posY + 'px';
+        star.style.opacity = opacity;
+        star.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        
+        if (opacity > 0) {
+          requestAnimationFrame(animate);
+        } else {
+          star.remove();
+        }
+      }
+      animate();
+    }
+
+    /* ----------------------------------------------------
+       EFECTO DIVERTIDO: EXPLOSIÓN DE EMOJIS VOLADORES
+       ---------------------------------------------------- */
+    function createShootingEmoji(x, y, emoji) {
+      const el = document.createElement('span');
+      el.innerText = emoji;
+      el.className = 'shooting-emoji';
+      el.style.position = 'fixed';
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      el.style.fontSize = (Math.random() * 20 + 20) + 'px';
+      el.style.pointerEvents = 'none';
+      el.style.zIndex = '999999';
+      el.style.userSelect = 'none';
+      
+      // Velocidad aleatoria en arco abanico hacia arriba
+      const angle = Math.random() * Math.PI * 1.2 - Math.PI * 0.6 - Math.PI / 2;
+      const speed = Math.random() * 8 + 5;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed - 4;
+      
+      let opacity = 1;
+      let posX = x;
+      let posY = y;
+      let gravity = 0.25;
+      let currentVy = vy;
+      let rotation = Math.random() * 360;
+      let rotSpeed = Math.random() * 12 - 6;
+      
+      document.body.appendChild(el);
+      
+      function animate() {
+        posX += vx;
+        currentVy += gravity;
+        posY += currentVy;
+        opacity -= 0.015;
+        rotation += rotSpeed;
+        
+        el.style.left = posX + 'px';
+        el.style.top = posY + 'px';
+        el.style.opacity = opacity;
+        el.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+        
+        if (opacity > 0 && posY < window.innerHeight + 50 && posX > -50 && posX < window.innerWidth + 50) {
+          requestAnimationFrame(animate);
+        } else {
+          el.remove();
+        }
+      }
+      animate();
+    }
+
+    /* Sonido sutil de destello mágico al pasar por las Polaroids */
+    function playHoverSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1000 + Math.random() * 400, audioCtx.currentTime);
+        
+        gain.gain.setValueAtTime(0.012, audioCtx.currentTime); // Súper suave para no interrumpir
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.06);
+      } catch (e) {}
+    }
+
+    /* ----------------------------------------------------
+       MÓDULO DE INTERACTIVIDAD PARA LA MASCOTA PLIN PLIN
+       ---------------------------------------------------- */
+    function speakMascot() {
+      const bubble = document.querySelector('.mascot-bubble');
+      const randomPhrase = mascotPhrases[Math.floor(Math.random() * mascotPhrases.length)];
+      
+      bubble.innerHTML = `${randomPhrase}<br><small style="color:var(--color-purple); font-size:9px; font-weight:bold;">(¡Volver a presionar! 🎪)</small>`;
+      playChimeEffect('boing'); // Sonido cartoon boing para Plin Plin
+      
+      bubble.style.transform = 'scale(1.15) rotate(2deg)';
+      setTimeout(() => {
+        bubble.style.transform = 'scale(1) rotate(0deg)';
+      }, 250);
+      
+      // Obtener el centro de la mascota para disparar los emojis
+      const mascot = document.querySelector('.mascot-container');
+      if (mascot) {
+        const rect = mascot.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const circusEmojis = ['🤡', '🎈', '🎪', '🍿', '🎨', '✨', '🎂', '🥳', '🎁', '🍭'];
+        
+        for (let i = 0; i < 12; i++) {
+          setTimeout(() => {
+            createShootingEmoji(centerX, centerY, circusEmojis[Math.floor(Math.random() * circusEmojis.length)]);
+          }, i * 30);
+        }
+      }
+    }
+
+    /* ----------------------------------------------------
+       TRANSICIÓN DE INTRODUCCIÓN A CONTENIDO PRINCIPAL
+       ---------------------------------------------------- */
+    function exitIntro() {
+      const overlay = document.getElementById('intro-overlay');
+      const mainContent = document.getElementById('main-content');
+      const video = document.getElementById('intro-video');
+      
+      try { video.pause(); } catch(e){}
+      
+      overlay.style.transform = 'translateY(-100%)';
+      overlay.style.opacity = '0';
+      
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        mainContent.style.display = 'block';
+        setTimeout(() => {
+          mainContent.classList.add('visible');
+          playChimeEffect('pop');
+        }, 50);
+      }, 800);
+    }
+
+    /* ----------------------------------------------------
+       GENERADOR DE ATMÓSFERA PLIN PLIN (Nubes, Estrellas, Globos)
+       ---------------------------------------------------- */
+    function initAtmosphere() {
+      const layer = document.getElementById('atmosphere');
+      const colors = ['var(--color-red)', 'var(--color-yellow)', 'var(--color-blue)', 'var(--color-green)', 'var(--color-orange)', 'var(--color-purple)'];
+      
+      for (let i = 0; i < 5; i++) {
+        const cloud = document.createElement('div');
+        const type = Math.random() > 0.5 ? 'cloud-type-1' : 'cloud-type-2';
+        cloud.className = `cloud ${type}`;
+        cloud.style.top = `${Math.random() * 40 + 5}%`;
+        cloud.style.animationDuration = `${Math.random() * 40 + 40}s`;
+        cloud.style.animationDelay = `-${Math.random() * 50}s`;
+        cloud.style.opacity = `${Math.random() * 0.4 + 0.5}`;
+        layer.appendChild(cloud);
+      }
+      
+      for (let i = 0; i < 10; i++) {
+        const star = document.createElement('div');
+        star.className = 'atmosphere-star';
+        star.style.left = `${Math.random() * 95}%`;
+        star.style.top = `${Math.random() * 90}%`;
+        const size = Math.random() * 15 + 15;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        const rotation = Math.random() * 360;
+        star.style.setProperty('--current-rotation', `${rotation}deg`);
+        star.style.animationDelay = `-${Math.random() * 5}s`;
+        layer.appendChild(star);
+      }
+      
+      for (let i = 0; i < 6; i++) {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        const color = colors[i % colors.length];
+        balloon.style.background = color;
+        balloon.style.left = `${Math.random() * 85 + 5}%`;
+        balloon.style.animationDuration = `${Math.random() * 10 + 15}s`;
+        balloon.style.animationDelay = `-${Math.random() * 15}s`;
+        balloon.style.setProperty('--balloon-color', color);
+        balloon.style.borderLeft = `1px solid rgba(255,255,255,0.2)`;
+        
+        const string = document.createElement('div');
+        string.className = 'balloon-string';
+        balloon.appendChild(string);
+        layer.appendChild(balloon);
+      }
+    }
+
+    /* ----------------------------------------------------
+       RENDERIZADO DE LA GALERÍA DE FOTOS (Sin leyendas escritas abajo)
+       ---------------------------------------------------- */
+    function renderGallery() {
+      const grid = document.getElementById('photo-gallery');
+      const borders = ['border-red', 'border-yellow', 'border-blue', 'border-green', 'border-orange', 'border-purple'];
+      const rotations = ['rot-left-1', 'rot-right-1', 'rot-left-2', 'rot-right-2', 'rot-left-3', 'rot-right-3'];
+      
+      photoList.forEach((photo, index) => {
+        const card = document.createElement('div');
+        const rot = rotations[index % rotations.length];
+        card.className = `polaroid-card ${rot}`;
+        card.onclick = () => openLightbox(index);
+        card.onmouseenter = () => playHoverSound(); // Activar micro-sonido de magia
+        
+        const tape = document.createElement('div');
+        tape.className = 'polaroid-tape';
+        const tapeColors = ['rgba(255, 213, 79, 0.7)', 'rgba(41, 182, 246, 0.6)', 'rgba(255, 74, 90, 0.6)', 'rgba(102, 187, 106, 0.6)'];
+        tape.style.background = tapeColors[index % tapeColors.length];
+        card.appendChild(tape);
+        
+        const wrapper = document.createElement('div');
+        const border = borders[index % borders.length];
+        wrapper.className = `photo-wrapper ${border}`;
+        
+        const img = document.createElement('img');
+        img.src = photo.url;
+        img.alt = `Sofi ${index + 1}`;
+        img.className = 'polaroid-img';
+        img.loading = 'lazy';
+        
+        wrapper.appendChild(img);
+        card.appendChild(wrapper);
+        
+        grid.appendChild(card);
+      });
+    }
+
+    /* ----------------------------------------------------
+       RULETA INTERACTIVA DE MEMES / TRAVESURAS DE SOFI
+       ---------------------------------------------------- */
+    function spinMemeRuleta() {
+      const card = document.getElementById('meme-card');
+      const img = document.getElementById('meme-img');
+      const textTop = document.getElementById('meme-text-top');
+      const textBottom = document.getElementById('meme-text-bottom');
+      
+      playChimeEffect('boing');
+      card.classList.add('spinning');
+      
+      setTimeout(() => {
+        const randomPhoto = photoList[Math.floor(Math.random() * photoList.length)];
+        const randomMeme = memeCaptions[Math.floor(Math.random() * memeCaptions.length)];
+        
+        img.src = randomPhoto.url;
+        textTop.innerText = randomMeme.top;
+        textBottom.innerText = randomMeme.bottom;
+      }, 300);
+      
+      setTimeout(() => {
+        card.classList.remove('spinning');
+      }, 600);
+    }
+
+    /* ----------------------------------------------------
+       LIGHTBOX (Visualizador de Fotos con Filtros Divertidos)
+       ---------------------------------------------------- */
+    function openLightbox(index) {
+      currentLightboxIndex = index;
+      const lightbox = document.getElementById('lightbox');
+      
+      applyLightboxFilter('none');
+      updateLightboxContent();
+      lightbox.classList.add('active');
+      playChimeEffect('pop');
+    }
+    
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+    
+    function nextLightbox() {
+      currentLightboxIndex = (currentLightboxIndex + 1) % photoList.length;
+      applyLightboxFilter('none');
+      updateLightboxContent();
+    }
+    
+    function prevLightbox() {
+      currentLightboxIndex = (currentLightboxIndex - 1 + photoList.length) % photoList.length;
+      applyLightboxFilter('none');
+      updateLightboxContent();
+    }
+    
+    function updateLightboxContent() {
+      const img = document.getElementById('lightbox-img');
+      img.style.opacity = 0;
+      setTimeout(() => {
+        img.src = photoList[currentLightboxIndex].url;
+        img.style.opacity = 1;
+        playChimeEffect('pop');
+      }, 150);
+    }
+
+    function applyLightboxFilter(filterType) {
+      activeFilter = filterType;
+      
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      
+      const activeBtn = document.getElementById(`f-${filterType}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      
+      const imgWrapper = document.querySelector('.lightbox-img-wrapper');
+      const oldOverlay = document.getElementById('lightbox-filter-overlay');
+      if (oldOverlay) oldOverlay.remove();
+      
+      // Actualizar leyenda del visualizador dinámicamente
+      const hint = document.querySelector('.lightbox-hint');
+      if (filterType === 'none') {
+        if (hint) hint.innerText = '👆 Toca en cualquier parte para cerrar';
+        return;
+      }
+      
+      if (hint) hint.innerText = '👆 ¡Toca en la foto para acomodar el accesorio!';
+      
+      const overlay = document.createElement('div');
+      overlay.id = 'lightbox-filter-overlay';
+      
+      if (filterType === 'clown') {
+        overlay.innerHTML = '<span style="font-size: 60px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));">🔴</span>';
+        overlay.style.cssText = 'position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 1000; animation: pulseFilter 1.2s infinite alternate ease-in-out;';
+      } else if (filterType === 'crown') {
+        overlay.innerHTML = '<span style="font-size: 75px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));">👑</span>';
+        overlay.style.cssText = 'position: absolute; top: 12%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 1000; animation: bobFilter 1.8s infinite alternate ease-in-out;';
+      } else if (filterType === 'hat') {
+        overlay.innerHTML = '<span style="font-size: 80px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));">🥳</span>';
+        overlay.style.cssText = 'position: absolute; top: 8%; left: 50%; transform: translate(-50%, -50%) rotate(-12deg); pointer-events: none; z-index: 1000;';
+      } else if (filterType === 'mustache') {
+        overlay.innerHTML = '<span style="font-size: 65px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));">🥸</span>';
+        overlay.style.cssText = 'position: absolute; top: 58%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 1000;';
+      }
+      
+      imgWrapper.appendChild(overlay);
+      playChimeEffect('pop');
+    }
+    
+    document.addEventListener('keydown', (e) => {
+      const lightbox = document.getElementById('lightbox');
+      if (lightbox.classList.contains('active')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') nextLightbox();
+        if (e.key === 'ArrowLeft') prevLightbox();
+      }
+    });
+
+    /* ----------------------------------------------------
+       LÓGICA DEL BOTÓN "NO" JUGUETÓN CON GLOBOS DE DIÁLOGO
+       ---------------------------------------------------- */
+    /* ----------------------------------------------------
+       LÓGICA DEL BOTÓN "NO" CON ANUNCIOS EN CASCADA (Plin Plin)
+       ---------------------------------------------------- */
+    let noClickCount = 0;
+    const funnyMessages = [
+      { text: "¡Un momento! ¿Cómo que NO? 😱 ¡Seguro no me quieres traer regalo! 🎁🥺", button: "¡Bueno, sí voy! 🍰", photo: "fotos sofi/gfdgdfg.jpeg" },
+      { text: "¡Alerta Roja! 🚨 ¡El payasito Plin Plin dice que el que no asista tendrá que lavar los platos del circo! 🧼🤡", button: "¡Ni loco, sí voy! 🏃‍♂️", photo: "fotos sofi/fsdfsdf.jpeg" },
+      { text: "¡Se detectaron niveles críticamente bajos de diversión! 📉 ¡Necesitamos tu alegría para inflar los globos! 🎈", button: "¡Está bien, sí voy! ✨", photo: "fotos sofi/hfghfghfgjh.jpeg" },
+      { text: "¡Oh nooo! 🥺 Las velitas de cumpleaños no encenderán si falta tu sonrisa mágica. 🕯️💖", button: "¡Ya me convenciste, sí voy! 😍", photo: "fotos sofi/hgohuih.jpeg" },
+      { text: "¡Última oportunidad! 🎪 Si dices que SÍ ahora, ¡Plin Plin te regalará una estrellita de la suerte! ⭐", button: "¡SÍ, VOY DE CABEZA! 🎉🎈", photo: "fotos sofi/hjkjhk.jpeg" }
+    ];
+
+    function handleNoResponse() {
+      playChimeEffect('sad');
+      createCircusPopup();
+    }
+
+    function createCircusPopup() {
+      const index = noClickCount % funnyMessages.length;
+      const msg = funnyMessages[index];
+      noClickCount++;
+
+      const popup = document.createElement('div');
+      popup.className = 'circus-popup';
+      
+      // Apilamiento y rotación divertida
+      const offset = (noClickCount * 25) % 100;
+      const angle = (Math.random() * 8 - 4); // Inclinación
+      popup.style.setProperty('--popup-rotation', `${angle}deg`);
+      
+      const borderColors = ['var(--color-red)', 'var(--color-blue)', 'var(--color-purple)', 'var(--color-green)'];
+      const borderColor = borderColors[index % borderColors.length];
+      
+      popup.style.cssText = `
+        position: fixed;
+        top: calc(50% - 190px + ${offset}px);
+        left: calc(50% - 170px + ${offset - 20}px);
+        width: 340px;
+        background: white;
+        border: 8px double ${borderColor};
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        z-index: ${25000 + noClickCount};
+        text-align: center;
+        opacity: 0;
+      `;
+
+      const photoHtml = msg.photo ? `
+        <div style="width: 110px; height: 110px; margin: 0 auto 12px auto; border-radius: 50%; border: 4px solid ${borderColor}; overflow: hidden; box-shadow: var(--shadow-soft); position: relative; animation: heartbeat 2.5s infinite alternate ease-in-out;">
+          <img src="${msg.photo}" alt="Sofi" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+      ` : '';
+      
+      popup.innerHTML = `
+        <!-- Guirnalda de banderines Plin Plin adentro del anuncio -->
+        <div class="circus-bunting-garland" style="margin-top: -15px; margin-bottom: 15px;">
+          <div class="circus-bunting-flag"></div>
+          <div class="circus-bunting-flag"></div>
+          <div class="circus-bunting-flag"></div>
+          <div class="circus-bunting-flag"></div>
+          <div class="circus-bunting-flag"></div>
+          <div class="circus-bunting-flag"></div>
+          <div class="circus-bunting-flag"></div>
+        </div>
+        <div style="font-size: 36px; margin-bottom: 8px; animation: heartbeat 1.5s infinite ease-in-out;">🎪🎈🤡</div>
+        <h3 style="font-family: var(--font-fun); color: ${borderColor}; margin-bottom: 12px; font-size: 20px; text-shadow: 1px 1px 0px rgba(0,0,0,0.05);">¡ALERTA MÁGICA!</h3>
+        ${photoHtml}
+        <p style="font-family: var(--font-body); color: var(--color-text); font-size: 14px; line-height: 1.5; margin-bottom: 20px; font-weight: bold;">
+          ${msg.text}
+        </p>
+        <button class="btn btn-yes" onclick="confirmYesFromPopup(this)" style="font-size: 16px; padding: 10px 20px; width: 100%; justify-content: center; background: ${borderColor};">
+          ${msg.button}
+        </button>
+      `;
+      
+      document.body.appendChild(popup);
+      
+      // Lanzar globo por pantalla
+      createSingleBalloon();
+    }
+
+    function createSingleBalloon() {
+      const layer = document.getElementById('atmosphere');
+      if (layer) {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        const colors = ['var(--color-red)', 'var(--color-yellow)', 'var(--color-blue)', 'var(--color-green)', 'var(--color-orange)', 'var(--color-purple)'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        balloon.style.background = color;
+        balloon.style.left = `${Math.random() * 80 + 10}%`;
+        balloon.style.animationDuration = '9s';
+        balloon.style.bottom = '-120px';
+        balloon.style.setProperty('--balloon-color', color);
+        
+        const string = document.createElement('div');
+        string.className = 'balloon-string';
+        balloon.appendChild(string);
+        layer.appendChild(balloon);
+        
+        // Remover globo tras terminar animación
+        setTimeout(() => {
+          balloon.remove();
+        }, 9500);
+      }
+    }
+
+    function confirmYesFromPopup(btn) {
+      // Cerrar y desvanecer anuncios
+      const popups = document.querySelectorAll('.circus-popup');
+      popups.forEach(p => {
+        p.style.transform = 'scale(0.8) rotate(0deg)';
+        p.style.opacity = '0';
+        setTimeout(() => p.remove(), 350);
+      });
+      
+      // Activar el SÍ principal
+      handleYesResponse();
+    }
+    
+    function handleYesResponse() {
+      playChimeEffect('success');
+      
+      const rsvp = document.getElementById('rsvp-card');
+      rsvp.style.display = 'none';
+      
+      triggerMassiveConfetti();
+      
+      const details = document.getElementById('celebration-section');
+      details.classList.add('active');
+      
+      setTimeout(() => {
+        details.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 200);
+    }
+
+    /* ----------------------------------------------------
+       MOTOR DE CONFETI EN CANVAS
+       ---------------------------------------------------- */
+    let canvas, ctx;
+    let confettiParticles = [];
+    const confettiColors = ['#ff4a5a', '#ffd54f', '#29b6f6', '#66bb6a', '#ffa726', '#ab47bc', '#ff80ab'];
+    
+    function initBackgroundConfetti() {
+      canvas = document.getElementById('bg-confetti');
+      ctx = canvas.getContext('2d');
+      
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      
+      for (let i = 0; i < 40; i++) {
+        confettiParticles.push(createParticle(true));
+      }
+      
+      requestAnimationFrame(updateConfetti);
+    }
+    
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    
+    function createParticle(isBackground = false) {
+      return {
+        x: Math.random() * canvas.width,
+        y: isBackground ? Math.random() * canvas.height : -20,
+        size: Math.random() * 6 + 4,
+        color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+        speedX: Math.random() * 2 - 1,
+        speedY: Math.random() * 2 + 1.5,
+        rotation: Math.random() * 360,
+        rotationSpeed: Math.random() * 4 - 2,
+        isBackground: isBackground
+      };
+    }
+    
+    function updateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      confettiParticles.forEach((p, index) => {
+        p.y += p.speedY;
+        p.x += p.speedX;
+        p.rotation += p.rotationSpeed;
+        
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation * Math.PI / 180);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.isBackground ? 0.35 : 0.95;
+        
+        if (index % 3 === 0) {
+          ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+        } else if (index % 3 === 1) {
+          ctx.beginPath();
+          ctx.arc(0, 0, p.size/2, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(0, -p.size/2);
+          ctx.lineTo(p.size/2, p.size/2);
+          ctx.lineTo(-p.size/2, p.size/2);
+          ctx.closePath();
+          ctx.fill();
+        }
+        ctx.restore();
+        
+        if (p.y > canvas.height + 20) {
+          if (p.isBackground) {
+            confettiParticles[index] = createParticle(true);
+            confettiParticles[index].y = -10;
+          } else {
+            confettiParticles.splice(index, 1);
+          }
+        }
+      });
+      requestAnimationFrame(updateConfetti);
+    }
+    
+    function triggerMassiveConfetti() {
+      for (let i = 0; i < 150; i++) {
+        setTimeout(() => {
+          const p = createParticle(false);
+          p.x = Math.random() * canvas.width;
+          p.y = -20;
+          p.speedY = Math.random() * 5 + 4;
+          p.speedX = Math.random() * 6 - 3;
+          p.size = Math.random() * 10 + 6;
+          confettiParticles.push(p);
+        }, Math.random() * 400);
+      }
+    }
+  </script>
+</body>
+</html>
