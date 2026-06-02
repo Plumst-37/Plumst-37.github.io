@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un Regalo para Ti 🎵 - Los Prisioneros</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background Animated Gradients -->
+    <div class="bg-gradient-glow"></div>
+    <div class="particles-container" id="particles"></div>
+
+    <main class="main-container">
+        <!-- Section 1: Hero / Greeting Card -->
+        <section class="hero-section">
+            <div class="greeting-card glass-panel">
+                <div class="header-image-container">
+                    <img src="Imagenes/Los prisioneros.jpg" alt="Los Prisioneros" class="header-image" id="titleImage">
+                    <div class="image-overlay"></div>
+                </div>
+                
+                <div class="card-content">
+                    <div class="heart-pulse-container">
+                        <svg class="heart-pulse" viewBox="0 0 32 32">
+                            <path d="M16,28.261L3.652,15.913C1.652,13.913,1.652,10.652,3.652,8.652s5.261-2,7.261,0L16,13.739l5.087-5.087c2-2,5.261-2,7.261,0s2,5.261,0,7.261L16,28.261z"/>
+                        </svg>
+                    </div>
+                    
+                    <h1 class="gift-title">Para ti, con cariño</h1>
+                    
+                    <div class="romantic-message">
+                        <p class="handwritten-text">
+                            "Mira, sé que no nos conocemos mucho pero me llamas la atención, me da vergüenza hablar pero quisiera conocerte más..."
+                        </p>
+                    </div>
+                    
+                    <div class="music-invite">
+                        <p>Me gusta mucho la música de <strong>Los Prisioneros</strong> y quería compartirla contigo de una forma diferente. He preparado esta rockola interactiva con sus mejores álbumes especialmente para ti. Espero que te guste. ✨</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Interactive Player Hub -->
+        <section class="player-hub">
+            <div class="player-grid">
+                
+                <!-- Left Column: The Turntable Player -->
+                <div class="turntable-card glass-panel">
+                    <h2 class="section-subtitle">Reproductor de Vinilos</h2>
+                    
+                    <div class="turntable-container">
+                        <!-- Turntable Body -->
+                        <div class="turntable">
+                            <!-- Turntable Platter (Plato) -->
+                            <div class="platter" id="platter">
+                                <!-- The loaded record will be inserted here dynamically -->
+                                <div class="record" id="activeRecord">
+                                    <div class="record-grooves"></div>
+                                    <div class="record-label" id="activeRecordLabel" style="background-image: url('https://i.scdn.co/image/ab67616d0000b27341851e44f506869a19c11802')">
+                                        <div class="center-hole"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Stylus / Tonearm (Brazo del Tocadiscos) -->
+                            <div class="tonearm-container" id="tonearmContainer">
+                                <svg class="tonearm" id="tonearm" viewBox="0 0 100 200">
+                                    <!-- Stylus base pivot -->
+                                    <circle cx="50" cy="30" r="12" fill="#2c2c35" stroke="#4f4f5a" stroke-width="2"/>
+                                    <circle cx="50" cy="30" r="6" fill="#8b949e"/>
+                                    
+                                    <!-- Stylus arm -->
+                                    <path d="M50,30 L65,110 L58,160 L50,170" fill="none" stroke="#d1d5db" stroke-width="4" stroke-linecap="round"/>
+                                    
+                                    <!-- Cartridge / Headshell -->
+                                    <rect x="42" y="165" width="16" height="20" rx="3" fill="#1f1f24" stroke="#8b949e" stroke-width="1" transform="rotate(-10 50 175)"/>
+                                    <!-- Red stylus cartridge tip -->
+                                    <rect x="47" y="180" width="6" height="5" fill="#ff4b72"/>
+                                </svg>
+                            </div>
+                            
+                            <!-- Control Dots -->
+                            <div class="turntable-controls">
+                                <span class="control-knob"></span>
+                                <span class="control-knob speed-select"></span>
+                                <div class="status-light" id="statusLight"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Player Info & Controls -->
+                    <div class="player-info">
+                        <div class="song-meta">
+                            <h3 class="playing-album" id="playingAlbum">Corazones (1990)</h3>
+                            <p class="playing-song" id="playingSong">Selecciona un álbum para reproducir</p>
+                        </div>
+                        
+                        <!-- Visualizer bars -->
+                        <div class="visualizer" id="visualizer">
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="player-actions">
+                            <button class="btn-play glass-button" id="btnPlay">
+                                <svg class="btn-icon" viewBox="0 0 24 24" id="playIcon">
+                                    <path d="M8 5v14l11-7z" fill="currentColor"/>
+                                </svg>
+                                <svg class="btn-icon hidden" viewBox="0 0 24 24" id="pauseIcon">
+                                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor"/>
+                                </svg>
+                                <span id="btnPlayText">Reproducir</span>
+                            </button>
+                            
+                            <a href="https://open.spotify.com/album/4v1Y1WjS2j47x1K2Z4WJ5V" target="_blank" class="btn-spotify" id="spotifyLink">
+                                <svg class="spotify-logo" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.565.387-.86.207-2.377-1.454-5.37-1.783-8.893-.982-.336.075-.668-.135-.744-.47-.077-.337.135-.668.47-.745 3.856-.88 7.15-.5 9.822 1.135.296.18.387.563.207.857zm1.225-2.72c-.227.367-.707.487-1.074.26-2.72-1.672-6.87-2.157-10.075-1.183-.413.125-.85-.107-.975-.52-.125-.413.107-.85.52-.975 3.66-1.11 8.224-.563 11.343 1.357.367.226.487.707.26 1.075zm.105-2.822c-3.26-1.937-8.628-2.114-11.722-1.174-.5-.15-.824-.428-.824-.925s.324-.775.824-.925c3.565-1.082 9.48-.88 13.232 1.348.45.27.6.853.33 1.3-.27.45-.85.6-1.3.33z"/>
+                                </svg>
+                                Abrir en Spotify
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Vinyl Shelf & Tracklist -->
+                <div class="shelf-and-tracks">
+                    
+                    <!-- Top Part: Interactive Vinyl Shelf -->
+                    <div class="shelf-card glass-panel">
+                        <h2 class="section-subtitle">Colección de Vinilos</h2>
+                        <p class="shelf-instruction">Haz clic en un vinilo para colocarlo en el tocadiscos y cargarlo</p>
+                        
+                        <div class="vinyl-grid">
+                            <!-- Album 1: Corazones -->
+                            <div class="album-item active" data-index="0">
+                                <div class="sleeve-container">
+                                    <div class="vinyl-disc"></div>
+                                    <img src="https://i.scdn.co/image/ab67616d0000b27341851e44f506869a19c11802" alt="Corazones" class="album-cover">
+                                </div>
+                                <div class="album-meta">
+                                    <span class="album-title">Corazones</span>
+                                    <span class="album-year">1990</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Album 2: Pateando Piedras -->
+                            <div class="album-item" data-index="1">
+                                <div class="sleeve-container">
+                                    <div class="vinyl-disc"></div>
+                                    <img src="https://i.scdn.co/image/ab67616d0000b273b060d4b971a8f9024f923b7a" alt="Pateando Piedras" class="album-cover" id="cover1">
+                                </div>
+                                <div class="album-meta">
+                                    <span class="album-title">Pateando Piedras</span>
+                                    <span class="album-year">1986</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Album 3: La Voz de los '80 -->
+                            <div class="album-item" data-index="2">
+                                <div class="sleeve-container">
+                                    <div class="vinyl-disc"></div>
+                                    <img src="https://i.scdn.co/image/ab67616d0000b273cd9b7754d92eeeb67e7ab437" alt="La Voz de los '80" class="album-cover" id="cover2">
+                                </div>
+                                <div class="album-meta">
+                                    <span class="album-title">La Voz de los '80</span>
+                                    <span class="album-year">1984</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Album 4: La Cultura de la Basura -->
+                            <div class="album-item" data-index="3">
+                                <div class="sleeve-container">
+                                    <div class="vinyl-disc"></div>
+                                    <img src="https://i.scdn.co/image/ab67616d0000b273a5a75908e2c7c5950e39665d" alt="La Cultura de la Basura" class="album-cover" id="cover3">
+                                </div>
+                                <div class="album-meta">
+                                    <span class="album-title">La Cultura de la Basura</span>
+                                    <span class="album-year">1987</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bottom Part: Dynamic Tracklist -->
+                    <div class="tracklist-card glass-panel">
+                        <div class="tracklist-header">
+                            <h2 class="section-subtitle" id="tracklistTitle">Canciones de Corazones</h2>
+                            <span class="track-count" id="trackCount">5 canciones</span>
+                        </div>
+                        
+                        <div class="track-list" id="trackList">
+                            <!-- Track items will be inserted dynamically via JS -->
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Hecho con ❤️ para una persona especial</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
