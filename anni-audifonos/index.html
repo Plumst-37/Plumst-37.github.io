@@ -36,7 +36,7 @@
       min-height: 100%;
       background-color: var(--bg-dark);
       overflow-x: hidden;
-      overflow-y: auto; /* Permite subir y bajar perfectamente */
+      overflow-y: auto;
       scroll-behavior: smooth;
     }
 
@@ -45,18 +45,17 @@
       min-height: 100vh;
       min-height: 100dvh;
       background: radial-gradient(circle at 50% 25%, #2a0820 0%, #0d020b 60%, #040005 100%);
-      background-attachment: fixed; /* Fondo fijo para desplazamiento fluido */
+      background-attachment: fixed;
       font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
       color: #f3e8ee;
       display: flex;
       justify-content: center;
-      align-items: flex-start; /* Permite desplazamiento natural hacia abajo */
+      align-items: flex-start;
       padding: clamp(24px, 5vh, 50px) clamp(12px, 3vw, 18px);
       -webkit-font-smoothing: antialiased;
       position: relative;
     }
 
-    /* Luz ambiental tenue */
     body::before {
       content: '';
       position: fixed;
@@ -69,6 +68,30 @@
       pointer-events: none;
       z-index: 0;
       filter: blur(40px);
+    }
+
+    /* --- PÉTALOS INTERACTIVOS (LLUVIA AL HACER CLIC/TOCAR) --- */
+    .click-petal {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      width: 14px;
+      height: 18px;
+      background: linear-gradient(135deg, #f8bbd0 0%, #e91e63 100%);
+      border-radius: 50% 50% 50% 0% / 80% 80% 20% 0%;
+      box-shadow: 0 2px 8px rgba(233, 30, 99, 0.4);
+      animation: petalFall 1.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
+    @keyframes petalFall {
+      0% {
+        opacity: 0.95;
+        transform: translate(0, 0) rotate(0deg) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0.4);
+      }
     }
 
     /* --- PANTALLA DE CARGA --- */
@@ -147,7 +170,7 @@
     .main-card {
       max-width: 580px; 
       width: 100%;
-      margin: auto 0; /* Centrado vertical armónico cuando hay espacio */
+      margin: auto 0;
       background: var(--glass-bg);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
@@ -170,7 +193,6 @@
       transform: translateY(0) scale(1);
     }
 
-    /* Badge Superior */
     .badge-wrap {
       display: inline-flex;
       align-items: center;
@@ -268,12 +290,10 @@
       font-weight: 600;
     }
 
-    /* --- LOGO DE SPOTIFY ALUMBRADO EN TODOS LOS BOTONES --- */
     .spotify-icon-badge {
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      /* Degradado y brillo neón rosa que combina perfectamente con la página */
       background: linear-gradient(135deg, #f48fb1 0%, #e91e63 100%);
       box-shadow: 0 0 12px var(--glow-color), 0 0 4px rgba(233, 30, 99, 0.8);
       display: flex;
@@ -288,7 +308,7 @@
     .spotify-icon-badge svg {
       width: 15px;
       height: 15px;
-      fill: #ffffff; /* Ícono blanco brillante */
+      fill: #ffffff;
       transition: transform 0.35s ease;
     }
 
@@ -299,7 +319,7 @@
     }
 
     .artist-card:hover .spotify-icon-badge svg {
-      fill: #a21251; /* Cambio de tono elegante al interactuar */
+      fill: #a21251;
     }
 
     /* --- BOTÓN SORPRESA --- */
@@ -392,6 +412,37 @@
       font-weight: 300;
       font-size: clamp(0.86rem, 2.4vw, 0.93rem);
       line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    /* --- BOTÓN PARA NAVEGAR A FLOR.HTML (FUNCIÓN 3) --- */
+    .btn-flower-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(233, 30, 99, 0.25) 0%, rgba(248, 187, 208, 0.25) 100%);
+      border: 1px solid rgba(255, 182, 193, 0.5);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 28px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(233, 30, 99, 0.2);
+    }
+
+    .btn-flower-link:hover {
+      background: linear-gradient(135deg, rgba(233, 30, 99, 0.5) 0%, rgba(248, 187, 208, 0.4) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(233, 30, 99, 0.4);
+      border-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .btn-flower-link:active {
+      transform: scale(0.96);
     }
 
     /* Responsive Breakdown */
@@ -414,7 +465,7 @@
 </head>
 <body>
 
-  <!-- PANTALLA DE CARGA CON PEONÍA VECTORIAL MULTILAYER -->
+  <!-- PANTALLA DE CARGA -->
   <div id="loader">
     <div class="loader-flower-wrap">
       <svg viewBox="0 0 200 200" width="100%" height="100%">
@@ -439,7 +490,6 @@
           </linearGradient>
         </defs>
 
-        <!-- Pétalos Capa Exterior -->
         <g fill="url(#pGrad4)" opacity="0.95" stroke="rgba(255,255,255,0.2)" stroke-width="0.5">
           <path d="M100 20 C130 20 150 45 140 75 C130 100 100 112 100 112 C100 112 70 100 60 75 C50 45 70 20 100 20 Z" transform="rotate(0 100 100)"/>
           <path d="M100 20 C130 20 150 45 140 75 C130 100 100 112 100 112 C100 112 70 100 60 75 C50 45 70 20 100 20 Z" transform="rotate(51.4 100 100)"/>
@@ -450,7 +500,6 @@
           <path d="M100 20 C130 20 150 45 140 75 C130 100 100 112 100 112 C100 112 70 100 60 75 C50 45 70 20 100 20 Z" transform="rotate(308.4 100 100)"/>
         </g>
 
-        <!-- Pétalos Capa Media 2 -->
         <g fill="url(#pGrad3)" opacity="0.95">
           <path d="M100 30 C125 30 140 52 132 78 C124 98 100 108 100 108 C100 108 76 98 68 78 C60 52 75 30 100 30 Z" transform="rotate(25 100 100)"/>
           <path d="M100 30 C125 30 140 52 132 78 C124 98 100 108 100 108 C100 108 76 98 68 78 C60 52 75 30 100 30 Z" transform="rotate(85 100 100)"/>
@@ -460,7 +509,6 @@
           <path d="M100 30 C125 30 140 52 132 78 C124 98 100 108 100 108 C100 108 76 98 68 78 C60 52 75 30 100 30 Z" transform="rotate(325 100 100)"/>
         </g>
 
-        <!-- Pétalos Capa Media 1 -->
         <g fill="url(#pGrad2)">
           <path d="M100 40 C120 40 132 58 126 80 C120 96 100 104 100 104 C100 104 80 96 74 80 C68 58 80 40 100 40 Z" transform="rotate(0 100 100)"/>
           <path d="M100 40 C120 40 132 58 126 80 C120 96 100 104 100 104 C100 104 80 96 74 80 C68 58 80 40 100 40 Z" transform="rotate(72 100 100)"/>
@@ -469,7 +517,6 @@
           <path d="M100 40 C120 40 132 58 126 80 C120 96 100 104 100 104 C100 104 80 96 74 80 C68 58 80 40 100 40 Z" transform="rotate(288 100 100)"/>
         </g>
 
-        <!-- Pétalos Capa Interior -->
         <g fill="url(#pGrad1)">
           <path d="M100 48 C114 48 124 62 120 82 C116 95 100 102 100 102 C100 102 84 95 80 82 C76 62 86 48 100 48 Z" transform="rotate(36 100 100)"/>
           <path d="M100 48 C114 48 124 62 120 82 C116 95 100 102 100 102 C100 102 84 95 80 82 C76 62 86 48 100 48 Z" transform="rotate(108 100 100)"/>
@@ -478,7 +525,6 @@
           <path d="M100 48 C114 48 124 62 120 82 C116 95 100 102 100 102 C100 102 84 95 80 82 C76 62 86 48 100 48 Z" transform="rotate(324 100 100)"/>
         </g>
 
-        <!-- Corazón Dorado -->
         <circle cx="100" cy="100" r="16" fill="url(#centerGlow)"/>
         
         <g fill="#ffe082">
@@ -505,7 +551,6 @@
     <p class="intro-text">Preparé este espacio con tus artistas preferidos. Toca cualquiera para escucharlos directamente en Spotify.</p>
 
     <div class="artist-grid">
-      <!-- Íconos de Spotify encendidos en TODOS los botones -->
       <a href="https://open.spotify.com/search/Dani%20Flow" target="_blank" class="artist-card">
         <span class="artist-name">Dani Flow</span>
         <div class="spotify-icon-badge">
@@ -576,11 +621,49 @@
       <div class="message-box-inner">
         <h3>Un pequeño detalle...</h3>
         <p>Me está gustando mucho conocerte. ¡Espero que disfrutes mucho este regalo! 😊✨</p>
+        
+        <!-- ENLACE A FLOR.HTML (FUNCIÓN 3) -->
+        <a href="flor.html" class="btn-flower-link">
+          <span>Ver tu peonía florecer</span> 🌸
+        </a>
       </div>
     </div>
   </div>
 
   <script>
+    // --- FUNCIÓN 1: LLUVIA DE PÉTALOS AL HACER CLIC O TOCAR ---
+    function spawnPetals(e) {
+      const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : window.innerWidth / 2);
+      const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : window.innerHeight / 2);
+
+      for (let i = 0; i < 3; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'click-petal';
+
+        // Posición inicial
+        petal.style.left = `${x}px`;
+        petal.style.top = `${y}px`;
+
+        // Direcciones de caída aleatorias
+        const dx = (Math.random() - 0.5) * 120;
+        const dy = Math.random() * 90 + 50;
+        const rot = (Math.random() - 0.5) * 360;
+
+        petal.style.setProperty('--dx', `${dx}px`);
+        petal.style.setProperty('--dy', `${dy}px`);
+        petal.style.setProperty('--rot', `${rot}deg`);
+
+        document.body.appendChild(petal);
+
+        // Limpieza de memoria del DOM
+        setTimeout(() => {
+          if (petal.parentNode) petal.remove();
+        }, 1400);
+      }
+    }
+
+    window.addEventListener('click', spawnPetals);
+
     // --- MANEJO DE PANTALLA DE CARGA ---
     window.addEventListener('load', () => {
       setTimeout(() => {
@@ -604,7 +687,6 @@
       mensaje.classList.add('show');
       btn.style.display = 'none';
       
-      // Auto-desplazamiento suave hacia la nota revelada
       setTimeout(() => {
         mensaje.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }, 200);
