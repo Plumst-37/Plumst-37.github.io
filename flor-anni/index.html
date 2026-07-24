@@ -7,6 +7,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
+        /* Reset optimizado */
         * {
             margin: 0;
             padding: 0;
@@ -16,31 +17,27 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Solución para el fondo blanco en Safari/Chrome móvil */
-        html {
-            background-color: #080107;
+        html, body {
             width: 100%;
             height: 100%;
-        }
-
-        body {
-            background-color: #080107;
-            background: radial-gradient(circle at 50% 45%, #2a081d 0%, #12030d 60%, #050005 100%);
-            width: 100%;
-            height: 100%;
-            min-height: 100vh;
             overflow: hidden;
             position: fixed;
             top: 0;
             left: 0;
+        }
+
+        body {
+            background: #080107;
+            background: radial-gradient(circle at 50% 45%, #2a081d 0%, #12030d 60%, #050005 100%);
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Canvas ultraligero de partículas */
+        /* Canvas optimizado */
         #bgCanvas {
             position: fixed;
             top: 0;
@@ -51,7 +48,7 @@
             z-index: 1;
         }
 
-        /* Viewport estático centralizado con aceleración de hardware */
+        /* Viewport 2D */
         .viewport {
             position: relative;
             width: 100vw;
@@ -59,7 +56,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1000px;
             z-index: 2;
         }
 
@@ -67,31 +63,29 @@
             position: relative;
             width: 0;
             height: 0;
-            transform-style: preserve-3d;
-            transform: rotateX(0deg) rotateY(0deg);
+            will-change: transform;
         }
 
-        /* Flotación orgánica ligera */
+        /* Flotación 2D ligera */
         .flower-container {
             position: relative;
             width: 0;
             height: 0;
-            transform-style: preserve-3d;
             animation: gentleFloat 6s ease-in-out infinite alternate;
+            will-change: transform;
         }
 
         @keyframes gentleFloat {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-7px); }
-            100% { transform: translateY(-14px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(-10px); }
         }
 
-        /* --- ESTRUCTURA BOTÁNICA (TALLO Y HOJAS) --- */
+        /* --- ESTRUCTURA BOTÁNICA 2D --- */
         .botanical-stem-group {
             position: absolute;
             top: 0;
             left: 0;
-            transform-style: preserve-3d;
             pointer-events: none;
         }
 
@@ -103,7 +97,7 @@
             top: 10px;
             background: radial-gradient(circle at 50% 30%, #43a047 0%, #1b5e20 70%, #0d3811 100%);
             border-radius: 50% 50% 40% 40% / 30% 30% 70% 70%;
-            transform: translateZ(-25px);
+            z-index: 1;
         }
 
         .sepal {
@@ -116,7 +110,7 @@
             background: linear-gradient(to bottom, #4caf50, #1b5e20);
             border-radius: 100% 0 100% 0 / 80% 0 80% 0;
             transform-origin: 50% 0%;
-            transform-style: preserve-3d;
+            z-index: 2;
         }
 
         .stem-body {
@@ -128,7 +122,7 @@
             background: linear-gradient(to right, #0d3811 0%, #2e7d32 40%, #43a047 60%, #1b5e20 100%);
             border-radius: 4px;
             transform-origin: 50% 0%;
-            transform: translateZ(-60px);
+            z-index: 0;
             box-shadow: 2px 4px 12px rgba(0,0,0,0.5);
         }
 
@@ -146,19 +140,18 @@
             position: absolute;
             width: 0;
             height: 0;
-            transform-style: preserve-3d;
         }
 
         .leaf-wrapper.left {
             top: 90px;
             left: -3px;
-            transform: rotateZ(-38deg) rotateY(-20deg);
+            transform: rotate(-38deg);
         }
 
         .leaf-wrapper.right {
             top: 160px;
             left: 5px;
-            transform: rotateZ(210deg) rotateY(-20deg);
+            transform: rotate(210deg);
         }
 
         .petiole {
@@ -168,7 +161,7 @@
             background: linear-gradient(to right, #1b5e20, #2e7d32);
             border-radius: 2px;
             transform-origin: 0% 50%;
-            transform: rotateZ(-15deg);
+            transform: rotate(-15deg);
         }
 
         .leaf-blade {
@@ -204,10 +197,10 @@
             border-radius: 50%;
             background: radial-gradient(circle, #fff59d 0%, #fbc02d 40%, #f57f17 75%, #e65100 100%);
             box-shadow: 0 0 18px #ffb300;
-            transform: translateZ(28px);
             z-index: 50;
             opacity: 0;
-            transition: opacity 1.8s ease 0.3s;
+            transition: opacity 0.8s ease 0.3s;
+            will-change: opacity;
         }
 
         .stamen {
@@ -231,33 +224,32 @@
             border-radius: 50%;
         }
 
-        /* --- PÉTALOS OPTIMIZADOS PARA MÓVIL (Sin lag) --- */
+        /* --- PÉTALOS 2D OPTIMIZADOS --- */
         .petal {
             position: absolute;
             bottom: 0;
             left: 50%;
             transform-origin: 50% 100%;
             border-radius: 50% 50% 42% 42% / 75% 75% 25% 25%;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            transition: transform 2.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
+            will-change: transform, opacity;
         }
 
         .dew-drop {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: radial-gradient(circle at 35% 35%, #ffffff 0%, rgba(255,255,255,0.7) 50%, transparent 100%);
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle at 35% 35%, #ffffff 0%, rgba(255,255,255,0.5) 50%, transparent 100%);
             border-radius: 50%;
             pointer-events: none;
         }
 
-        /* --- ENCABEZADO SUPERIOR TIPO PORTADA --- */
+        /* --- UI OPTIMIZADA --- */
         .ui-header {
             position: fixed;
-            top: clamp(35px, 7vh, 65px);
+            top: clamp(25px, 5vh, 55px);
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
@@ -272,7 +264,7 @@
 
         .ui-header h1 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1.35rem, 4.6vw, 2.1rem);
+            font-size: clamp(1.2rem, 4.2vw, 2rem);
             font-weight: 600;
             letter-spacing: clamp(1px, 0.4vw, 2px);
             line-height: 1.28;
@@ -280,80 +272,87 @@
             background: linear-gradient(135deg, #ffffff 0%, #ffd8e4 45%, #f8bbd0 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-shadow: 0 4px 18px rgba(0, 0, 0, 0.9);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .ui-header p {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: clamp(0.72rem, 2.4vw, 0.85rem);
-            letter-spacing: clamp(1.2px, 0.4vw, 2.2px);
-            color: rgba(255, 235, 242, 0.95);
+            font-size: clamp(0.65rem, 2.2vw, 0.8rem);
+            letter-spacing: clamp(1px, 0.3vw, 2px);
+            color: rgba(255, 235, 242, 0.92);
             text-transform: uppercase;
             font-weight: 500;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
         }
 
-        /* --- BOTÓN ESTRUCTURADO Y OPTIMIZADO (Sin lag de backdrop-filter) --- */
         .controls-panel {
             position: fixed;
-            bottom: clamp(24px, 5vh, 45px);
+            bottom: clamp(18px, 4vh, 35px);
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(22, 6, 18, 0.92); /* Fondo sólido semi-transparente fluido */
-            border: 1px solid rgba(255, 182, 193, 0.35);
-            padding: 8px 24px;
-            border-radius: 40px;
+            background: rgba(22, 6, 18, 0.95);
+            border: 1px solid rgba(255, 182, 193, 0.3);
+            padding: 6px 20px;
+            border-radius: 35px;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 10;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
         }
 
         .btn {
-            background: linear-gradient(135deg, rgba(244, 143, 177, 0.35), rgba(233, 30, 99, 0.65));
-            border: 1px solid rgba(255, 192, 203, 0.5);
+            background: linear-gradient(135deg, rgba(244, 143, 177, 0.4), rgba(233, 30, 99, 0.7));
+            border: 1px solid rgba(255, 192, 203, 0.4);
             color: #ffffff;
-            padding: 9px 26px;
-            border-radius: 30px;
-            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            padding: 7px 20px;
+            border-radius: 28px;
+            font-size: clamp(0.7rem, 2.2vw, 0.85rem);
             font-weight: 600;
-            letter-spacing: 1.2px;
+            letter-spacing: 1px;
             cursor: pointer;
-            transition: transform 0.2s ease, background 0.2s ease;
+            transition: transform 0.15s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn:active {
-            transform: scale(0.96);
-            background: linear-gradient(135deg, rgba(244, 143, 177, 0.55), rgba(233, 30, 99, 0.85));
+            transform: scale(0.95);
         }
 
-        /* Tarjeta Carta */
+        .btn svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+        /* --- TARJETA CARTA --- */
         .message-card {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
-            background: rgba(18, 4, 15, 0.97);
-            border: 1px solid rgba(255, 182, 193, 0.35);
-            padding: clamp(24px, 4vh, 36px) clamp(20px, 4vw, 42px);
-            border-radius: 24px;
+            background: rgba(18, 4, 15, 0.98);
+            border: 1px solid rgba(255, 182, 193, 0.3);
+            padding: clamp(20px, 3.5vh, 30px) clamp(18px, 3.5vw, 36px);
+            border-radius: 20px;
             text-align: center;
             z-index: 100;
             opacity: 0;
             pointer-events: none;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9);
-            max-width: 410px;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
+            max-width: 380px;
             width: 88%;
-            max-height: 82vh;
+            max-height: 80vh;
             overflow-y: auto;
+            will-change: transform, opacity;
         }
 
         .message-card.active {
@@ -364,33 +363,53 @@
 
         .message-card h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1.6rem, 4.8vw, 2rem);
+            font-size: clamp(1.4rem, 4.5vw, 1.8rem);
             color: #f8bbd0;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-style: italic;
         }
 
         .message-card p {
-            font-size: clamp(0.85rem, 2.6vw, 0.92rem);
-            line-height: 1.6;
-            color: rgba(255, 240, 245, 0.92);
-            margin-bottom: 20px;
+            font-size: clamp(0.8rem, 2.4vw, 0.88rem);
+            line-height: 1.5;
+            color: rgba(255, 240, 245, 0.9);
+            margin-bottom: 16px;
             font-weight: 300;
         }
 
-        /* Adaptabilidad fluida para pantallas pequeñas */
         @media (max-width: 600px) {
-            .scene { transform: scale(0.72); }
+            .scene { transform: scale(0.68); }
         }
 
-        @media (max-width: 380px) {
-            .scene { transform: scale(0.62); }
+        @media (max-width: 400px) {
+            .scene { transform: scale(0.58); }
+            .controls-panel { padding: 5px 16px; }
+            .btn { padding: 6px 16px; }
         }
 
-        @media (max-height: 680px) {
-            .scene { transform: scale(0.62); }
-            .ui-header { top: 20px; }
-            .controls-panel { bottom: 15px; }
+        @media (max-height: 700px) {
+            .scene { transform: scale(0.58); }
+            .ui-header { top: 15px; }
+            .ui-header h1 { font-size: clamp(1rem, 3.8vw, 1.4rem); }
+            .controls-panel { bottom: 12px; }
+        }
+
+        @media (max-height: 600px) {
+            .scene { transform: scale(0.48); }
+            .ui-header { top: 10px; }
+            .controls-panel { bottom: 8px; padding: 4px 14px; }
+            .btn { padding: 5px 14px; font-size: 0.7rem; }
+        }
+
+        .message-card::-webkit-scrollbar {
+            width: 3px;
+        }
+        .message-card::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .message-card::-webkit-scrollbar-thumb {
+            background: rgba(255, 182, 193, 0.3);
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -410,14 +429,14 @@
                 <div class="botanical-stem-group">
                     <div class="calyx-base"></div>
 
-                    <div class="sepal" style="transform: rotateZ(0deg) rotateX(-25deg) translateZ(-5px);"></div>
-                    <div class="sepal" style="transform: rotateZ(72deg) rotateX(-25deg) translateZ(-5px);"></div>
-                    <div class="sepal" style="transform: rotateZ(144deg) rotateX(-25deg) translateZ(-5px);"></div>
-                    <div class="sepal" style="transform: rotateZ(216deg) rotateX(-25deg) translateZ(-5px);"></div>
-                    <div class="sepal" style="transform: rotateZ(288deg) rotateX(-25deg) translateZ(-5px);"></div>
+                    <div class="sepal" style="transform: rotate(0deg) translateY(-5px);"></div>
+                    <div class="sepal" style="transform: rotate(72deg) translateY(-5px);"></div>
+                    <div class="sepal" style="transform: rotate(144deg) translateY(-5px);"></div>
+                    <div class="sepal" style="transform: rotate(216deg) translateY(-5px);"></div>
+                    <div class="sepal" style="transform: rotate(288deg) translateY(-5px);"></div>
 
                     <div class="stem-body">
-                        <div class="thorn" style="top: 50px; left: -10px; transform: rotateZ(180deg);"></div>
+                        <div class="thorn" style="top: 50px; left: -10px; transform: rotate(180deg);"></div>
                         <div class="thorn" style="top: 130px; left: 8px;"></div>
                     </div>
 
@@ -434,7 +453,7 @@
 
                 <div class="center-core" id="centerCore"></div>
 
-                <div id="petalsContainer" style="transform-style: preserve-3d;"></div>
+                <div id="petalsContainer"></div>
 
             </div>
         </div>
@@ -442,7 +461,7 @@
 
     <div class="controls-panel">
         <button class="btn" id="btnCard">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             Ver Carta
         </button>
     </div>
@@ -455,9 +474,9 @@
 
     <script>
         (function() {
-            // 🌸 APERTURA CONFIGURADA EN 25
-            const NIVEL_DE_APERTURA = 25; 
+            'use strict';
 
+            const NIVEL_DE_APERTURA = 25;
             const petalsContainer = document.getElementById('petalsContainer');
             const centerCore = document.getElementById('centerCore');
             const btnCard = document.getElementById('btnCard');
@@ -466,24 +485,24 @@
 
             const bloomFactor = Math.max(1, Math.min(100, NIVEL_DE_APERTURA)) / 100;
 
-            // --- 1. ESTAMBRES ---
+            // --- ESTAMBRES 2D ---
             for (let s = 0; s < 16; s++) {
                 const stamen = document.createElement('div');
                 stamen.className = 'stamen';
                 const angle = (s / 16) * 360;
                 const dist = 3 + Math.random() * 4;
-                stamen.style.transform = `rotateZ(${angle}deg) translateY(-${dist}px) rotateX(-20deg)`;
+                stamen.style.transform = `rotate(${angle}deg) translateY(-${dist}px)`;
                 centerCore.appendChild(stamen);
             }
 
-            // --- 2. CONFIGURACIÓN DE PÉTALOS DE PEONÍA ---
+            // --- CONFIGURACIÓN DE PÉTALOS EN 2D ---
             const LAYERS_CONFIG = [
-                { count: 5,  width: 26, height: 38, radius: 6,  zOffset: 20, closedX: -82, openX: -32, bg: 'linear-gradient(to top, #880e4f 0%, #c2185b 60%, #e91e63 100%)' },
-                { count: 7,  width: 38, height: 54, radius: 14, zOffset: 16, closedX: -80, openX: -15, bg: 'linear-gradient(to top, #ad1457 0%, #d81b60 60%, #f06292 100%)' },
-                { count: 9,  width: 50, height: 72, radius: 22, zOffset: 11, closedX: -78, openX: +05, bg: 'linear-gradient(to top, #c2185b 0%, #e91e63 60%, #ff4081 100%)' },
-                { count: 11, width: 64, height: 90, radius: 32, zOffset: 6,  closedX: -75, openX: +25, bg: 'linear-gradient(to top, #d81b60 0%, #f06292 60%, #ff80ab 100%)' },
-                { count: 13, width: 78, height: 110,radius: 42, zOffset: 1,  closedX: -72, openX: +45, bg: 'linear-gradient(to top, #e91e63 0%, #f48fb1 60%, #ffcdd2 100%)' },
-                { count: 15, width: 92, height: 128,radius: 52, zOffset: -5, closedX: -70, openX: +60, bg: 'linear-gradient(to top, #f48fb1 0%, #f8bbd0 60%, #fff0f5 100%)' }
+                { count: 5,  width: 26, height: 38, closedRadius: 2,  openRadius: 8,   bg: 'linear-gradient(to top, #880e4f 0%, #c2185b 60%, #e91e63 100%)' },
+                { count: 7,  width: 38, height: 54, closedRadius: 5,  openRadius: 16,  bg: 'linear-gradient(to top, #ad1457 0%, #d81b60 60%, #f06292 100%)' },
+                { count: 9,  width: 50, height: 72, closedRadius: 10, openRadius: 26,  bg: 'linear-gradient(to top, #c2185b 0%, #e91e63 60%, #ff4081 100%)' },
+                { count: 11, width: 64, height: 90, closedRadius: 15, openRadius: 38,  bg: 'linear-gradient(to top, #d81b60 0%, #f06292 60%, #ff80ab 100%)' },
+                { count: 13, width: 78, height: 110,closedRadius: 20, openRadius: 52,  bg: 'linear-gradient(to top, #e91e63 0%, #f48fb1 60%, #ffcdd2 100%)' },
+                { count: 15, width: 92, height: 128,closedRadius: 25, openRadius: 68,  bg: 'linear-gradient(to top, #f48fb1 0%, #f8bbd0 60%, #fff0f5 100%)' }
             ];
 
             const petalElements = [];
@@ -501,17 +520,17 @@
                     petal.style.height = `${layer.height}px`;
                     petal.style.marginLeft = `-${layer.width / 2}px`;
                     petal.style.background = layer.bg;
+                    petal.style.zIndex = 40 - layerIdx * 5; // Capas apiladas correctamente en 2D
 
-                    const initialClosedX = layer.closedX;
-                    const finalTargetX = layer.closedX + (layer.openX - layer.closedX) * bloomFactor;
+                    const targetRadius = layer.closedRadius + (layer.openRadius - layer.closedRadius) * bloomFactor;
 
-                    const closedTransform = `rotateZ(${angle}deg) translateY(-${layer.radius}px) translateZ(${layer.zOffset}px) rotateX(${initialClosedX}deg)`;
-                    const bloomedTransform = `rotateZ(${angle}deg) translateY(-${layer.radius}px) translateZ(${layer.zOffset}px) rotateX(${finalTargetX}deg)`;
+                    const closedTransform = `rotate(${angle}deg) translateY(-${layer.closedRadius}px) scale(0.4)`;
+                    const bloomedTransform = `rotate(${angle}deg) translateY(-${targetRadius}px) scale(1)`;
 
                     petal.style.transform = closedTransform;
-                    petal.style.opacity = '0.3';
+                    petal.style.opacity = '0.2';
 
-                    const layerDelay = layerIdx * 0.18 + (i % 3) * 0.04;
+                    const layerDelay = layerIdx * 0.12 + (i % 3) * 0.03;
                     petal.style.transitionDelay = `${layerDelay}s`;
 
                     if (layerIdx >= 3 && (i % 3 === 0)) {
@@ -533,7 +552,7 @@
 
             petalsContainer.appendChild(fragment);
 
-            // --- 3. ANIMACIÓN DE FLORACIÓN EN CASCADA ---
+            // --- FLORACIÓN ---
             requestAnimationFrame(() => {
                 setTimeout(() => {
                     centerCore.style.opacity = '1';
@@ -541,54 +560,93 @@
                         p.element.style.transform = p.targetTransform;
                         p.element.style.opacity = '1';
                     });
-                }, 100);
+                }, 80);
             });
 
-            // Tarjeta de Carta
-            btnCard.addEventListener('click', () => messageCard.classList.add('active'));
-            btnCloseCard.addEventListener('click', () => messageCard.classList.remove('active'));
+            // --- EVENTOS UI ---
+            btnCard.addEventListener('click', () => {
+                messageCard.classList.add('active');
+            });
+            btnCloseCard.addEventListener('click', () => {
+                messageCard.classList.remove('active');
+            });
 
-            // --- 4. CANVAS ULTRALIGERO AMBIENTAL (Optimizando llamadas GPU) ---
+            messageCard.addEventListener('click', (e) => {
+                if (e.target === messageCard) {
+                    messageCard.classList.remove('active');
+                }
+            });
+
+            // --- CANVAS ULTRALIGERO ---
             const canvas = document.getElementById('bgCanvas');
             const ctx = canvas.getContext('2d');
 
+            let width, height;
+
             function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
             }
             resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
 
             const particles = [];
-            for (let i = 0; i < 15; i++) {
+            const particleCount = Math.min(12, Math.floor(window.innerWidth / 80));
+
+            for (let i = 0; i < particleCount; i++) {
                 particles.push({
-                    x: Math.random() * window.innerWidth,
-                    y: Math.random() * window.innerHeight,
-                    size: 1 + Math.random() * 2,
-                    speedY: 0.25 + Math.random() * 0.4
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: 1 + Math.random() * 1.5,
+                    speedY: 0.2 + Math.random() * 0.3,
+                    offset: Math.random() * 100
                 });
             }
 
+            let frameId = null;
+
             function animateBackground() {
-                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-                ctx.fillStyle = 'rgba(244, 143, 177, 0.35)';
+                ctx.clearRect(0, 0, width, height);
+                ctx.fillStyle = 'rgba(244, 143, 177, 0.3)';
 
                 for (let i = 0; i < particles.length; i++) {
                     const p = particles[i];
                     p.y -= p.speedY;
-                    p.x += Math.sin(p.y * 0.01) * 0.3;
+                    p.x += Math.sin(p.y * 0.008 + p.offset) * 0.2;
+
                     if (p.y < -10) {
-                        p.y = window.innerHeight + 10;
-                        p.x = Math.random() * window.innerWidth;
+                        p.y = height + 10;
+                        p.x = Math.random() * width;
                     }
+
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                     ctx.fill();
                 }
 
-                requestAnimationFrame(animateBackground);
+                frameId = requestAnimationFrame(animateBackground);
             }
+
             animateBackground();
+
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    resizeCanvas();
+                    for (let i = 0; i < particles.length; i++) {
+                        particles[i].x = Math.random() * width;
+                        particles[i].y = Math.random() * height;
+                    }
+                }, 200);
+            });
+
+            window.addEventListener('beforeunload', () => {
+                if (frameId) {
+                    cancelAnimationFrame(frameId);
+                }
+            });
 
         })();
     </script>
