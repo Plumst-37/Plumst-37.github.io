@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Me dijiste que te gustaban las flores - Peonías</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 45%, #2a081d 0%, #12030d 50%, #050005 100%);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Canvas de fondo con partículas ambientales */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Viewport estático centralizado */
+        .viewport {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1100px;
+            z-index: 2;
+        }
+
+        .scene {
+            position: relative;
+            width: 0;
+            height: 0;
+            transform-style: preserve-3d;
+            transform: rotateX(0deg) rotateY(0deg);
+        }
+
+        /* Contenedor de la flor */
+        .flower-container {
+            position: relative;
+            width: 0;
+            height: 0;
+            transform-style: preserve-3d;
+            animation: gentleFloat 6s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+
+        @keyframes gentleFloat {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(-15px); }
+        }
+
+        /* --- ESTRUCTURA BOTÁNICA (TALLO Y HOJAS DETRÁS) --- */
+        .botanical-stem-group {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-style: preserve-3d;
+            pointer-events: none;
+        }
+
+        .calyx-base {
+            position: absolute;
+            width: 32px;
+            height: 28px;
+            left: -16px;
+            top: 10px;
+            background: radial-gradient(circle at 50% 30%, #43a047 0%, #1b5e20 70%, #0d3811 100%);
+            border-radius: 50% 50% 40% 40% / 30% 30% 70% 70%;
+            transform: translateZ(-25px);
+            box-shadow: inset 0 -4px 8px rgba(0,0,0,0.5);
+        }
+
+        .sepal {
+            position: absolute;
+            width: 16px;
+            height: 45px;
+            left: 50%;
+            top: 10px;
+            margin-left: -8px;
+            background: linear-gradient(to bottom, #4caf50, #1b5e20);
+            border-radius: 100% 0 100% 0 / 80% 0 80% 0;
+            transform-origin: 50% 0%;
+            transform-style: preserve-3d;
+        }
+
+        .stem-body {
+            position: absolute;
+            top: 25px;
+            left: -4px;
+            width: 8px;
+            height: 300px;
+            background: linear-gradient(to right, #0d3811 0%, #2e7d32 40%, #43a047 60%, #1b5e20 100%);
+            border-radius: 4px;
+            transform-origin: 50% 0%;
+            transform: translateZ(-60px);
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.6);
+        }
+
+        .thorn {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-right: 10px solid #1b5e20;
+            transform-origin: 0 50%;
+        }
+
+        .leaf-wrapper {
+            position: absolute;
+            width: 0;
+            height: 0;
+            transform-style: preserve-3d;
+        }
+
+        .leaf-wrapper.left {
+            top: 90px;
+            left: -3px;
+            transform: rotateZ(-38deg) rotateY(-20deg);
+        }
+
+        .leaf-wrapper.right {
+            top: 160px;
+            left: 5px;
+            transform: rotateZ(210deg) rotateY(-20deg);
+        }
+
+        .petiole {
+            position: absolute;
+            width: 18px;
+            height: 4px;
+            background: linear-gradient(to right, #1b5e20, #2e7d32);
+            border-radius: 2px;
+            transform-origin: 0% 50%;
+            transform: rotateZ(-15deg);
+        }
+
+        .leaf-blade {
+            position: absolute;
+            left: 14px;
+            top: -22px;
+            width: 44px;
+            height: 72px;
+            background: linear-gradient(135deg, #388e3c 0%, #1b5e20 65%, #0a2e0d 100%);
+            border-radius: 80% 0% 80% 0%;
+            transform-origin: 0% 50%;
+            box-shadow: inset 1px 1px 4px rgba(255,255,255,0.25), 0 4px 10px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+
+        .leaf-blade::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 48%, rgba(255,255,255,0.2) 50%, transparent 52%);
+        }
+
+        /* --- CORAZÓN DE LA FLOR Y ESTAMBRES --- */
+        .center-core {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            left: -16px;
+            top: -16px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff59d 0%, #fbc02d 40%, #f57f17 75%, #e65100 100%);
+            box-shadow: 0 0 22px #ffb300, 0 0 45px rgba(255, 179, 0, 0.5);
+            transform: translateZ(28px);
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 2s ease 0.5s;
+        }
+
+        .stamen {
+            position: absolute;
+            width: 2px;
+            height: 16px;
+            background: linear-gradient(to top, rgba(255,179,0,0.2), #fff176);
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+        }
+
+        .stamen::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: 6px;
+            height: 6px;
+            background: #ffe082;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ffb300;
+        }
+
+        /* --- PÉTALOS CON CUBIC-BEZIER --- */
+        .petal {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform-origin: 50% 100%;
+            border-radius: 50% 50% 42% 42% / 75% 75% 25% 25%;
+            will-change: transform;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow: inset 0 -8px 15px rgba(100, 0, 40, 0.25),
+                        0 6px 16px rgba(0, 0, 0, 0.35);
+            transition: transform 2.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.8s ease;
+        }
+
+        .dew-drop {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: radial-gradient(circle at 35% 35%, #ffffff 0%, rgba(255,255,255,0.7) 50%, transparent 100%);
+            border-radius: 50%;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            pointer-events: none;
+        }
+
+        /* --- ENCABEZADO SUPERIOR: MÁS ABAJO, AL CENTRO Y ALTAMENTE LEGIBLE --- */
+        .ui-header {
+            position: fixed;
+            top: clamp(45px, 8vh, 75px); /* Bajado considerablemente para mejor alineación visual */
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+            pointer-events: none;
+            width: 90%;
+            max-width: 650px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ui-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.4rem, 4.8vw, 2.2rem);
+            font-weight: 600;
+            letter-spacing: clamp(1px, 0.5vw, 2.5px);
+            line-height: 1.3;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff 0%, #ffd8e4 45%, #f8bbd0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 30px rgba(233, 30, 99, 0.35);
+            margin-bottom: 8px;
+        }
+
+        .ui-header p {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(0.75rem, 2.5vw, 0.88rem);
+            letter-spacing: clamp(1.5px, 0.5vw, 2.5px);
+            color: rgba(255, 235, 242, 0.95);
+            text-transform: uppercase;
+            font-weight: 500;
+            text-align: center;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+        }
+
+        /* --- BOTÓN Y PANEL INFERIOR PERFECCIONADO --- */
+        .controls-panel {
+            position: fixed;
+            bottom: clamp(28px, 6vh, 50px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(25, 8, 22, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 182, 193, 0.35);
+            padding: 10px 28px;
+            border-radius: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(233, 30, 99, 0.25);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, rgba(244, 143, 177, 0.32), rgba(233, 30, 99, 0.55));
+            border: 1px solid rgba(255, 192, 203, 0.5);
+            color: #ffffff;
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-size: clamp(0.82rem, 2.6vw, 0.92rem);
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn:hover, .btn:active {
+            background: linear-gradient(135deg, rgba(244, 143, 177, 0.55), rgba(233, 30, 99, 0.85));
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(233, 30, 99, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Tarjeta de Carta/Dedicatoria */
+        .message-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(18, 5, 15, 0.96);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 182, 193, 0.35);
+            padding: clamp(28px, 5vh, 40px) clamp(24px, 5vw, 48px);
+            border-radius: 28px;
+            text-align: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(244, 143, 177, 0.3);
+            max-width: 430px;
+            width: 88%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .message-card.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .message-card h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.7rem, 5vw, 2.1rem);
+            color: #f8bbd0;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .message-card p {
+            font-size: clamp(0.88rem, 2.8vw, 0.95rem);
+            line-height: 1.65;
+            color: rgba(255, 240, 245, 0.92);
+            margin-bottom: 24px;
+            font-weight: 300;
+        }
+
+        /* --- ADAPTATIVIDAD DE LA PEONÍA Y LA ESCENA --- */
+        @media (max-width: 600px) {
+            .scene {
+                transform: scale(0.72);
+            }
+        }
+
+        @media (max-width: 380px) {
+            .scene {
+                transform: scale(0.62);
+            }
+        }
+
+        @media (max-height: 680px) {
+            .scene {
+                transform: scale(0.62);
+            }
+            .ui-header {
+                top: 25px;
+            }
+            .controls-panel {
+                bottom: 20px;
+            }
+        }
+
+        @media (max-height: 520px) and (orientation: landscape) {
+            .scene {
+                transform: scale(0.48);
+            }
+            .ui-header {
+                top: 15px;
+            }
+            .controls-panel {
+                bottom: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Texto superior reubicado más abajo, centrado y altamente legible -->
+    <div class="ui-header">
+        <h1>Me dijiste que te gustaban las flores</h1>
+        <p>te hice una Peonía hecha con mucho cariño</p>
+    </div>
+
+    <div class="viewport">
+        <div class="scene">
+            <div class="flower-container">
+
+                <div class="botanical-stem-group">
+                    <div class="calyx-base"></div>
+
+                    <div class="sepal" style="transform: rotateZ(0deg) rotateX(-25deg) translateZ(-5px);"></div>
+                    <div class="sepal" style="transform: rotateZ(72deg) rotateX(-25deg) translateZ(-5px);"></div>
+                    <div class="sepal" style="transform: rotateZ(144deg) rotateX(-25deg) translateZ(-5px);"></div>
+                    <div class="sepal" style="transform: rotateZ(216deg) rotateX(-25deg) translateZ(-5px);"></div>
+                    <div class="sepal" style="transform: rotateZ(288deg) rotateX(-25deg) translateZ(-5px);"></div>
+
+                    <div class="stem-body">
+                        <div class="thorn" style="top: 50px; left: -10px; transform: rotateZ(180deg);"></div>
+                        <div class="thorn" style="top: 130px; left: 8px;"></div>
+                    </div>
+
+                    <div class="leaf-wrapper left">
+                        <div class="petiole"></div>
+                        <div class="leaf-blade"></div>
+                    </div>
+
+                    <div class="leaf-wrapper right">
+                        <div class="petiole"></div>
+                        <div class="leaf-blade"></div>
+                    </div>
+                </div>
+
+                <div class="center-core" id="centerCore"></div>
+
+                <div id="petalsContainer" style="transform-style: preserve-3d;"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón inferior centrado y estilizado -->
+    <div class="controls-panel">
+        <button class="btn" id="btnCard">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Ver Carta
+        </button>
+    </div>
+
+    <div class="message-card" id="messageCard">
+        <h2>Para Alguien Especial</h2>
+        <p>Esta peonía ha sido meticulosamente construida y abierta con delicadeza para transmitirte belleza y armonía.</p>
+        <button class="btn" id="btnCloseCard" style="margin: 0 auto;">Cerrar con Cariño</button>
+    </div>
+
+    <script>
+        (function() {
+            // ===================================================================================
+            // 🌸 CONFIGURACIÓN DE APERTURA DE LA FLOR (DEL 1 AL 100)
+            // ===================================================================================
+            const NIVEL_DE_APERTURA = 25; 
+            // ===================================================================================
+
+            const petalsContainer = document.getElementById('petalsContainer');
+            const centerCore = document.getElementById('centerCore');
+            const btnCard = document.getElementById('btnCard');
+            const messageCard = document.getElementById('messageCard');
+            const btnCloseCard = document.getElementById('btnCloseCard');
+
+            const bloomFactor = Math.max(1, Math.min(100, NIVEL_DE_APERTURA)) / 100;
+
+            // --- 1. ESTAMBRES DORADOS EN EL CORAZÓN DE LA PEONÍA ---
+            for (let s = 0; s < 18; s++) {
+                const stamen = document.createElement('div');
+                stamen.className = 'stamen';
+                const angle = (s / 18) * 360;
+                const dist = 3 + Math.random() * 5;
+                stamen.style.transform = `rotateZ(${angle}deg) translateY(-${dist}px) rotateX(-20deg)`;
+                centerCore.appendChild(stamen);
+            }
+
+            // --- 2. CONFIGURACIÓN DE CAPAS DE PÉTALOS DE PEONÍA ---
+            const LAYERS_CONFIG = [
+                { count: 5,  width: 26, height: 38, radius: 6,  zOffset: 20, closedX: -82, openX: -32, bg: 'linear-gradient(to top, #880e4f 0%, #c2185b 60%, #e91e63 100%)' },
+                { count: 7,  width: 38, height: 54, radius: 14, zOffset: 16, closedX: -80, openX: -15, bg: 'linear-gradient(to top, #ad1457 0%, #d81b60 60%, #f06292 100%)' },
+                { count: 9,  width: 50, height: 72, radius: 22, zOffset: 11, closedX: -78, openX: +05, bg: 'linear-gradient(to top, #c2185b 0%, #e91e63 60%, #ff4081 100%)' },
+                { count: 11, width: 64, height: 90, radius: 32, zOffset: 6,  closedX: -75, openX: +25, bg: 'linear-gradient(to top, #d81b60 0%, #f06292 60%, #ff80ab 100%)' },
+                { count: 13, width: 78, height: 110,radius: 42, zOffset: 1,  closedX: -72, openX: +45, bg: 'linear-gradient(to top, #e91e63 0%, #f48fb1 60%, #ffcdd2 100%)' },
+                { count: 15, width: 92, height: 128,radius: 52, zOffset: -5, closedX: -70, openX: +60, bg: 'linear-gradient(to top, #f48fb1 0%, #f8bbd0 60%, #fff0f5 100%)' }
+            ];
+
+            const petalElements = [];
+            const fragment = document.createDocumentFragment();
+
+            LAYERS_CONFIG.forEach((layer, layerIdx) => {
+                const staggerAngle = (360 / layer.count) / 2 * (layerIdx % 2);
+
+                for (let i = 0; i < layer.count; i++) {
+                    const angle = (i * (360 / layer.count)) + staggerAngle;
+
+                    const petal = document.createElement('div');
+                    petal.className = 'petal';
+                    petal.style.width = `${layer.width}px`;
+                    petal.style.height = `${layer.height}px`;
+                    petal.style.marginLeft = `-${layer.width / 2}px`;
+                    petal.style.background = layer.bg;
+
+                    const initialClosedX = layer.closedX;
+                    const finalTargetX = layer.closedX + (layer.openX - layer.closedX) * bloomFactor;
+
+                    const closedTransform = `rotateZ(${angle}deg) translateY(-${layer.radius}px) translateZ(${layer.zOffset}px) rotateX(${initialClosedX}deg)`;
+                    const bloomedTransform = `rotateZ(${angle}deg) translateY(-${layer.radius}px) translateZ(${layer.zOffset}px) rotateX(${finalTargetX}deg)`;
+
+                    petal.style.transform = closedTransform;
+                    petal.style.opacity = '0.3';
+
+                    const layerDelay = layerIdx * 0.22 + (i % 3) * 0.05;
+                    petal.style.transitionDelay = `${layerDelay}s`;
+
+                    if (layerIdx >= 3 && (i % 3 === 0)) {
+                        const drop = document.createElement('div');
+                        drop.className = 'dew-drop';
+                        drop.style.top = `${25 + Math.random() * 30}%`;
+                        drop.style.left = `${30 + Math.random() * 40}%`;
+                        petal.appendChild(drop);
+                    }
+
+                    petalElements.push({
+                        element: petal,
+                        targetTransform: bloomedTransform
+                    });
+
+                    fragment.appendChild(petal);
+                }
+            });
+
+            petalsContainer.appendChild(fragment);
+
+            // --- 3. ANIMACIÓN DE FLORACIÓN EN CASCADA ---
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    centerCore.style.opacity = '1';
+                    petalElements.forEach(p => {
+                        p.element.style.transform = p.targetTransform;
+                        p.element.style.opacity = '1';
+                    });
+                }, 150);
+            });
+
+            // Tarjeta de Carta / Dedicatoria
+            btnCard.addEventListener('click', () => messageCard.classList.add('active'));
+            btnCloseCard.addEventListener('click', () => messageCard.classList.remove('active'));
+
+            // --- 4. CANVAS DE FONDO ADAPTADO A RETINA / HIGH DPI EN MÓVILES ---
+            const canvas = document.getElementById('bgCanvas');
+            const ctx = canvas.getContext('2d');
+
+            function resizeCanvas() {
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = window.innerWidth * dpr;
+                canvas.height = window.innerHeight * dpr;
+                canvas.style.width = window.innerWidth + 'px';
+                canvas.style.height = window.innerHeight + 'px';
+                ctx.scale(dpr, dpr);
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            const particles = [];
+            for (let i = 0; i < 22; i++) {
+                particles.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    size: 1 + Math.random() * 2.5,
+                    speedY: 0.3 + Math.random() * 0.5,
+                    opacity: 0.2 + Math.random() * 0.4
+                });
+            }
+
+            function animateBackground() {
+                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+                ctx.fillStyle = 'rgba(244, 143, 177, 0.4)';
+
+                particles.forEach(p => {
+                    p.y -= p.speedY;
+                    p.x += Math.sin(p.y * 0.01) * 0.4;
+                    if (p.y < -10) {
+                        p.y = window.innerHeight + 10;
+                        p.x = Math.random() * window.innerWidth;
+                    }
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(animateBackground);
+            }
+            animateBackground();
+
+        })();
+    </script>
+</body>
+</html>
