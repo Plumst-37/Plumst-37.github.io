@@ -2,255 +2,78 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#080107" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>Me dijiste que te gustaban las flores - Peonías</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
-        /* Reset optimizado */
+        /* Protección global contra fondos blancos */
+        :root, html {
+            background-color: #080107 !important;
+            color-scheme: dark;
+        }
+
+        /* Reset optimizado y multiplataforma */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             user-select: none;
             -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
 
         html, body {
             width: 100%;
             height: 100%;
+            height: 100dvh;
+            min-height: -webkit-fill-available;
             overflow: hidden;
             position: fixed;
             top: 0;
             left: 0;
+            background-color: #080107;
         }
 
         body {
-            background: #080107;
-            background: radial-gradient(circle at 50% 45%, #2a081d 0%, #12030d 60%, #050005 100%);
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #080107;
+            background: -webkit-radial-gradient(circle at 50% 45%, #2d0820 0%, #14030e 60%, #050005 100%);
+            background: -moz-radial-gradient(circle at 50% 45%, #2d0820 0%, #14030e 60%, #050005 100%);
+            background: radial-gradient(circle at 50% 45%, #2d0820 0%, #14030e 60%, #050005 100%);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Canvas optimizado */
+        /* Canvas de fondo */
         #bgCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
+            height: 100dvh;
             pointer-events: none;
             z-index: 1;
+            background-color: transparent;
         }
 
-        /* Viewport 2D */
-        .viewport {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
-        }
-
-        .scene {
-            position: relative;
-            width: 0;
-            height: 0;
-            will-change: transform;
-        }
-
-        /* Flotación 2D ligera */
-        .flower-container {
-            position: relative;
-            width: 0;
-            height: 0;
-            animation: gentleFloat 6s ease-in-out infinite alternate;
-            will-change: transform;
-        }
-
-        @keyframes gentleFloat {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(-10px); }
-        }
-
-        /* --- ESTRUCTURA BOTÁNICA 2D --- */
-        .botanical-stem-group {
-            position: absolute;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-        }
-
-        .calyx-base {
-            position: absolute;
-            width: 30px;
-            height: 26px;
-            left: -15px;
-            top: 10px;
-            background: radial-gradient(circle at 50% 30%, #43a047 0%, #1b5e20 70%, #0d3811 100%);
-            border-radius: 50% 50% 40% 40% / 30% 30% 70% 70%;
-            z-index: 1;
-        }
-
-        .sepal {
-            position: absolute;
-            width: 14px;
-            height: 42px;
-            left: 50%;
-            top: 10px;
-            margin-left: -7px;
-            background: linear-gradient(to bottom, #4caf50, #1b5e20);
-            border-radius: 100% 0 100% 0 / 80% 0 80% 0;
-            transform-origin: 50% 0%;
-            z-index: 2;
-        }
-
-        .stem-body {
-            position: absolute;
-            top: 25px;
-            left: -4px;
-            width: 8px;
-            height: 290px;
-            background: linear-gradient(to right, #0d3811 0%, #2e7d32 40%, #43a047 60%, #1b5e20 100%);
-            border-radius: 4px;
-            transform-origin: 50% 0%;
-            z-index: 0;
-            box-shadow: 2px 4px 12px rgba(0,0,0,0.5);
-        }
-
-        .thorn {
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-top: 4px solid transparent;
-            border-bottom: 4px solid transparent;
-            border-right: 9px solid #1b5e20;
-            transform-origin: 0 50%;
-        }
-
-        .leaf-wrapper {
-            position: absolute;
-            width: 0;
-            height: 0;
-        }
-
-        .leaf-wrapper.left {
-            top: 90px;
-            left: -3px;
-            transform: rotate(-38deg);
-        }
-
-        .leaf-wrapper.right {
-            top: 160px;
-            left: 5px;
-            transform: rotate(210deg);
-        }
-
-        .petiole {
-            position: absolute;
-            width: 16px;
-            height: 3px;
-            background: linear-gradient(to right, #1b5e20, #2e7d32);
-            border-radius: 2px;
-            transform-origin: 0% 50%;
-            transform: rotate(-15deg);
-        }
-
-        .leaf-blade {
-            position: absolute;
-            left: 13px;
-            top: -20px;
-            width: 40px;
-            height: 66px;
-            background: linear-gradient(135deg, #388e3c 0%, #1b5e20 65%, #0a2e0d 100%);
-            border-radius: 80% 0% 80% 0%;
-            transform-origin: 0% 50%;
-            box-shadow: inset 1px 1px 3px rgba(255,255,255,0.2), 0 3px 8px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-
-        .leaf-blade::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, transparent 48%, rgba(255,255,255,0.2) 50%, transparent 52%);
-        }
-
-        /* --- CORAZÓN DE LA PEONÍA --- */
-        .center-core {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            left: -15px;
-            top: -15px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #fff59d 0%, #fbc02d 40%, #f57f17 75%, #e65100 100%);
-            box-shadow: 0 0 18px #ffb300;
-            z-index: 50;
-            opacity: 0;
-            transition: opacity 0.8s ease 0.3s;
-            will-change: opacity;
-        }
-
-        .stamen {
-            position: absolute;
-            width: 2px;
-            height: 14px;
-            background: linear-gradient(to top, rgba(255,179,0,0.2), #fff176);
-            bottom: 50%;
-            left: 50%;
-            transform-origin: bottom center;
-        }
-
-        .stamen::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            width: 5px;
-            height: 5px;
-            background: #ffe082;
-            border-radius: 50%;
-        }
-
-        /* --- PÉTALOS 2D OPTIMIZADOS --- */
-        .petal {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform-origin: 50% 100%;
-            border-radius: 50% 50% 42% 42% / 75% 75% 25% 25%;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-            transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
-            will-change: transform, opacity;
-        }
-
-        .dew-drop {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: radial-gradient(circle at 35% 35%, #ffffff 0%, rgba(255,255,255,0.5) 50%, transparent 100%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        /* --- UI OPTIMIZADA --- */
+        /* --- TEXTO REUBICADO ARRIBA COMO ANTES --- */
         .ui-header {
             position: fixed;
             top: clamp(25px, 5vh, 55px);
             left: 50%;
+            -webkit-transform: translateX(-50%);
             transform: translateX(-50%);
             text-align: center;
             z-index: 10;
@@ -263,12 +86,14 @@
         }
 
         .ui-header h1 {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Cormorant Garamond', Georgia, serif;
             font-size: clamp(1.2rem, 4.2vw, 2rem);
             font-weight: 600;
             letter-spacing: clamp(1px, 0.4vw, 2px);
             line-height: 1.28;
             text-align: center;
+            color: #f8bbd0;
+            background: -webkit-linear-gradient(135deg, #ffffff 0%, #ffd8e4 45%, #f8bbd0 100%);
             background: linear-gradient(135deg, #ffffff 0%, #ffd8e4 45%, #f8bbd0 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -287,10 +112,240 @@
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
         }
 
+        /* Viewport 2D */
+        .viewport {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .scene {
+            position: relative;
+            width: 0;
+            height: 0;
+            will-change: transform;
+        }
+
+        /* Flotación 2D ligera */
+        .flower-container {
+            position: relative;
+            width: 0;
+            height: 0;
+            -webkit-animation: gentleFloat 6s ease-in-out infinite alternate;
+            animation: gentleFloat 6s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+
+        @-webkit-keyframes gentleFloat {
+            0% { -webkit-transform: translateY(0px); transform: translateY(0px); }
+            50% { -webkit-transform: translateY(-6px); transform: translateY(-6px); }
+            100% { -webkit-transform: translateY(-12px); transform: translateY(-12px); }
+        }
+
+        @keyframes gentleFloat {
+            0% { -webkit-transform: translateY(0px); transform: translateY(0px); }
+            50% { -webkit-transform: translateY(-6px); transform: translateY(-6px); }
+            100% { -webkit-transform: translateY(-12px); transform: translateY(-12px); }
+        }
+
+        /* --- ESTRUCTURA BOTÁNICA 2D --- */
+        .botanical-stem-group {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .calyx-base {
+            position: absolute;
+            width: 34px;
+            height: 28px;
+            left: -17px;
+            top: 8px;
+            background: -webkit-radial-gradient(circle at 50% 30%, #43a047 0%, #1b5e20 70%, #0d3811 100%);
+            background: radial-gradient(circle at 50% 30%, #43a047 0%, #1b5e20 70%, #0d3811 100%);
+            border-radius: 50% 50% 40% 40% / 30% 30% 70% 70%;
+            z-index: 1;
+        }
+
+        .sepal {
+            position: absolute;
+            width: 16px;
+            height: 44px;
+            left: 50%;
+            top: 8px;
+            margin-left: -8px;
+            background: -webkit-linear-gradient(to bottom, #4caf50, #1b5e20);
+            background: linear-gradient(to bottom, #4caf50, #1b5e20);
+            border-radius: 100% 0 100% 0 / 80% 0 80% 0;
+            -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+            z-index: 2;
+        }
+
+        .stem-body {
+            position: absolute;
+            top: 25px;
+            left: -4px;
+            width: 8px;
+            height: 270px;
+            background: -webkit-linear-gradient(to right, #0d3811 0%, #2e7d32 40%, #43a047 60%, #1b5e20 100%);
+            background: linear-gradient(to right, #0d3811 0%, #2e7d32 40%, #43a047 60%, #1b5e20 100%);
+            border-radius: 4px;
+            -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+            z-index: 0;
+            box-shadow: 2px 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .thorn {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            border-right: 9px solid #1b5e20;
+            -webkit-transform-origin: 0 50%;
+            transform-origin: 0 50%;
+        }
+
+        .leaf-wrapper {
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+
+        .leaf-wrapper.left {
+            top: 90px;
+            left: -3px;
+            -webkit-transform: rotate(-38deg);
+            transform: rotate(-38deg);
+        }
+
+        .leaf-wrapper.right {
+            top: 160px;
+            left: 5px;
+            -webkit-transform: rotate(210deg);
+            transform: rotate(210deg);
+        }
+
+        .petiole {
+            position: absolute;
+            width: 16px;
+            height: 3px;
+            background: -webkit-linear-gradient(to right, #1b5e20, #2e7d32);
+            background: linear-gradient(to right, #1b5e20, #2e7d32);
+            border-radius: 2px;
+            -webkit-transform-origin: 0% 50%;
+            transform-origin: 0% 50%;
+            -webkit-transform: rotate(-15deg);
+            transform: rotate(-15deg);
+        }
+
+        .leaf-blade {
+            position: absolute;
+            left: 13px;
+            top: -20px;
+            width: 40px;
+            height: 66px;
+            background: -webkit-linear-gradient(135deg, #388e3c 0%, #1b5e20 65%, #0a2e0d 100%);
+            background: linear-gradient(135deg, #388e3c 0%, #1b5e20 65%, #0a2e0d 100%);
+            border-radius: 80% 0% 80% 0%;
+            -webkit-transform-origin: 0% 50%;
+            transform-origin: 0% 50%;
+            box-shadow: inset 1px 1px 3px rgba(255,255,255,0.2), 0 3px 8px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .leaf-blade::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: -webkit-linear-gradient(135deg, transparent 48%, rgba(255,255,255,0.2) 50%, transparent 52%);
+            background: linear-gradient(135deg, transparent 48%, rgba(255,255,255,0.2) 50%, transparent 52%);
+        }
+
+        /* --- CORAZÓN DE LA PEONÍA --- */
+        .center-core {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            left: -16px;
+            top: -16px;
+            border-radius: 50%;
+            background: -webkit-radial-gradient(circle, #fff9c4 0%, #fbc02d 45%, #f57f17 80%, #e65100 100%);
+            background: radial-gradient(circle, #fff9c4 0%, #fbc02d 45%, #f57f17 80%, #e65100 100%);
+            box-shadow: 0 0 22px rgba(255, 179, 0, 0.85);
+            z-index: 60;
+            opacity: 0;
+            -webkit-transition: opacity 1.5s ease 0.3s;
+            transition: opacity 1.5s ease 0.3s;
+            will-change: opacity;
+        }
+
+        .stamen {
+            position: absolute;
+            width: 2px;
+            height: 15px;
+            background: -webkit-linear-gradient(to top, rgba(255,179,0,0.1), #fff59d);
+            background: linear-gradient(to top, rgba(255,179,0,0.1), #fff59d);
+            bottom: 50%;
+            left: 50%;
+            -webkit-transform-origin: bottom center;
+            transform-origin: bottom center;
+        }
+
+        .stamen::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: 5px;
+            height: 5px;
+            background: #ffe082;
+            border-radius: 50%;
+            box-shadow: 0 0 4px #ffb300;
+        }
+
+        /* --- PÉTALOS REDONDEADOS Y TUPIDOS --- */
+        .petal {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            -webkit-transform-origin: 50% 100%;
+            transform-origin: 50% 100%;
+            border-radius: 50% 50% 48% 48% / 60% 60% 40% 40%;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: inset 0 -5px 12px rgba(100, 0, 40, 0.2), 0 4px 10px rgba(0, 0, 0, 0.25);
+            -webkit-transition: -webkit-transform 2.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.8s ease;
+            transition: transform 2.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.8s ease;
+            will-change: transform, opacity;
+        }
+
+        .dew-drop {
+            position: absolute;
+            width: 3.5px;
+            height: 3.5px;
+            background: -webkit-radial-gradient(circle at 35% 35%, #ffffff 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
+            background: radial-gradient(circle at 35% 35%, #ffffff 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* --- BOTÓN Y PANEL --- */
         .controls-panel {
             position: fixed;
             bottom: clamp(18px, 4vh, 35px);
             left: 50%;
+            -webkit-transform: translateX(-50%);
             transform: translateX(-50%);
             background: rgba(22, 6, 18, 0.95);
             border: 1px solid rgba(255, 182, 193, 0.3);
@@ -304,6 +359,7 @@
         }
 
         .btn {
+            background: -webkit-linear-gradient(135deg, rgba(244, 143, 177, 0.4), rgba(233, 30, 99, 0.7));
             background: linear-gradient(135deg, rgba(244, 143, 177, 0.4), rgba(233, 30, 99, 0.7));
             border: 1px solid rgba(255, 192, 203, 0.4);
             color: #ffffff;
@@ -313,6 +369,7 @@
             font-weight: 600;
             letter-spacing: 1px;
             cursor: pointer;
+            -webkit-transition: -webkit-transform 0.15s ease;
             transition: transform 0.15s ease;
             display: flex;
             align-items: center;
@@ -323,6 +380,7 @@
         }
 
         .btn:active {
+            -webkit-transform: scale(0.95);
             transform: scale(0.95);
         }
 
@@ -337,7 +395,9 @@
             position: fixed;
             top: 50%;
             left: 50%;
+            -webkit-transform: translate(-50%, -50%) scale(0.9);
             transform: translate(-50%, -50%) scale(0.9);
+            background: #12040f;
             background: rgba(18, 4, 15, 0.98);
             border: 1px solid rgba(255, 182, 193, 0.3);
             padding: clamp(20px, 3.5vh, 30px) clamp(18px, 3.5vw, 36px);
@@ -346,23 +406,26 @@
             z-index: 100;
             opacity: 0;
             pointer-events: none;
+            -webkit-transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
             max-width: 380px;
             width: 88%;
             max-height: 80vh;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             will-change: transform, opacity;
         }
 
         .message-card.active {
             opacity: 1;
             pointer-events: auto;
+            -webkit-transform: translate(-50%, -50%) scale(1);
             transform: translate(-50%, -50%) scale(1);
         }
 
         .message-card h2 {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Cormorant Garamond', Georgia, serif;
             font-size: clamp(1.4rem, 4.5vw, 1.8rem);
             color: #f8bbd0;
             margin-bottom: 8px;
@@ -377,28 +440,22 @@
             font-weight: 300;
         }
 
+        /* Responsive */
         @media (max-width: 600px) {
-            .scene { transform: scale(0.68); }
+            .scene { -webkit-transform: scale(0.68); transform: scale(0.68); }
         }
 
         @media (max-width: 400px) {
-            .scene { transform: scale(0.58); }
+            .scene { -webkit-transform: scale(0.58); transform: scale(0.58); }
             .controls-panel { padding: 5px 16px; }
             .btn { padding: 6px 16px; }
         }
 
         @media (max-height: 700px) {
-            .scene { transform: scale(0.58); }
+            .scene { -webkit-transform: scale(0.58); transform: scale(0.58); }
             .ui-header { top: 15px; }
             .ui-header h1 { font-size: clamp(1rem, 3.8vw, 1.4rem); }
             .controls-panel { bottom: 12px; }
-        }
-
-        @media (max-height: 600px) {
-            .scene { transform: scale(0.48); }
-            .ui-header { top: 10px; }
-            .controls-panel { bottom: 8px; padding: 4px 14px; }
-            .btn { padding: 5px 14px; font-size: 0.7rem; }
         }
 
         .message-card::-webkit-scrollbar {
@@ -417,6 +474,7 @@
 
     <canvas id="bgCanvas"></canvas>
 
+    <!-- CABECERA ARRIBA FIJA -->
     <div class="ui-header">
         <h1>Me dijiste que te gustaban las flores</h1>
         <p>te hice una Peonía hecha con mucho cariño</p>
@@ -429,14 +487,14 @@
                 <div class="botanical-stem-group">
                     <div class="calyx-base"></div>
 
-                    <div class="sepal" style="transform: rotate(0deg) translateY(-5px);"></div>
-                    <div class="sepal" style="transform: rotate(72deg) translateY(-5px);"></div>
-                    <div class="sepal" style="transform: rotate(144deg) translateY(-5px);"></div>
-                    <div class="sepal" style="transform: rotate(216deg) translateY(-5px);"></div>
-                    <div class="sepal" style="transform: rotate(288deg) translateY(-5px);"></div>
+                    <div class="sepal" style="transform: rotate(0deg) translateY(-5px); -webkit-transform: rotate(0deg) translateY(-5px);"></div>
+                    <div class="sepal" style="transform: rotate(72deg) translateY(-5px); -webkit-transform: rotate(72deg) translateY(-5px);"></div>
+                    <div class="sepal" style="transform: rotate(144deg) translateY(-5px); -webkit-transform: rotate(144deg) translateY(-5px);"></div>
+                    <div class="sepal" style="transform: rotate(216deg) translateY(-5px); -webkit-transform: rotate(216deg) translateY(-5px);"></div>
+                    <div class="sepal" style="transform: rotate(288deg) translateY(-5px); -webkit-transform: rotate(288deg) translateY(-5px);"></div>
 
                     <div class="stem-body">
-                        <div class="thorn" style="top: 50px; left: -10px; transform: rotate(180deg);"></div>
+                        <div class="thorn" style="top: 50px; left: -10px; transform: rotate(180deg); -webkit-transform: rotate(180deg);"></div>
                         <div class="thorn" style="top: 130px; left: 8px;"></div>
                     </div>
 
@@ -485,24 +543,25 @@
 
             const bloomFactor = Math.max(1, Math.min(100, NIVEL_DE_APERTURA)) / 100;
 
-            // --- ESTAMBRES 2D ---
-            for (let s = 0; s < 16; s++) {
+            // --- ESTAMBRES ABUNDANTES ---
+            for (let s = 0; s < 20; s++) {
                 const stamen = document.createElement('div');
                 stamen.className = 'stamen';
-                const angle = (s / 16) * 360;
-                const dist = 3 + Math.random() * 4;
+                const angle = (s / 20) * 360;
+                const dist = 3 + Math.random() * 5;
+                stamen.style.webkitTransform = `rotate(${angle}deg) translateY(-${dist}px)`;
                 stamen.style.transform = `rotate(${angle}deg) translateY(-${dist}px)`;
                 centerCore.appendChild(stamen);
             }
 
-            // --- CONFIGURACIÓN DE PÉTALOS EN 2D ---
+            // --- CAPAS DE PÉTALOS ANCHAS Y REDONDAS ---
             const LAYERS_CONFIG = [
-                { count: 5,  width: 26, height: 38, closedRadius: 2,  openRadius: 8,   bg: 'linear-gradient(to top, #880e4f 0%, #c2185b 60%, #e91e63 100%)' },
-                { count: 7,  width: 38, height: 54, closedRadius: 5,  openRadius: 16,  bg: 'linear-gradient(to top, #ad1457 0%, #d81b60 60%, #f06292 100%)' },
-                { count: 9,  width: 50, height: 72, closedRadius: 10, openRadius: 26,  bg: 'linear-gradient(to top, #c2185b 0%, #e91e63 60%, #ff4081 100%)' },
-                { count: 11, width: 64, height: 90, closedRadius: 15, openRadius: 38,  bg: 'linear-gradient(to top, #d81b60 0%, #f06292 60%, #ff80ab 100%)' },
-                { count: 13, width: 78, height: 110,closedRadius: 20, openRadius: 52,  bg: 'linear-gradient(to top, #e91e63 0%, #f48fb1 60%, #ffcdd2 100%)' },
-                { count: 15, width: 92, height: 128,closedRadius: 25, openRadius: 68,  bg: 'linear-gradient(to top, #f48fb1 0%, #f8bbd0 60%, #fff0f5 100%)' }
+                { count: 6,  width: 32, height: 44, closedRadius: 2,  openRadius: 10,  bg: 'linear-gradient(to top, #6a0033 0%, #9c0d48 50%, #d81b60 100%)' },
+                { count: 8,  width: 46, height: 60, closedRadius: 5,  openRadius: 20,  bg: 'linear-gradient(to top, #880e4f 0%, #c2185b 50%, #e91e63 100%)' },
+                { count: 10, width: 60, height: 78, closedRadius: 10, openRadius: 32,  bg: 'linear-gradient(to top, #a21251 0%, #d81b60 50%, #f06292 100%)' },
+                { count: 12, width: 76, height: 96, closedRadius: 15, openRadius: 46,  bg: 'linear-gradient(to top, #c2185b 0%, #e91e63 50%, #ff80ab 100%)' },
+                { count: 14, width: 92, height: 114,closedRadius: 20, openRadius: 60,  bg: 'linear-gradient(to top, #d81b60 0%, #f06292 50%, #f8bbd0 100%)' },
+                { count: 16, width: 108,height: 132,closedRadius: 25, openRadius: 76,  bg: 'linear-gradient(to top, #e91e63 0%, #f48fb1 50%, #fff0f5 100%)' }
             ];
 
             const petalElements = [];
@@ -520,17 +579,19 @@
                     petal.style.height = `${layer.height}px`;
                     petal.style.marginLeft = `-${layer.width / 2}px`;
                     petal.style.background = layer.bg;
-                    petal.style.zIndex = 40 - layerIdx * 5; // Capas apiladas correctamente en 2D
+                    petal.style.zIndex = 50 - layerIdx * 5;
 
                     const targetRadius = layer.closedRadius + (layer.openRadius - layer.closedRadius) * bloomFactor;
 
-                    const closedTransform = `rotate(${angle}deg) translateY(-${layer.closedRadius}px) scale(0.4)`;
+                    const closedTransform = `rotate(${angle}deg) translateY(-${layer.closedRadius}px) scale(0.12)`;
                     const bloomedTransform = `rotate(${angle}deg) translateY(-${targetRadius}px) scale(1)`;
 
+                    petal.style.webkitTransform = closedTransform;
                     petal.style.transform = closedTransform;
-                    petal.style.opacity = '0.2';
+                    petal.style.opacity = '0.05';
 
-                    const layerDelay = layerIdx * 0.12 + (i % 3) * 0.03;
+                    const layerDelay = layerIdx * 0.22 + (i % 3) * 0.04;
+                    petal.style.webkitTransitionDelay = `${layerDelay}s`;
                     petal.style.transitionDelay = `${layerDelay}s`;
 
                     if (layerIdx >= 3 && (i % 3 === 0)) {
@@ -552,15 +613,21 @@
 
             petalsContainer.appendChild(fragment);
 
-            // --- FLORACIÓN ---
-            requestAnimationFrame(() => {
+            // --- FLORACIÓN SUAVE ---
+            const requestAnimFrame = window.requestAnimationFrame || 
+                                     window.webkitRequestAnimationFrame || 
+                                     window.mozRequestAnimationFrame || 
+                                     function(callback) { setTimeout(callback, 1000 / 60); };
+
+            requestAnimFrame(() => {
                 setTimeout(() => {
                     centerCore.style.opacity = '1';
                     petalElements.forEach(p => {
+                        p.element.style.webkitTransform = p.targetTransform;
                         p.element.style.transform = p.targetTransform;
                         p.element.style.opacity = '1';
                     });
-                }, 80);
+                }, 100);
             });
 
             // --- EVENTOS UI ---
@@ -577,22 +644,22 @@
                 }
             });
 
-            // --- CANVAS ULTRALIGERO ---
+            // --- CANVAS ULTRALIGERO MULTINAVEGADOR ---
             const canvas = document.getElementById('bgCanvas');
             const ctx = canvas.getContext('2d');
 
             let width, height;
 
             function resizeCanvas() {
-                width = window.innerWidth;
-                height = window.innerHeight;
+                width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
                 canvas.width = width;
                 canvas.height = height;
             }
             resizeCanvas();
 
             const particles = [];
-            const particleCount = Math.min(12, Math.floor(window.innerWidth / 80));
+            const particleCount = Math.min(12, Math.floor(width / 80));
 
             for (let i = 0; i < particleCount; i++) {
                 particles.push({
@@ -625,7 +692,7 @@
                     ctx.fill();
                 }
 
-                frameId = requestAnimationFrame(animateBackground);
+                frameId = requestAnimFrame(animateBackground);
             }
 
             animateBackground();
@@ -644,7 +711,8 @@
 
             window.addEventListener('beforeunload', () => {
                 if (frameId) {
-                    cancelAnimationFrame(frameId);
+                    const cancelAnimFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame;
+                    if (cancelAnimFrame) cancelAnimFrame(frameId);
                 }
             });
 
