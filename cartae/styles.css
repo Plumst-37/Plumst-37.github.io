@@ -1,0 +1,701 @@
+/* ==========================================================================
+   PRODUCTION COMPACT DESIGN SYSTEM FOR FRANCISCA (ZERO-SCROLL FIT)
+   ========================================================================== */
+
+:root {
+    --bg-desk: #18151f;
+    --paper-color: #fdfbf7;
+    --paper-border: #eee3d5;
+    --ink-color: #2b2528;
+    --peony-pink: #e85d75;
+    --peony-pink-dark: #c93b54;
+    --peony-purple: #6c5ce7;
+    --wax-red: #b82337;
+    --gold-accent: #d4af37;
+    
+    --font-heading: 'Playfair Display', serif;
+    --font-handwriting: 'Caveat', cursive;
+    --font-script: 'Dancing Script', cursive;
+    --font-body: 'Outfit', sans-serif;
+}
+
+/* Global Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--ink-color);
+    background: var(--bg-desk);
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 8px 10px 20px 10px;
+    position: relative;
+    line-height: 1.5;
+}
+
+/* Ambient Desk Surface Background */
+.desk-background {
+    position: fixed;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 50% 25%, rgba(232, 93, 117, 0.08) 0%, transparent 70%),
+        radial-gradient(circle at 80% 80%, rgba(108, 92, 231, 0.06) 0%, transparent 50%),
+        linear-gradient(135deg, #1f1b29 0%, #121018 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+#ambient-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Main Container */
+.app-container {
+    width: 100%;
+    max-width: 520px;
+    z-index: 10;
+    position: relative;
+    margin-top: 0;
+}
+
+/* Screen Transitions */
+.screen-section {
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.screen-section.hidden {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px) scale(0.97);
+}
+
+.screen-section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* ================= STAGE 1: COMPACT VECTOR ENVELOPE ================= */
+#envelope-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    padding-top: 10px;
+}
+
+.envelope-scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+    max-width: 340px;
+}
+
+.paper-envelope {
+    width: 100%;
+    height: 200px;
+    background: #f7eee0;
+    border-radius: 16px;
+    position: relative;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45), 0 8px 16px rgba(0, 0, 0, 0.2);
+    border: 1px solid #e8dac5;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    overflow: hidden;
+}
+
+.envelope-scene:hover .paper-envelope {
+    transform: translateY(-4px) scale(1.015);
+    box-shadow: 0 35px 65px rgba(0, 0, 0, 0.55);
+}
+
+/* Vector Envelope Background Geometry */
+.envelope-vector {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+#top-flap-path {
+    transform-origin: 170px 0px;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Stamp & Postmark */
+.stamp-container {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.stamp-frame {
+    width: 40px;
+    height: 44px;
+    background: #ffffff;
+    border: 2px dashed var(--peony-pink);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transform: rotate(3deg);
+}
+
+.stamp-peony-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.postmark-seal {
+    border: 1px solid rgba(232, 93, 117, 0.6);
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--peony-pink);
+    font-size: 7px;
+    font-weight: 700;
+    transform: rotate(-12deg);
+    opacity: 0.85;
+}
+
+/* Wax Seal */
+.wax-seal {
+    position: absolute;
+    top: 78px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px;
+    height: 44px;
+    background: radial-gradient(circle at 35% 35%, #e85d75, var(--wax-red), #8c1425);
+    border-radius: 50%;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    transition: transform 0.3s ease;
+}
+
+.envelope-scene:hover .wax-seal {
+    transform: translateX(-50%) scale(1.08);
+}
+
+.seal-inner {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.seal-symbol {
+    font-size: 15px;
+}
+
+/* Recipient Box */
+.recipient-box {
+    position: absolute;
+    bottom: 14px;
+    left: 18px;
+    z-index: 3;
+}
+
+.addr-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #8c7867;
+}
+
+.addr-name {
+    font-family: var(--font-script);
+    font-size: 23px;
+    color: #2b221b;
+    line-height: 1.1;
+    white-space: nowrap;
+    margin-top: 1px;
+    font-weight: 700;
+}
+
+.addr-tag {
+    font-size: 11px;
+    color: var(--peony-pink);
+    font-weight: 500;
+}
+
+.click-hint {
+    margin-top: 16px;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 7px 16px;
+    border-radius: 30px;
+    font-size: 12.5px;
+    color: #e5d8c8;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    text-align: center;
+}
+
+.sparkle {
+    color: var(--gold-accent);
+    margin: 0 4px;
+}
+
+/* ================= STAGE 2: 3D COMPACT FLIP POSTCARD ================= */
+#postcard-section {
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
+.postcard-scene {
+    perspective: 1200px;
+    width: 100%;
+}
+
+.postcard-card {
+    position: relative;
+    width: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.postcard-card.is-flipped {
+    transform: rotateY(180deg);
+}
+
+/* Card Faces */
+.card-face {
+    width: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.card-front {
+    position: relative;
+    z-index: 2;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.postcard-card.is-flipped .card-front {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.postcard-card.is-flipped .card-back {
+    z-index: 2;
+    position: relative;
+}
+
+/* Postcard Paper Sheet Styling */
+.postcard-paper {
+    background: var(--paper-color);
+    border: 1px solid var(--paper-border);
+    border-radius: 20px;
+    padding: 16px 14px;
+    box-shadow: 
+        0 20px 45px rgba(0, 0, 0, 0.45),
+        0 5px 14px rgba(0, 0, 0, 0.22),
+        inset 0 0 25px rgba(220, 200, 180, 0.15);
+}
+
+/* FRONT FACE (UNCROPPED PEONY ARTWORK) */
+.peony-header-frame {
+    width: 100%;
+    height: 310px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #ffffff;
+    background: #fffdfa;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.peony-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Full bloom, petals, leaves & stem 100% visible */
+    padding: 6px 6px 48px 6px;
+}
+
+.peony-badge {
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 8px 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+}
+
+.badge-title {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    color: var(--peony-pink);
+    font-weight: 700;
+}
+
+.badge-text {
+    font-size: 12px;
+    color: var(--ink-color);
+}
+
+.front-actions {
+    text-align: center;
+}
+
+.btn-flip {
+    background: linear-gradient(135deg, var(--peony-pink), var(--peony-pink-dark));
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 11px 20px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 5px 16px rgba(232, 93, 117, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-flip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(232, 93, 117, 0.45);
+}
+
+/* BACK FACE (COMPACT NO-SCROLL LETTER & GAME) */
+.back-top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed rgba(180, 150, 120, 0.3);
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+
+.btn-text-flip {
+    background: none;
+    border: none;
+    color: var(--peony-pink);
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+.btn-text-flip:hover {
+    background: rgba(232, 93, 117, 0.1);
+}
+
+.postcard-date {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    color: #8c7867;
+    font-style: italic;
+}
+
+.letter-salutation {
+    font-family: var(--font-script);
+    font-size: 24px;
+    color: var(--peony-pink);
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+/* Letter Body Text */
+.letter-body-text {
+    margin-bottom: 14px;
+}
+
+.paragraph {
+    font-family: var(--font-handwriting);
+    font-size: 19px;
+    line-height: 1.45;
+    color: #2b2520;
+    margin-bottom: 6px;
+}
+
+.highlight {
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.highlight.pink {
+    color: var(--peony-pink);
+    background: rgba(232, 93, 117, 0.1);
+}
+
+.highlight.purple {
+    color: var(--peony-purple);
+    background: rgba(108, 92, 231, 0.1);
+}
+
+.emphasis-line {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--peony-pink);
+}
+
+/* Question Card Game */
+.question-card {
+    background: rgba(245, 235, 220, 0.5);
+    border: 1px dashed rgba(180, 140, 110, 0.45);
+    border-radius: 14px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.question-header h3 {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    color: var(--ink-color);
+    margin-bottom: 2px;
+}
+
+.question-main {
+    font-family: var(--font-handwriting);
+    font-size: 18px;
+    color: var(--peony-pink);
+    font-weight: 700;
+}
+
+.runaway-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    position: relative;
+    margin-top: 6px;
+}
+
+/* Action Buttons */
+.btn {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-yes {
+    background: var(--peony-pink);
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(232, 93, 117, 0.3);
+}
+
+.btn-yes:hover {
+    background: var(--peony-pink-dark);
+    transform: translateY(-2px);
+}
+
+.btn-no {
+    background: #e63946;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(230, 57, 70, 0.25);
+}
+
+/* Footer Signature */
+.postcard-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 6px;
+    border-top: 1px dashed rgba(180, 150, 120, 0.3);
+}
+
+.sig-valediction {
+    font-size: 11.5px;
+    color: #7a6b5d;
+}
+
+.sig-name {
+    font-family: var(--font-script);
+    font-size: 22px;
+    color: var(--peony-pink);
+}
+
+.postmark-badge {
+    border: 1.5px solid var(--peony-pink);
+    color: var(--peony-pink);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    transform: rotate(-4deg);
+}
+
+/* ================= CELEBRATION MODAL ================= */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 12, 20, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.hidden {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-box {
+    background: #fdfbf7;
+    border-radius: 20px;
+    padding: 24px 18px;
+    max-width: 340px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid #ebdccb;
+    animation: modalPop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalPop {
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #eee3d5;
+    border: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 11px;
+    color: #666;
+}
+
+.modal-illustration {
+    margin-bottom: 12px;
+}
+
+.modal-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 16px;
+    object-fit: cover;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.modal-title {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    color: var(--peony-pink);
+    margin-bottom: 4px;
+}
+
+.modal-desc {
+    font-size: 12.5px;
+    color: #555;
+    margin-bottom: 16px;
+    line-height: 1.45;
+}
+
+.modal-btn-ok {
+    width: 100%;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+    body {
+        padding: 6px 4px 16px 4px;
+    }
+    
+    .postcard-paper {
+        padding: 14px 10px;
+    }
+    
+    .letter-salutation {
+        font-size: 22px;
+    }
+    
+    .paragraph {
+        font-size: 18px;
+    }
+    
+    .runaway-container {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .paper-envelope {
+        height: 190px;
+    }
+
+    .peony-header-frame {
+        height: 270px;
+    }
+}
