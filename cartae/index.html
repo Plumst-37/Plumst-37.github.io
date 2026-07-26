@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Una Postal Especial para Francisca 🌸✨</title>
+
+    <!-- Meta tags -->
+    <meta name="description" content="Una postal de peonías con carta interactiva creada especialmente para Francisca.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Ambient Desk Surface & Light Background -->
+    <div class="desk-background"></div>
+    <canvas id="ambient-canvas"></canvas>
+
+    <!-- Main Container -->
+    <main class="app-container">
+
+        <!-- ================= STAGE 1: COMPACT VECTOR ENVELOPE ================= -->
+        <section id="envelope-section" class="screen-section active">
+            <div class="envelope-scene" id="envelope-wrapper" role="button" aria-label="Abrir sobre para Francisca">
+
+                <div class="paper-envelope" id="envelope">
+                    <!-- Vector Envelope Geometry -->
+                    <svg class="envelope-vector" viewBox="0 0 340 200" preserveAspectRatio="none">
+                        <rect x="0" y="0" width="340" height="200" rx="16" fill="#f7eee0" />
+                        <path d="M 0,0 L 170,100 L 0,200 Z" fill="#f2e3cf" stroke="#e2ceb5" stroke-width="1" />
+                        <path d="M 340,0 L 170,100 L 340,200 Z" fill="#ede0cb" stroke="#e2ceb5" stroke-width="1" />
+                        <path d="M 0,200 L 170,100 L 340,200 Z" fill="#e8d6c0" stroke="#dabe9e" stroke-width="1.5" />
+                        <path id="top-flap-path" d="M 0,0 L 170,100 L 340,0 Z" fill="#f4e1ce" stroke="#dabe9e"
+                            stroke-width="1.5" />
+                    </svg>
+
+                    <!-- Stamp & Postmark -->
+                    <div class="stamp-container">
+                        <div class="stamp-frame">
+                            <img src="assets/peony.jpg" alt="Peonía Rosa" class="stamp-peony-img">
+                        </div>
+                        <div class="postmark-seal">
+                            <span>FRANCISCA</span>
+                            <small>2026</small>
+                        </div>
+                    </div>
+
+                    <!-- Wax Seal -->
+                    <div class="wax-seal" id="envelope-seal">
+                        <div class="seal-inner">
+                            <span class="seal-symbol">🌸</span>
+                        </div>
+                    </div>
+
+                    <!-- Recipient Box -->
+                    <div class="recipient-box">
+                        <span class="addr-label">Para:</span>
+                        <h2 class="addr-name">Señorita Francisca ✨</h2>
+                        <p class="addr-tag">(La chica de las pequitas 👧🏽)</p>
+                    </div>
+                </div>
+
+                <div class="click-hint">
+                    <span class="sparkle">✦</span> Toca el sobre para abrir tu postal <span class="sparkle">✦</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= STAGE 2: 3D COMPACT INTERACTIVE POSTCARD ================= -->
+        <section id="postcard-section" class="screen-section hidden">
+
+            <div class="postcard-scene">
+                <div class="postcard-card" id="postcard-card">
+
+                    <!-- ===== FRONT OF POSTCARD (Full Peony Art) ===== -->
+                    <div class="card-face card-front" id="card-face-front">
+                        <div class="postcard-paper">
+
+                            <div class="peony-header-frame">
+                                <img src="assets/peony.jpg" alt="Ilustración Peonía Rosa" class="peony-img">
+                                <div class="peony-badge">
+                                    <span class="badge-title">Una Peonía Especial 🌸</span>
+                                    <p class="badge-text">Para la Señorita con Pequitas: Francisca</p>
+                                </div>
+                            </div>
+
+                            <div class="front-actions">
+                                <button class="btn btn-flip" id="btn-flip-to-back">
+                                    🔄 Toca para voltear la postal y leer la carta ✨
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ===== BACK OF POSTCARD (Compact Letter + Runaway Game) ===== -->
+                    <div class="card-face card-back" id="card-face-back">
+                        <div class="postcard-paper">
+
+                            <!-- Return to Front Button -->
+                            <div class="back-top-nav">
+                                <button class="btn-text-flip" id="btn-flip-to-front">
+                                    ↩ Voltear a ver la peonía
+                                </button>
+                                <span class="postcard-date">25 de Julio, 2026</span>
+                            </div>
+
+                            <!-- Salutation -->
+                            <h2 class="letter-salutation">Querida Francisca (Señorita con pequitas),</h2>
+
+                            <!-- Letter Body Text -->
+                            <div class="letter-body-text">
+                                <p class="paragraph">
+                                    Para que veas qué tan bien me caíste te hice esta carta,
+                                    <span class="highlight pink">señorita con pequitas</span> jajajsaj.
+                                </p>
+
+                                <p class="paragraph">
+                                    No sé cómo sigues siendo mi amiga si soy
+                                    <span class="highlight purple">súper fastidioso</span> 🤪,
+                                    pero me caes bien jajaj.
+                                </p>
+
+                                <p class="paragraph emphasis-line">
+                                    ¡Espero seguirte cayendo bien! ✨
+                                </p>
+                            </div>
+
+                            <!-- Interactive Question Card Game -->
+                            <section class="question-card">
+                                <div class="question-header">
+                                    <h3>❓ Una pregunta seria (pero no tanto):</h3>
+                                    <p class="question-main">¿Vas a seguir siendo mi amiga y aguantándome?</p>
+                                </div>
+                                <div class="runaway-container" id="runaway-area">
+                                    <button class="btn btn-yes" id="btn-yes">
+                                        ¡Obvio que sí! 💖✨
+                                    </button>
+                                    <button class="btn btn-no" id="btn-no">
+                                        No, ya me aburrí 🙈
+                                    </button>
+                                </div>
+                            </section>
+
+                            <!-- Footer Signature -->
+                            <footer class="postcard-footer">
+                                <div class="sig-block">
+                                    <span class="sig-valediction">Con mucho cariño, </span>
+                                    <span class="sig-name">Tu amigo fastidioso ✍️❤️</span>
+                                </div>
+                                <div class="postmark-badge">
+                                    <span>APROBADO ✨</span>
+                                </div>
+                            </footer>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Celebration Modal -->
+    <div id="celebration-modal" class="modal-overlay hidden" role="dialog" aria-hidden="true">
+        <div class="modal-box">
+            <button class="modal-close-btn" id="modal-close" aria-label="Cerrar">✕</button>
+            <div class="modal-illustration">
+                <img src="assets/cat_letter.jpg" alt="Gatito tierno con carta" class="modal-img">
+            </div>
+            <h2 class="modal-title">¡SABÍA QUE DIRÍAS QUE SÍ! 🎉🌸</h2>
+            <p class="modal-desc">Queda oficialmente renovada la membresía de amistad entre Francisca y su amigo
+                fastidioso jajaj. ✨</p>
+            <button class="btn btn-yes modal-btn-ok" id="btn-modal-ok">¡Excelente decisión! 🌟</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
