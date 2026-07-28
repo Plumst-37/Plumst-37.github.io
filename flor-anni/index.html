@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="theme-color" content="#080107" />
+    <meta name="theme-color" content="#0a0209" />
     <meta name="color-scheme" content="dark" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <title>Me dijiste que te gustaban las flores - Peonías</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+    <title>Me dijiste que te gustaban las flores - Peonía para ti</title>
+    
+    <!-- Fuentes Románticas y Elegantes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        /* Protección global contra fondos blancos */
+    <style>
         :root, html {
-            background-color: #080107 !important;
+            background-color: #060107 !important;
             color-scheme: dark;
         }
 
-        /* Reset optimizado y multiplataforma */
         * {
             margin: 0;
             padding: 0;
@@ -38,25 +40,23 @@
             position: fixed;
             top: 0;
             left: 0;
-            background-color: #080107;
-        }
-
-        body {
-            background-color: #080107;
-            background: -webkit-radial-gradient(circle at 50% 45%, #2d0820 0%, #14030e 60%, #050005 100%);
-            background: -moz-radial-gradient(circle at 50% 45%, #2d0820 0%, #14030e 60%, #050005 100%);
-            background: radial-gradient(circle at 50% 45%, #2d0820 0%, #14030e 60%, #050005 100%);
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: #060107;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #ffffff;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Canvas de fondo */
-        #bgCanvas {
+        /* Fondo Radial Atmosférico con Luz Biológica */
+        body {
+            background: radial-gradient(circle at 50% 40%, #380829 0%, #1a0314 55%, #050006 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Canvas Interactivo de Partículas y Pétalos Flotantes */
+        #particleCanvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -65,54 +65,51 @@
             height: 100dvh;
             pointer-events: none;
             z-index: 1;
-            background-color: transparent;
         }
 
-        /* --- TEXTO REUBICADO ARRIBA COMO ANTES --- */
+        /* Encabezado Principal */
         .ui-header {
             position: fixed;
-            top: clamp(25px, 5vh, 55px);
+            top: clamp(20px, 4.5vh, 45px);
             left: 50%;
-            -webkit-transform: translateX(-50%);
             transform: translateX(-50%);
             text-align: center;
             z-index: 10;
             pointer-events: none;
             width: 90%;
-            max-width: 620px;
+            max-width: 650px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            animation: fadeInDown 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .ui-header h1 {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: clamp(1.2rem, 4.2vw, 2rem);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.35rem, 4.8vw, 2.3rem);
             font-weight: 600;
-            letter-spacing: clamp(1px, 0.4vw, 2px);
-            line-height: 1.28;
-            text-align: center;
-            color: #f8bbd0;
-            background: -webkit-linear-gradient(135deg, #ffffff 0%, #ffd8e4 45%, #f8bbd0 100%);
-            background: linear-gradient(135deg, #ffffff 0%, #ffd8e4 45%, #f8bbd0 100%);
+            letter-spacing: clamp(1px, 0.4vw, 2.5px);
+            line-height: 1.25;
+            color: #ffe4ec;
+            background: linear-gradient(135deg, #ffffff 0%, #ffd0e0 40%, #f48fb1 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 4px 18px rgba(0, 0, 0, 0.9);
-            margin-bottom: 4px;
+            text-shadow: 0 4px 20px rgba(233, 30, 99, 0.4);
+            margin-bottom: 6px;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8));
         }
 
         .ui-header p {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: clamp(0.65rem, 2.2vw, 0.8rem);
-            letter-spacing: clamp(1px, 0.3vw, 2px);
-            color: rgba(255, 235, 242, 0.92);
-            text-transform: uppercase;
-            font-weight: 500;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+            font-family: 'Caveat', cursive;
+            font-size: clamp(1.15rem, 3.8vw, 1.5rem);
+            color: #ffb74d;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 12px rgba(255, 183, 77, 0.4);
+            opacity: 0.95;
         }
 
-        /* Viewport 2D */
+        /* Escenario de la Flor */
         .viewport {
             position: relative;
             width: 100vw;
@@ -122,38 +119,55 @@
             justify-content: center;
             align-items: center;
             z-index: 2;
+            perspective: 1000px;
         }
 
         .scene {
             position: relative;
             width: 0;
             height: 0;
+            transform-style: preserve-3d;
             will-change: transform;
+            transition: transform 0.1s ease-out;
         }
 
-        /* Flotación 2D ligera */
+        /* Contenedor Flotante de la Peonía */
         .flower-container {
             position: relative;
             width: 0;
             height: 0;
-            -webkit-animation: gentleFloat 6s ease-in-out infinite alternate;
-            animation: gentleFloat 6s ease-in-out infinite alternate;
+            animation: organicFloat 7s ease-in-out infinite alternate;
             will-change: transform;
+            cursor: pointer;
         }
 
-        @-webkit-keyframes gentleFloat {
-            0% { -webkit-transform: translateY(0px); transform: translateY(0px); }
-            50% { -webkit-transform: translateY(-6px); transform: translateY(-6px); }
-            100% { -webkit-transform: translateY(-12px); transform: translateY(-12px); }
+        @keyframes organicFloat {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1.2deg); }
+            100% { transform: translateY(-16px) rotate(-1.2deg); }
         }
 
-        @keyframes gentleFloat {
-            0% { -webkit-transform: translateY(0px); transform: translateY(0px); }
-            50% { -webkit-transform: translateY(-6px); transform: translateY(-6px); }
-            100% { -webkit-transform: translateY(-12px); transform: translateY(-12px); }
+        /* Resplandor Cálido Aislado */
+        .flower-halo {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            left: -160px;
+            top: -160px;
+            background: radial-gradient(circle, rgba(248, 187, 208, 0.28) 0%, rgba(233, 30, 99, 0.12) 40%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(20px);
+            animation: haloPulse 5s ease-in-out infinite alternate;
         }
 
-        /* --- ESTRUCTURA BOTÁNICA 2D --- */
+        @keyframes haloPulse {
+            0% { opacity: 0.6; transform: scale(0.92); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* Tallo y Hojas Botánicas */
         .botanical-stem-group {
             position: absolute;
             top: 0;
@@ -163,55 +177,52 @@
 
         .calyx-base {
             position: absolute;
-            width: 34px;
-            height: 28px;
-            left: -17px;
-            top: 8px;
-            background: -webkit-radial-gradient(circle at 50% 30%, #43a047 0%, #1b5e20 70%, #0d3811 100%);
-            background: radial-gradient(circle at 50% 30%, #43a047 0%, #1b5e20 70%, #0d3811 100%);
+            width: 38px;
+            height: 32px;
+            left: -19px;
+            top: 6px;
+            background: radial-gradient(circle at 50% 30%, #4caf50 0%, #2e7d32 60%, #1b5e20 100%);
             border-radius: 50% 50% 40% 40% / 30% 30% 70% 70%;
-            z-index: 1;
+            box-shadow: inset 0 2px 6px rgba(255,255,255,0.25), 0 4px 10px rgba(0,0,0,0.6);
+            z-index: 2;
         }
 
         .sepal {
             position: absolute;
-            width: 16px;
-            height: 44px;
+            width: 18px;
+            height: 48px;
             left: 50%;
-            top: 8px;
-            margin-left: -8px;
-            background: -webkit-linear-gradient(to bottom, #4caf50, #1b5e20);
-            background: linear-gradient(to bottom, #4caf50, #1b5e20);
+            top: 6px;
+            margin-left: -9px;
+            background: linear-gradient(to bottom, #66bb6a, #1b5e20);
             border-radius: 100% 0 100% 0 / 80% 0 80% 0;
-            -webkit-transform-origin: 50% 0%;
             transform-origin: 50% 0%;
-            z-index: 2;
+            z-index: 3;
+            box-shadow: inset 1px 1px 3px rgba(255,255,255,0.3);
         }
 
         .stem-body {
             position: absolute;
-            top: 25px;
-            left: -4px;
-            width: 8px;
-            height: 270px;
-            background: -webkit-linear-gradient(to right, #0d3811 0%, #2e7d32 40%, #43a047 60%, #1b5e20 100%);
-            background: linear-gradient(to right, #0d3811 0%, #2e7d32 40%, #43a047 60%, #1b5e20 100%);
-            border-radius: 4px;
-            -webkit-transform-origin: 50% 0%;
+            top: 22px;
+            left: -5px;
+            width: 10px;
+            height: 290px;
+            background: linear-gradient(to right, #0d3811 0%, #2e7d32 35%, #43a047 65%, #1b5e20 100%);
+            border-radius: 5px;
             transform-origin: 50% 0%;
             z-index: 0;
-            box-shadow: 2px 4px 12px rgba(0,0,0,0.5);
+            box-shadow: 3px 6px 16px rgba(0,0,0,0.65);
         }
 
         .thorn {
             position: absolute;
             width: 0;
             height: 0;
-            border-top: 4px solid transparent;
-            border-bottom: 4px solid transparent;
-            border-right: 9px solid #1b5e20;
-            -webkit-transform-origin: 0 50%;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-right: 11px solid #1b5e20;
             transform-origin: 0 50%;
+            filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.5));
         }
 
         .leaf-wrapper {
@@ -221,44 +232,37 @@
         }
 
         .leaf-wrapper.left {
-            top: 90px;
-            left: -3px;
-            -webkit-transform: rotate(-38deg);
-            transform: rotate(-38deg);
+            top: 95px;
+            left: -4px;
+            transform: rotate(-36deg);
         }
 
         .leaf-wrapper.right {
-            top: 160px;
-            left: 5px;
-            -webkit-transform: rotate(210deg);
-            transform: rotate(210deg);
+            top: 170px;
+            left: 6px;
+            transform: rotate(205deg);
         }
 
         .petiole {
             position: absolute;
-            width: 16px;
-            height: 3px;
-            background: -webkit-linear-gradient(to right, #1b5e20, #2e7d32);
-            background: linear-gradient(to right, #1b5e20, #2e7d32);
+            width: 18px;
+            height: 4px;
+            background: linear-gradient(to right, #1b5e20, #388e3c);
             border-radius: 2px;
-            -webkit-transform-origin: 0% 50%;
             transform-origin: 0% 50%;
-            -webkit-transform: rotate(-15deg);
             transform: rotate(-15deg);
         }
 
         .leaf-blade {
             position: absolute;
-            left: 13px;
-            top: -20px;
-            width: 40px;
-            height: 66px;
-            background: -webkit-linear-gradient(135deg, #388e3c 0%, #1b5e20 65%, #0a2e0d 100%);
-            background: linear-gradient(135deg, #388e3c 0%, #1b5e20 65%, #0a2e0d 100%);
-            border-radius: 80% 0% 80% 0%;
-            -webkit-transform-origin: 0% 50%;
+            left: 15px;
+            top: -22px;
+            width: 44px;
+            height: 72px;
+            background: linear-gradient(135deg, #43a047 0%, #1b5e20 60%, #09260b 100%);
+            border-radius: 85% 0% 85% 0%;
             transform-origin: 0% 50%;
-            box-shadow: inset 1px 1px 3px rgba(255,255,255,0.2), 0 3px 8px rgba(0,0,0,0.3);
+            box-shadow: inset 1.5px 1.5px 4px rgba(255,255,255,0.3), 0 4px 12px rgba(0,0,0,0.5);
             overflow: hidden;
         }
 
@@ -269,233 +273,296 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: -webkit-linear-gradient(135deg, transparent 48%, rgba(255,255,255,0.2) 50%, transparent 52%);
-            background: linear-gradient(135deg, transparent 48%, rgba(255,255,255,0.2) 50%, transparent 52%);
+            background: linear-gradient(135deg, transparent 48%, rgba(255,255,255,0.25) 50%, transparent 52%);
         }
 
-        /* --- CORAZÓN DE LA PEONÍA --- */
+        /* Centro de Estambres de la Peonía */
         .center-core {
             position: absolute;
-            width: 32px;
-            height: 32px;
-            left: -16px;
-            top: -16px;
+            width: 36px;
+            height: 36px;
+            left: -18px;
+            top: -18px;
             border-radius: 50%;
-            background: -webkit-radial-gradient(circle, #fff9c4 0%, #fbc02d 45%, #f57f17 80%, #e65100 100%);
-            background: radial-gradient(circle, #fff9c4 0%, #fbc02d 45%, #f57f17 80%, #e65100 100%);
-            box-shadow: 0 0 22px rgba(255, 179, 0, 0.85);
+            background: radial-gradient(circle, #ffffff 0%, #fff176 35%, #fbc02d 70%, #e65100 100%);
+            box-shadow: 0 0 28px rgba(255, 193, 7, 0.95), 0 0 10px rgba(255, 255, 255, 0.8);
             z-index: 60;
             opacity: 0;
-            -webkit-transition: opacity 1.5s ease 0.3s;
-            transition: opacity 1.5s ease 0.3s;
+            transition: opacity 1.8s ease 0.4s;
             will-change: opacity;
         }
 
         .stamen {
             position: absolute;
             width: 2px;
-            height: 15px;
-            background: -webkit-linear-gradient(to top, rgba(255,179,0,0.1), #fff59d);
-            background: linear-gradient(to top, rgba(255,179,0,0.1), #fff59d);
+            height: 18px;
+            background: linear-gradient(to top, rgba(255,193,7,0.1), #fffde7);
             bottom: 50%;
             left: 50%;
-            -webkit-transform-origin: bottom center;
             transform-origin: bottom center;
         }
 
         .stamen::after {
             content: '';
             position: absolute;
-            top: -2px;
+            top: -2.5px;
             left: -2px;
-            width: 5px;
-            height: 5px;
+            width: 6px;
+            height: 6px;
             background: #ffe082;
             border-radius: 50%;
-            box-shadow: 0 0 4px #ffb300;
+            box-shadow: 0 0 6px #ffb300;
         }
 
-        /* --- PÉTALOS REDONDEADOS Y TUPIDOS --- */
+        /* Pétalos Realistas de Peonía */
         .petal {
             position: absolute;
             bottom: 0;
             left: 50%;
-            -webkit-transform-origin: 50% 100%;
             transform-origin: 50% 100%;
-            border-radius: 50% 50% 48% 48% / 60% 60% 40% 40%;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: inset 0 -5px 12px rgba(100, 0, 40, 0.2), 0 4px 10px rgba(0, 0, 0, 0.25);
-            -webkit-transition: -webkit-transform 2.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.8s ease;
-            transition: transform 2.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.8s ease;
+            border-radius: 50% 50% 46% 46% / 65% 65% 35% 35%;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            box-shadow: inset 0 -8px 18px rgba(120, 0, 45, 0.25), 0 6px 14px rgba(0, 0, 0, 0.35);
+            transition: transform 2.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.8s ease, filter 0.3s ease;
             will-change: transform, opacity;
+        }
+
+        .petal:hover {
+            filter: brightness(1.12);
         }
 
         .dew-drop {
             position: absolute;
-            width: 3.5px;
-            height: 3.5px;
-            background: -webkit-radial-gradient(circle at 35% 35%, #ffffff 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
-            background: radial-gradient(circle at 35% 35%, #ffffff 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle at 35% 35%, #ffffff 0%, rgba(255,255,255,0.7) 60%, transparent 100%);
             border-radius: 50%;
             pointer-events: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* --- BOTÓN Y PANEL --- */
+        /* Botón Inferior "Ver Carta" */
         .controls-panel {
             position: fixed;
-            bottom: clamp(18px, 4vh, 35px);
+            bottom: clamp(20px, 4.5vh, 40px);
             left: 50%;
-            -webkit-transform: translateX(-50%);
             transform: translateX(-50%);
-            background: rgba(22, 6, 18, 0.95);
-            border: 1px solid rgba(255, 182, 193, 0.3);
-            padding: 6px 20px;
-            border-radius: 35px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             z-index: 10;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+            animation: fadeInUp 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .btn {
-            background: -webkit-linear-gradient(135deg, rgba(244, 143, 177, 0.4), rgba(233, 30, 99, 0.7));
-            background: linear-gradient(135deg, rgba(244, 143, 177, 0.4), rgba(233, 30, 99, 0.7));
-            border: 1px solid rgba(255, 192, 203, 0.4);
+        .btn-card-trigger {
+            background: linear-gradient(135deg, rgba(244, 143, 177, 0.35) 0%, rgba(233, 30, 99, 0.75) 100%);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 192, 203, 0.5);
             color: #ffffff;
-            padding: 7px 20px;
-            border-radius: 28px;
-            font-size: clamp(0.7rem, 2.2vw, 0.85rem);
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(0.85rem, 2.5vw, 0.98rem);
             font-weight: 600;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
             cursor: pointer;
-            -webkit-transition: -webkit-transform 0.15s ease;
-            transition: transform 0.15s ease;
+            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.4), 0 0 15px rgba(255, 182, 193, 0.2);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 6px;
+            gap: 10px;
             white-space: nowrap;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        .btn:active {
-            -webkit-transform: scale(0.95);
-            transform: scale(0.95);
+        .btn-card-trigger:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(233, 30, 99, 0.6), 0 0 25px rgba(255, 182, 193, 0.4);
+            border-color: rgba(255, 255, 255, 0.8);
         }
 
-        .btn svg {
-            width: 14px;
-            height: 14px;
-            flex-shrink: 0;
+        .btn-card-trigger:active {
+            transform: scale(0.96);
         }
 
-        /* --- TARJETA CARTA --- */
-        .message-card {
+        .btn-card-trigger svg {
+            width: 18px;
+            height: 18px;
+            fill: #ffffff;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        /* Tarjeta Carta Elegante (Modal Glassmorphism) */
+        .message-card-overlay {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            -webkit-transform: translate(-50%, -50%) scale(0.9);
-            transform: translate(-50%, -50%) scale(0.9);
-            background: #12040f;
-            background: rgba(18, 4, 15, 0.98);
-            border: 1px solid rgba(255, 182, 193, 0.3);
-            padding: clamp(20px, 3.5vh, 30px) clamp(18px, 3.5vw, 36px);
-            border-radius: 20px;
-            text-align: center;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            background: rgba(8, 2, 8, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             opacity: 0;
             pointer-events: none;
-            -webkit-transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
-            max-width: 380px;
-            width: 88%;
-            max-height: 80vh;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            will-change: transform, opacity;
+            transition: opacity 0.4s ease;
+            padding: 20px;
         }
 
-        .message-card.active {
+        .message-card-overlay.active {
             opacity: 1;
             pointer-events: auto;
-            -webkit-transform: translate(-50%, -50%) scale(1);
-            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .message-card {
+            background: linear-gradient(145deg, rgba(26, 6, 22, 0.95) 0%, rgba(14, 3, 12, 0.98) 100%);
+            border: 1px solid rgba(255, 182, 193, 0.35);
+            border-radius: 24px;
+            padding: clamp(26px, 4.5vh, 40px) clamp(22px, 4vw, 36px);
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            max-width: 420px;
+            width: 92%;
+            max-height: 82vh;
+            overflow-y: auto;
+            transform: scale(0.88) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .message-card-overlay.active .message-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .card-header-icon {
+            width: 44px;
+            height: 44px;
+            margin: 0 auto 12px auto;
+            background: radial-gradient(circle, rgba(233, 30, 99, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-header-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: #f48fb1;
         }
 
         .message-card h2 {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: clamp(1.4rem, 4.5vw, 1.8rem);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.6rem, 5vw, 2.1rem);
             color: #f8bbd0;
-            margin-bottom: 8px;
+            margin-bottom: 14px;
             font-style: italic;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(233, 30, 99, 0.3);
         }
 
         .message-card p {
-            font-size: clamp(0.8rem, 2.4vw, 0.88rem);
-            line-height: 1.5;
-            color: rgba(255, 240, 245, 0.9);
-            margin-bottom: 16px;
+            font-size: clamp(0.92rem, 2.8vw, 1.02rem);
+            line-height: 1.68;
+            color: rgba(255, 240, 245, 0.92);
+            margin-bottom: 24px;
             font-weight: 300;
+            letter-spacing: 0.2px;
         }
 
-        /* Responsive */
+        .btn-close-card {
+            background: linear-gradient(135deg, rgba(244, 143, 177, 0.25), rgba(233, 30, 99, 0.5));
+            border: 1px solid rgba(255, 192, 203, 0.35);
+            color: #ffffff;
+            padding: 9px 26px;
+            border-radius: 22px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 0 auto;
+            display: inline-block;
+        }
+
+        .btn-close-card:hover {
+            background: rgba(233, 30, 99, 0.7);
+            transform: scale(1.04);
+        }
+
+        /* Animaciones de Entrada */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translate(-50%, -20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translate(-50%, 20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        /* Ajustes Responsive */
         @media (max-width: 600px) {
-            .scene { -webkit-transform: scale(0.68); transform: scale(0.68); }
+            .scene { transform: scale(0.72); }
         }
 
         @media (max-width: 400px) {
-            .scene { -webkit-transform: scale(0.58); transform: scale(0.58); }
-            .controls-panel { padding: 5px 16px; }
-            .btn { padding: 6px 16px; }
+            .scene { transform: scale(0.62); }
+            .btn-card-trigger { padding: 10px 22px; }
         }
 
         @media (max-height: 700px) {
-            .scene { -webkit-transform: scale(0.58); transform: scale(0.58); }
-            .ui-header { top: 15px; }
-            .ui-header h1 { font-size: clamp(1rem, 3.8vw, 1.4rem); }
-            .controls-panel { bottom: 12px; }
+            .scene { transform: scale(0.62); }
+            .ui-header { top: 12px; }
+            .controls-panel { bottom: 14px; }
         }
 
         .message-card::-webkit-scrollbar {
-            width: 3px;
+            width: 4px;
         }
         .message-card::-webkit-scrollbar-track {
             background: transparent;
         }
         .message-card::-webkit-scrollbar-thumb {
-            background: rgba(255, 182, 193, 0.3);
+            background: rgba(255, 182, 193, 0.4);
             border-radius: 10px;
         }
     </style>
 </head>
 <body>
 
-    <canvas id="bgCanvas"></canvas>
+    <!-- Canvas de Fondo: Partículas, Pétalos Flotantes y Destellos -->
+    <canvas id="particleCanvas"></canvas>
 
-    <!-- CABECERA ARRIBA FIJA -->
+    <!-- Cabecera Superior Fija -->
     <div class="ui-header">
         <h1>Me dijiste que te gustaban las flores</h1>
         <p>te hice una Peonía hecha con mucho cariño</p>
     </div>
 
-    <div class="viewport">
-        <div class="scene">
-            <div class="flower-container">
+    <!-- Escenario 2.5D de la Peonía -->
+    <div class="viewport" id="viewport">
+        <div class="scene" id="scene">
+            <div class="flower-container" id="flowerContainer" title="Toca la peonía">
+                
+                <!-- Resplandor Romántico -->
+                <div class="flower-halo"></div>
 
+                <!-- Estructura Botánica (Tallo, Sepalos, Hojas) -->
                 <div class="botanical-stem-group">
                     <div class="calyx-base"></div>
 
-                    <div class="sepal" style="transform: rotate(0deg) translateY(-5px); -webkit-transform: rotate(0deg) translateY(-5px);"></div>
-                    <div class="sepal" style="transform: rotate(72deg) translateY(-5px); -webkit-transform: rotate(72deg) translateY(-5px);"></div>
-                    <div class="sepal" style="transform: rotate(144deg) translateY(-5px); -webkit-transform: rotate(144deg) translateY(-5px);"></div>
-                    <div class="sepal" style="transform: rotate(216deg) translateY(-5px); -webkit-transform: rotate(216deg) translateY(-5px);"></div>
-                    <div class="sepal" style="transform: rotate(288deg) translateY(-5px); -webkit-transform: rotate(288deg) translateY(-5px);"></div>
+                    <div class="sepal" style="transform: rotate(0deg) translateY(-6px);"></div>
+                    <div class="sepal" style="transform: rotate(72deg) translateY(-6px);"></div>
+                    <div class="sepal" style="transform: rotate(144deg) translateY(-6px);"></div>
+                    <div class="sepal" style="transform: rotate(216deg) translateY(-6px);"></div>
+                    <div class="sepal" style="transform: rotate(288deg) translateY(-6px);"></div>
 
                     <div class="stem-body">
-                        <div class="thorn" style="top: 50px; left: -10px; transform: rotate(180deg); -webkit-transform: rotate(180deg);"></div>
-                        <div class="thorn" style="top: 130px; left: 8px;"></div>
+                        <div class="thorn" style="top: 55px; left: -11px; transform: rotate(180deg);"></div>
+                        <div class="thorn" style="top: 140px; left: 9px;"></div>
                     </div>
 
                     <div class="leaf-wrapper left">
@@ -509,59 +576,74 @@
                     </div>
                 </div>
 
+                <!-- Centro Dorado con Estambres -->
                 <div class="center-core" id="centerCore"></div>
 
+                <!-- Contenedor Dinámico de Pétalos -->
                 <div id="petalsContainer"></div>
 
             </div>
         </div>
     </div>
 
+    <!-- Panel Inferior con Botón "Ver Carta" -->
     <div class="controls-panel">
-        <button class="btn" id="btnCard">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <button class="btn-card-trigger" id="btnOpenCard">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
             Ver Carta
         </button>
     </div>
 
-    <div class="message-card" id="messageCard">
-        <h2>Cartita para tiiii</h2>
-        <p>Este regalo es para esa personita con lentes, esa que espero no se canse de mí jjajaj. Cada pétalo de esta peonía ha sido creado con cuidado y hecho con mucho cariño, solo para ti jajja.</p>
-        <button class="btn" id="btnCloseCard" style="margin: 0 auto;">Cerrar</button>
+    <!-- Modal Carta ("Cartita para tiiii") -->
+    <div class="message-card-overlay" id="cardOverlay">
+        <div class="message-card">
+            <div class="card-header-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </div>
+            <h2>Cartita para tiiii</h2>
+            <p>Este regalo es para esa personita con lentes, Cada pétalo de esta peonía ha sido creado con cuidado y hecho con mucho cariño, solo para ti jajja.</p>
+            <button class="btn-close-card" id="btnCloseCard">Cerrar</button>
+        </div>
     </div>
 
+    <!-- Script Principal: Animaciones, Floración y Partículas -->
     <script>
         (function() {
             'use strict';
 
-            const NIVEL_DE_APERTURA = 25;
+            const NIVEL_DE_APERTURA = 25; // Porcentaje de floración inicial
             const petalsContainer = document.getElementById('petalsContainer');
             const centerCore = document.getElementById('centerCore');
-            const btnCard = document.getElementById('btnCard');
-            const messageCard = document.getElementById('messageCard');
+            const btnOpenCard = document.getElementById('btnOpenCard');
+            const cardOverlay = document.getElementById('cardOverlay');
             const btnCloseCard = document.getElementById('btnCloseCard');
+            const flowerContainer = document.getElementById('flowerContainer');
+            const scene = document.getElementById('scene');
 
             const bloomFactor = Math.max(1, Math.min(100, NIVEL_DE_APERTURA)) / 100;
 
-            // --- ESTAMBRES ABUNDANTES ---
-            for (let s = 0; s < 20; s++) {
+            // --- 1. GENERAR ESTAMBRES EN EL CORAZÓN ---
+            for (let s = 0; s < 24; s++) {
                 const stamen = document.createElement('div');
                 stamen.className = 'stamen';
-                const angle = (s / 20) * 360;
-                const dist = 3 + Math.random() * 5;
-                stamen.style.webkitTransform = `rotate(${angle}deg) translateY(-${dist}px)`;
+                const angle = (s / 24) * 360;
+                const dist = 3 + Math.random() * 6;
                 stamen.style.transform = `rotate(${angle}deg) translateY(-${dist}px)`;
                 centerCore.appendChild(stamen);
             }
 
-            // --- CAPAS DE PÉTALOS ANCHAS Y REDONDAS ---
+            // --- 2. CONFIGURACIÓN DE CAPAS DE PÉTALOS DE PEONÍA ---
             const LAYERS_CONFIG = [
-                { count: 6,  width: 32, height: 44, closedRadius: 2,  openRadius: 10,  bg: 'linear-gradient(to top, #6a0033 0%, #9c0d48 50%, #d81b60 100%)' },
-                { count: 8,  width: 46, height: 60, closedRadius: 5,  openRadius: 20,  bg: 'linear-gradient(to top, #880e4f 0%, #c2185b 50%, #e91e63 100%)' },
-                { count: 10, width: 60, height: 78, closedRadius: 10, openRadius: 32,  bg: 'linear-gradient(to top, #a21251 0%, #d81b60 50%, #f06292 100%)' },
-                { count: 12, width: 76, height: 96, closedRadius: 15, openRadius: 46,  bg: 'linear-gradient(to top, #c2185b 0%, #e91e63 50%, #ff80ab 100%)' },
-                { count: 14, width: 92, height: 114,closedRadius: 20, openRadius: 60,  bg: 'linear-gradient(to top, #d81b60 0%, #f06292 50%, #f8bbd0 100%)' },
-                { count: 16, width: 108,height: 132,closedRadius: 25, openRadius: 76,  bg: 'linear-gradient(to top, #e91e63 0%, #f48fb1 50%, #fff0f5 100%)' }
+                { count: 6,  width: 34, height: 46, closedRadius: 2,  openRadius: 10,  bg: 'linear-gradient(to top, #58002a 0%, #8c0a3f 50%, #c2185b 100%)' },
+                { count: 8,  width: 48, height: 64, closedRadius: 5,  openRadius: 20,  bg: 'linear-gradient(to top, #75093d 0%, #ad1457 50%, #d81b60 100%)' },
+                { count: 10, width: 64, height: 82, closedRadius: 10, openRadius: 34,  bg: 'linear-gradient(to top, #8e0045 0%, #c2185b 50%, #e91e63 100%)' },
+                { count: 12, width: 80, height: 100,closedRadius: 16, openRadius: 48,  bg: 'linear-gradient(to top, #ad1457 0%, #d81b60 50%, #f06292 100%)' },
+                { count: 14, width: 96, height: 120,closedRadius: 22, openRadius: 64,  bg: 'linear-gradient(to top, #c2185b 0%, #e91e63 50%, #f8bbd0 100%)' },
+                { count: 16, width: 112,height: 138,closedRadius: 28, openRadius: 80,  bg: 'linear-gradient(to top, #d81b60 0%, #f06292 50%, #fff0f5 100%)' }
             ];
 
             const petalElements = [];
@@ -586,14 +668,13 @@
                     const closedTransform = `rotate(${angle}deg) translateY(-${layer.closedRadius}px) scale(0.12)`;
                     const bloomedTransform = `rotate(${angle}deg) translateY(-${targetRadius}px) scale(1)`;
 
-                    petal.style.webkitTransform = closedTransform;
                     petal.style.transform = closedTransform;
                     petal.style.opacity = '0.05';
 
                     const layerDelay = layerIdx * 0.22 + (i % 3) * 0.04;
-                    petal.style.webkitTransitionDelay = `${layerDelay}s`;
                     petal.style.transitionDelay = `${layerDelay}s`;
 
+                    // Gotas de rocío en pétalos exteriores
                     if (layerIdx >= 3 && (i % 3 === 0)) {
                         const drop = document.createElement('div');
                         drop.className = 'dew-drop';
@@ -613,108 +694,189 @@
 
             petalsContainer.appendChild(fragment);
 
-            // --- FLORACIÓN SUAVE ---
-            const requestAnimFrame = window.requestAnimationFrame || 
-                                     window.webkitRequestAnimationFrame || 
-                                     window.mozRequestAnimationFrame || 
-                                     function(callback) { setTimeout(callback, 1000 / 60); };
-
-            requestAnimFrame(() => {
+            // --- 3. FLORACIÓN ANIMADA AL CARGAR ---
+            requestAnimationFrame(() => {
                 setTimeout(() => {
                     centerCore.style.opacity = '1';
                     petalElements.forEach(p => {
-                        p.element.style.webkitTransform = p.targetTransform;
                         p.element.style.transform = p.targetTransform;
                         p.element.style.opacity = '1';
                     });
-                }, 100);
+                }, 120);
             });
 
-            // --- EVENTOS UI ---
-            btnCard.addEventListener('click', () => {
-                messageCard.classList.add('active');
-            });
-            btnCloseCard.addEventListener('click', () => {
-                messageCard.classList.remove('active');
+            // --- 4. INTERACCIÓN Y MODAL CARTA ---
+            function openModalCard() {
+                cardOverlay.classList.add('active');
+                if (navigator.vibrate) navigator.vibrate([15, 30, 15]);
+            }
+
+            function closeModalCard() {
+                cardOverlay.classList.remove('active');
+            }
+
+            btnOpenCard.addEventListener('click', openModalCard);
+            btnCloseCard.addEventListener('click', closeModalCard);
+
+            cardOverlay.addEventListener('click', (e) => {
+                if (e.target === cardOverlay) closeModalCard();
             });
 
-            messageCard.addEventListener('click', (e) => {
-                if (e.target === messageCard) {
-                    messageCard.classList.remove('active');
-                }
+            // --- 5. PARALLAX Y REACCIÓN AL CURSOR / TOQUE ---
+            window.addEventListener('mousemove', (e) => {
+                const cx = window.innerWidth / 2;
+                const cy = window.innerHeight / 2;
+                const dx = (e.clientX - cx) / cx;
+                const dy = (e.clientY - cy) / cy;
+                scene.style.transform = `rotateY(${dx * 8}deg) rotateX(${-dy * 8}deg)`;
             });
 
-            // --- CANVAS ULTRALIGERO MULTINAVEGADOR ---
-            const canvas = document.getElementById('bgCanvas');
+            // Reacción al tocar la flor
+            flowerContainer.addEventListener('click', (e) => {
+                flowerContainer.style.transform = 'scale(1.06) rotate(3deg)';
+                setTimeout(() => {
+                    flowerContainer.style.transform = '';
+                }, 300);
+
+                // Crear explosión de estardust en el punto de contacto
+                createSparkles(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 2);
+                if (navigator.vibrate) navigator.vibrate(20);
+            });
+
+            // --- 6. CANVAS DE PARTÍCULAS Y PÉTALOS FLOTANTES ---
+            const canvas = document.getElementById('particleCanvas');
             const ctx = canvas.getContext('2d');
-
             let width, height;
 
             function resizeCanvas() {
-                width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+                width = window.innerWidth;
+                height = window.innerHeight;
                 canvas.width = width;
                 canvas.height = height;
             }
             resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
 
-            const particles = [];
-            const particleCount = Math.min(12, Math.floor(width / 80));
+            // Partículas de luz (Estardust)
+            const stardustList = [];
+            const stardustCount = Math.min(25, Math.floor(width / 35));
 
-            for (let i = 0; i < particleCount; i++) {
-                particles.push({
+            for (let i = 0; i < stardustCount; i++) {
+                stardustList.push({
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    size: 1 + Math.random() * 1.5,
-                    speedY: 0.2 + Math.random() * 0.3,
-                    offset: Math.random() * 100
+                    size: 0.8 + Math.random() * 2,
+                    speedY: 0.2 + Math.random() * 0.4,
+                    speedX: (Math.random() - 0.5) * 0.3,
+                    alpha: 0.2 + Math.random() * 0.7,
+                    pulse: Math.random() * Math.PI * 2
                 });
             }
 
-            let frameId = null;
+            // Pétalos flotantes caídos
+            const fallingPetals = [];
+            const fallingPetalCount = Math.min(8, Math.floor(width / 100));
 
-            function animateBackground() {
+            for (let i = 0; i < fallingPetalCount; i++) {
+                fallingPetals.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: 6 + Math.random() * 6,
+                    speedY: 0.4 + Math.random() * 0.5,
+                    rotation: Math.random() * Math.PI * 2,
+                    rotSpeed: (Math.random() - 0.5) * 0.02,
+                    swayOffset: Math.random() * 100
+                });
+            }
+
+            // Destellos al hacer clic/toque
+            const sparkles = [];
+
+            function createSparkles(x, y) {
+                for (let i = 0; i < 14; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 1.5 + Math.random() * 3.5;
+                    sparkles.push({
+                        x: x,
+                        y: y,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        size: 2 + Math.random() * 3,
+                        alpha: 1,
+                        color: Math.random() > 0.4 ? '#ffb74d' : '#f8bbd0'
+                    });
+                }
+            }
+
+            // Bucle principal de animación a 60fps
+            function renderLoop() {
                 ctx.clearRect(0, 0, width, height);
-                ctx.fillStyle = 'rgba(244, 143, 177, 0.3)';
 
-                for (let i = 0; i < particles.length; i++) {
-                    const p = particles[i];
+                // Renderizar Estardust (Luz flotante)
+                for (let i = 0; i < stardustList.length; i++) {
+                    const p = stardustList[i];
                     p.y -= p.speedY;
-                    p.x += Math.sin(p.y * 0.008 + p.offset) * 0.2;
+                    p.x += Math.sin(p.y * 0.008 + p.pulse) * 0.3;
+                    p.pulse += 0.02;
 
                     if (p.y < -10) {
                         p.y = height + 10;
                         p.x = Math.random() * width;
                     }
 
+                    ctx.fillStyle = `rgba(255, 224, 178, ${p.alpha * (0.6 + 0.4 * Math.sin(p.pulse))})`;
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                     ctx.fill();
                 }
 
-                frameId = requestAnimFrame(animateBackground);
+                // Renderizar Pétalos Flotantes
+                for (let i = 0; i < fallingPetals.length; i++) {
+                    const fp = fallingPetals[i];
+                    fp.y += fp.speedY;
+                    fp.x += Math.sin(fp.y * 0.005 + fp.swayOffset) * 0.6;
+                    fp.rotation += fp.rotSpeed;
+
+                    if (fp.y > height + 20) {
+                        fp.y = -20;
+                        fp.x = Math.random() * width;
+                    }
+
+                    ctx.save();
+                    ctx.translate(fp.x, fp.y);
+                    ctx.rotate(fp.rotation);
+                    ctx.fillStyle = 'rgba(244, 143, 177, 0.45)';
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, fp.size, fp.size * 0.5, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                // Renderizar Destellos Táctiles (Sparkles)
+                for (let i = sparkles.length - 1; i >= 0; i--) {
+                    const s = sparkles[i];
+                    s.x += s.vx;
+                    s.y += s.vy;
+                    s.vy += 0.05; // Gravedad sutil
+                    s.alpha -= 0.025;
+
+                    if (s.alpha <= 0) {
+                        sparkles.splice(i, 1);
+                        continue;
+                    }
+
+                    ctx.fillStyle = s.color;
+                    ctx.globalAlpha = s.alpha;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                }
+
+                requestAnimationFrame(renderLoop);
             }
 
-            animateBackground();
-
-            let resizeTimeout;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                    resizeCanvas();
-                    for (let i = 0; i < particles.length; i++) {
-                        particles[i].x = Math.random() * width;
-                        particles[i].y = Math.random() * height;
-                    }
-                }, 200);
-            });
-
-            window.addEventListener('beforeunload', () => {
-                if (frameId) {
-                    const cancelAnimFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame;
-                    if (cancelAnimFrame) cancelAnimFrame(frameId);
-                }
-            });
+            renderLoop();
 
         })();
     </script>
