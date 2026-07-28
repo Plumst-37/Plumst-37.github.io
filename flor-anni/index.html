@@ -722,14 +722,65 @@
                 if (e.target === cardOverlay) closeModalCard();
             });
 
-            // --- 5. PARALLAX Y REACCIÓN AL CURSOR / TOQUE ---
+            // --- 5. PARALLAX Y GIROSCOPIO (MOVIMIENTO DELICADO DE LA FLOR EN MÓVIL Y PC) ---
+            let targetRotX = 0;
+            let targetRotY = 0;
+            let currentRotX = 0;
+            let currentRotY = 0;
+
+            // Movimiento suave con mouse (PC / Escritorio)
             window.addEventListener('mousemove', (e) => {
                 const cx = window.innerWidth / 2;
                 const cy = window.innerHeight / 2;
                 const dx = (e.clientX - cx) / cx;
                 const dy = (e.clientY - cy) / cy;
-                scene.style.transform = `rotateY(${dx * 8}deg) rotateX(${-dy * 8}deg)`;
+                targetRotY = dx * 10;
+                targetRotX = -dy * 10;
             });
+
+            // Giroscopio para móviles (inclinación física del teléfono)
+            function handleOrientation(e) {
+                if (e.gamma === null || e.beta === null) return;
+                
+                // gamma: inclinación izquierda/derecha (-90 a 90)
+                // beta: inclinación adelante/atrás (-180 a 180), centrado a 40° posición natural de sostener
+                let tiltX = e.gamma;
+                let tiltY = e.beta - 40;
+
+                // Limitar para mantener un movimiento delicado y elegante
+                tiltX = Math.max(-35, Math.min(35, tiltX));
+                tiltY = Math.max(-35, Math.min(35, tiltY));
+
+                targetRotY = (tiltX / 35) * 14;
+                targetRotX = (-tiltY / 35) * 14;
+            }
+
+            if (window.DeviceOrientationEvent) {
+                if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    // iOS 13+: solicitar permiso en interacción si es necesario
+                    const requestGyro = () => {
+                        DeviceOrientationEvent.requestPermission()
+                            .then(state => {
+                                if (state === 'granted') {
+                                    window.addEventListener('deviceorientation', handleOrientation, true);
+                                }
+                            })
+                            .catch(console.error);
+                    };
+                    window.addEventListener('click', requestGyro, { once: true });
+                } else {
+                    window.addEventListener('deviceorientation', handleOrientation, true);
+                }
+            }
+
+            // Animación física continua con interpolación suave (Lerp)
+            function animateParallax() {
+                currentRotX += (targetRotX - currentRotX) * 0.07;
+                currentRotY += (targetRotY - currentRotY) * 0.07;
+                scene.style.transform = `rotateY(${currentRotY.toFixed(2)}deg) rotateX(${currentRotX.toFixed(2)}deg)`;
+                requestAnimationFrame(animateParallax);
+            }
+            animateParallax();
 
             // Reacción al tocar la flor
             flowerContainer.addEventListener('click', (e) => {
