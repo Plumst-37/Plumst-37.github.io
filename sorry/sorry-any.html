@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Una carta para Anni 💌</title>
+  
+  <!-- Fuentes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 60%, #030712 100%);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #f8fafc;
+      overflow-x: hidden;
+      padding: 20px;
+      position: relative;
+    }
+
+    /* Fondo con estrellas sutiles */
+    .bg-stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      background: #ffffff;
+      border-radius: 50%;
+      opacity: 0.5;
+      animation: twinkle 3s infinite ease-in-out alternate;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.2; transform: scale(0.8); }
+      100% { opacity: 0.8; transform: scale(1.2); }
+    }
+
+    /* Contenedor Principal Centrado Perfectamente */
+    .main-container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: auto;
+    }
+
+    /* === ESCENA 1: SOBRE DE CARTA === */
+    .envelope-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      margin: 0 auto;
+    }
+
+    .envelope-wrapper.open {
+      opacity: 0;
+      transform: scale(0.8) translateY(-30px);
+      pointer-events: none;
+    }
+
+    .envelope-card {
+      width: 100%;
+      max-width: 340px;
+      height: 230px;
+      background: linear-gradient(135deg, #1e1b4e, #2e1065);
+      border-radius: 24px;
+      border: 1px solid rgba(251, 207, 232, 0.3);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 35px rgba(236, 72, 153, 0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      margin: 0 auto;
+    }
+
+    .envelope-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 45px rgba(236, 72, 153, 0.4);
+    }
+
+    .wax-seal {
+      width: 65px;
+      height: 65px;
+      background: linear-gradient(135deg, #ec4899, #be185d);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+      animation: pulseGlow 2s infinite alternate;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      margin-bottom: 12px;
+    }
+
+    @keyframes pulseGlow {
+      from { transform: scale(1); box-shadow: 0 6px 20px rgba(236, 72, 153, 0.5); }
+      to { transform: scale(1.08); box-shadow: 0 10px 30px rgba(236, 72, 153, 0.9); }
+    }
+
+    .envelope-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.5rem;
+      color: #fbcfe8;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .envelope-subtitle {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      margin-top: 4px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* === ESCENA 2: LA CARTA ABIERTA === */
+    .letter-card {
+      display: none;
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
+      max-width: 440px;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 28px;
+      padding: 32px 28px;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(236, 72, 153, 0.2);
+      margin: 0 auto;
+    }
+
+    .letter-card.visible {
+      display: block;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .hero-img-container {
+      width: 100%;
+      height: 160px;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-bottom: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .hero-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .icon-badge {
+      font-size: 2.2rem;
+      margin-bottom: 6px;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3rem;
+      color: #fbcfe8;
+      font-weight: 600;
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+
+    p.message {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #e2e8f0;
+      font-weight: 300;
+      margin-bottom: 24px;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #ec4899, #a855f7);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-size: 0.98rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(236, 72, 153, 0.35);
+      transition: all 0.3s ease;
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(236, 72, 153, 0.5);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .extra-message {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.5s ease;
+      margin-top: 0;
+      font-size: 0.98rem;
+      color: #fbcfe8;
+      font-weight: 400;
+    }
+
+    .extra-message.show {
+      max-height: 100px;
+      opacity: 1;
+      margin-top: 18px;
+    }
+
+    .floating-heart {
+      position: fixed;
+      pointer-events: none;
+      font-size: 1.6rem;
+      animation: floatUp 1.5s forwards ease-out;
+      z-index: 99;
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-90px) scale(1.4); }
+    }
+
+    @media (max-width: 480px) {
+      .letter-card {
+        padding: 26px 20px;
+      }
+      h1 {
+        font-size: 2.6rem;
+      }
+      p.message {
+        font-size: 0.98rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fondo de estrellas suave -->
+  <div class="bg-stars" id="stars-container"></div>
+
+  <!-- Contenedor Principal Absolutamente Centrado -->
+  <div class="main-container">
+    
+    <!-- ESCENA 1: SOBRE DE CARTA INTERACTIVO -->
+    <div class="envelope-wrapper" id="envelopeWrapper" onclick="openLetter(event)">
+      <div class="envelope-card">
+        <div class="wax-seal">💌</div>
+        <div class="envelope-title">Para Anni</div>
+        <div class="envelope-subtitle">Toca para abrir la carta 🌸</div>
+      </div>
+    </div>
+
+    <!-- ESCENA 2: LA CARTA ABIERTA (CENTRADA) -->
+    <div class="letter-card" id="letterCard">
+      <div class="hero-img-container">
+        <img src="hero.jpg" alt="Imagen para Anni">
+      </div>
+
+      <div class="icon-badge">🌙✨</div>
+      <h1>Hola Anni...</h1>
+      
+      <p class="message">
+        Disculpa sinceramente, no sabía que estabas molesta o estresada solo queria fastidiar un poquito y quería pedirte una disculpa.<br><br>
+        Espero de todo corazón y cariño que te sientas mejor y que tengas una muy bonita noche. 🌸
+      </p>
+
+      <button class="btn" onclick="toggleMessage(event)">Te mando un abrazo 🤍</button>
+      
+      <div class="extra-message" id="extraMessage">
+        Espero que descanses mucho y puedas dormir super bien. 😴💖
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Crear estrellas sutiles en el fondo
+    const container = document.getElementById('stars-container');
+    for (let i = 0; i < 35; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      const size = Math.random() * 2.5 + 1;
+      star.style.width = size + 'px';
+      star.style.height = size + 'px';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.animationDelay = Math.random() * 3 + 's';
+      container.appendChild(star);
+    }
+
+    // Abrir la carta
+    function openLetter(e) {
+      const envelope = document.getElementById('envelopeWrapper');
+      const letter = document.getElementById('letterCard');
+      
+      envelope.classList.add('open');
+      spawnHeart(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 2);
+
+      setTimeout(() => {
+        envelope.style.display = 'none'; // Quitar del flujo para centrado perfecto
+        letter.classList.add('visible');
+      }, 400);
+    }
+
+    // Mostrar mensaje extra al presionar el botón
+    function toggleMessage(e) {
+      const extraMsg = document.getElementById('extraMessage');
+      extraMsg.classList.toggle('show');
+      spawnHeart(e.clientX, e.clientY);
+    }
+
+    function spawnHeart(x, y) {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.innerText = '💖';
+      heart.style.left = (x - 12) + 'px';
+      heart.style.top = (y - 20) + 'px';
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 1500);
+    }
+  </script>
+
+</body>
+</html>
