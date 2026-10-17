@@ -1,1 +1,76 @@
-q
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lissette, ¿me perdonas? 🥺🎀</title>
+
+  <!-- Google Fonts: Fredoka -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="shortcut icon" href="assets/images/hello_kitty.png" type="image/png" />
+</head>
+<body>
+
+  <!-- Confeti -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Elementos flotantes de fondo -->
+  <div class="floating-background" id="floatingBg" aria-hidden="true"></div>
+
+  <!-- Contenedor Principal -->
+  <main class="main-wrapper">
+
+    <!-- TARJETA INICIAL -->
+    <section class="card" id="apologyCard">
+      <h1 class="main-title">Lissette, ¿me perdonas? 🥺</h1>
+
+      <!-- Escaparate de Personajes: Hello Kitty y Snoopy -->
+      <div class="characters-stage">
+        <div class="char-box">
+          <img src="assets/images/hello_kitty_sad.gif" alt="Hello Kitty triste" class="char-img" />
+        </div>
+        <div class="heart-pulse-wrap">
+          <span class="big-pulse-heart">❤️</span>
+        </div>
+        <div class="char-box">
+          <img src="assets/images/snoopy_love.gif" alt="Snoopy con corazón" class="char-img" />
+        </div>
+      </div>
+
+      <p class="sweet-prompt" id="promptText">Por favor... 🐾🎀</p>
+
+      <!-- Botones -->
+      <div class="buttons-area">
+        <button id="btnSi" class="btn btn-yes">¡Sí! 💖</button>
+        <button id="btnNo" class="btn btn-no">No 💔</button>
+      </div>
+    </section>
+
+    <!-- TARJETA FINAL: CELEBRACIÓN -->
+    <section class="card hidden" id="successCard">
+      <h1 class="main-title success-title">¡SABÍA QUE SÍ! 🥰🎉</h1>
+
+      <!-- Hello Kitty y Snoopy Festejando -->
+      <div class="characters-stage">
+        <div class="char-box">
+          <img src="assets/images/hello_kitty_happy.gif" alt="Hello Kitty Feliz" class="char-img" />
+        </div>
+        <div class="char-box">
+          <img src="assets/images/snoopy_dancing.gif" alt="Snoopy Bailando" class="char-img" />
+        </div>
+      </div>
+
+      <p class="sweet-prompt success-prompt">¡Te quiero muchísimo, Lissette! 🐶🎀✨</p>
+
+      <button id="btnReplay" class="btn btn-replay" title="Ver de nuevo">🔄</button>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
