@@ -14,8 +14,8 @@
 
 html, body {
   width: 100%;
-  min-height: 100vh;
-  overflow-x: hidden;
+  height: 100%;
+  overflow: hidden; /* Evita que aparezcan barras de desplazamiento */
 }
 
 body {
@@ -225,10 +225,13 @@ body {
   background: #eaeaea;
 }
 
+/* Botón No cuando se escapa: se posiciona en el viewport visible con márgenes seguros */
 .btn-no.escaped {
-  position: fixed;
-  z-index: 999;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: fixed !important;
+  z-index: 99999 !important;
+  margin: 0 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
+  transition: left 0.22s ease-out, top 0.22s ease-out !important;
 }
 
 .btn-replay {
