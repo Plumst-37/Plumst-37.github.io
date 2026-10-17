@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const btnSi = document.getElementById("btnSi");
   const btnNo = document.getElementById("btnNo");
+  const buttonsArea = document.getElementById("buttonsArea");
   const apologyCard = document.getElementById("apologyCard");
   const successCard = document.getElementById("successCard");
   const promptText = document.getElementById("promptText");
@@ -50,32 +51,45 @@ document.addEventListener("DOMContentLoaded", () => {
     "¡Solo dale al Sí! 💕"
   ];
 
+  // Función para mover el botón No y asegurar que SIEMPRE quede dentro de la pantalla visible
   function moveButtonNo() {
     noEscapeCount++;
+
+    // Mover el botón directamente al body para evitar que ancestros con transform/backdrop-filter
+    // distorsionen las coordenadas fijas
+    if (btnNo.parentElement !== document.body) {
+      document.body.appendChild(btnNo);
+    }
     btnNo.classList.add("escaped");
 
-    const btnWidth = btnNo.offsetWidth || 110;
-    const btnHeight = btnNo.offsetHeight || 45;
-    const padding = 20;
+    // Cambiar el texto primero para conocer el ancho real
+    btnNo.textContent = noPhrases[(noEscapeCount - 1) % noPhrases.length];
 
-    const maxX = window.innerWidth - btnWidth - padding;
-    const maxY = window.innerHeight - btnHeight - padding;
+    // Cambiar el mensajito de ayuda
+    promptText.textContent = prompts[(noEscapeCount - 1) % prompts.length];
 
-    const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-    const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+    // Crecer el botón Sí poco a poco
+    const newScale = Math.min(1.0 + noEscapeCount * 0.08, 1.5);
+    btnSi.style.transform = `scale(${newScale})`;
+
+    // Obtener dimensiones reales del botón y de la ventana visible
+    const btnRect = btnNo.getBoundingClientRect();
+    const btnWidth = btnRect.width || 120;
+    const btnHeight = btnRect.height || 50;
+
+    // Márgenes de seguridad para que NUNCA se salga de los bordes de la pantalla
+    const margin = 24;
+    const screenW = Math.max(window.innerWidth, document.documentElement.clientWidth);
+    const screenH = Math.max(window.innerHeight, document.documentElement.clientHeight);
+
+    const maxX = Math.max(margin, screenW - btnWidth - margin);
+    const maxY = Math.max(margin, screenH - btnHeight - margin);
+
+    const randomX = Math.floor(Math.random() * (maxX - margin)) + margin;
+    const randomY = Math.floor(Math.random() * (maxY - margin)) + margin;
 
     btnNo.style.left = `${randomX}px`;
     btnNo.style.top = `${randomY}px`;
-
-    // Cambiar texto del botón
-    btnNo.textContent = noPhrases[(noEscapeCount - 1) % noPhrases.length];
-
-    // Cambiar prompt
-    promptText.textContent = prompts[(noEscapeCount - 1) % prompts.length];
-
-    // Crecer el botón Sí
-    const newScale = Math.min(1.0 + noEscapeCount * 0.08, 1.5);
-    btnSi.style.transform = `scale(${newScale})`;
   }
 
   btnNo.addEventListener("mouseenter", moveButtonNo);
@@ -102,10 +116,16 @@ document.addEventListener("DOMContentLoaded", () => {
   btnReplay.addEventListener("click", () => {
     noEscapeCount = 0;
     btnSi.style.transform = "scale(1)";
+
+    // Devolver el botón No a su contenedor original
+    if (buttonsArea && btnNo.parentElement !== buttonsArea) {
+      buttonsArea.appendChild(btnNo);
+    }
+
     btnNo.classList.remove("escaped", "hidden");
-    btnNo.style.position = "relative";
-    btnNo.style.left = "auto";
-    btnNo.style.top = "auto";
+    btnNo.style.position = "";
+    btnNo.style.left = "";
+    btnNo.style.top = "";
     btnNo.textContent = "No 💔";
     promptText.textContent = "Por favor... 🐾🎀";
 
